@@ -1,3 +1,4 @@
+import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_subtitle.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/common/ui/ui_utils.dart';
@@ -41,6 +42,9 @@ class NicknameScreen extends StatelessWidget {
                 color: Colors.black,
                 fontSize: 20.0,
               ),
+              onSubmitted: (nickname) =>
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Screens.USER_TYPE.toString(), (route) => false),
             )
           ],
         ),

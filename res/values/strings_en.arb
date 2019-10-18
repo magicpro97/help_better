@@ -9,5 +9,12 @@
   "continue_action": "Continue",
   "how_could_i_call_you": "Mình có thể gọi bạn là gì?",
   "don_t_need_your_real_name": "Bạn có thể nhập một tên không nhất thiết phải là tên thật của bạn. ",
-  "type_nick_name": "Nhập Nickname"
+  "type_nick_name": "Nhập Nickname",
+  "option_teenage": "Tâm sinh lý tuổi dậy thì",
+  "option_love": "Chuyện tình yêu",
+  "option_family": "Hạnh phúc gia đình",
+  "option_go_a_head": "Vượt qua nỗi đau",
+  "user_type_title": "Bạn cần chia sẻ về vấn đề gì?",
+  "user_type_subtitle": "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ",
+  "user_type_volunteer_register": "Đăng ký thành tình nguyện viên"
 }

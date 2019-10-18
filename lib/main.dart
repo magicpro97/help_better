@@ -1,9 +1,11 @@
 import 'package:better_help/features/nickname_screen.dart';
+import 'package:better_help/features/user_type_screen.dart';
+import 'package:better_help/features/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'features/welcome_screen.dart';
+import 'common/screens.dart';
 import 'generated/i18n.dart';
 
 void main() => runApp(MyApp());
@@ -28,7 +30,16 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.black,
         textStyle: TextStyle(),
       )),
-      home: NicknameScreen(),
+      routes: {
+        Screens.WELCOME.toString(): (context) => WelcomeScreen(),
+        Screens.NICKNAME.toString(): (context) => NicknameScreen(),
+        Screens.USER_TYPE.toString(): (context) => UserTypeScreen(),
+      },
+      // initialRoute: Screens.WELCOME.toString(),
+      onGenerateRoute: (settings) =>
+          CupertinoPageRoute(
+              settings: settings,
+              builder: (context) => WelcomeScreen()),
     );
   }
 }

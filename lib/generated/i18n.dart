@@ -29,9 +29,18 @@ class S implements WidgetsLocalizations {
   String get dialog_continue_with_google_title => "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
   String get don_t_need_your_real_name => "Bạn có thể nhập một tên không nhất thiết phải là tên thật của bạn. ";
   String get how_could_i_call_you => "Mình có thể gọi bạn là gì?";
+  String get option_family => "Hạnh phúc gia đình";
+  String get option_go_a_head => "Vượt qua nỗi đau";
+  String get option_love => "Chuyện tình yêu";
+  String get option_teenage => "Tâm sinh lý tuổi dậy thì";
   String get share_with_me => "Share with me";
   String get slogan => "Mình chẳng thể thay đổi quá khứ của bạn. \n Nhưng mình hứa sẽ chia sẻ cùng bạn";
   String get type_nick_name => "Nhập Nickname";
+
+  String get user_type_subtitle =>
+      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
+  String get user_type_title => "Bạn cần chia sẻ về vấn đề gì?";
+  String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
 }
 
 class $en extends S {
@@ -45,7 +54,11 @@ class $vi_VN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get option_family => "Hạnh phúc gia đình";
+  @override
   String get app_name => "Better Help";
+  @override
+  String get option_love => "Chuyện tình yêu";
   @override
   String get dialog_continue_with_google_title => "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
   @override
@@ -53,9 +66,13 @@ class $vi_VN extends S {
   @override
   String get continue_action => "Continue";
   @override
+  String get option_go_a_head => "Vượt qua nỗi đau";
+  @override
   String get share_with_me => "Chia sẻ nhé";
   @override
   String get continue_with_google => "Tiếp tục với Google";
+  @override
+  String get option_teenage => "Tâm sinh lý tuổi dậy thì";
   @override
   String get slogan => "Mình chẳng thể thay đổi quá khứ của bạn. \n Nhưng mình hứa sẽ chia sẻ cùng bạn";
   @override

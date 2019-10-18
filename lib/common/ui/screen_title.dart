@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../dimens.dart';
+
 class ScreenTitle extends StatelessWidget {
   const ScreenTitle({
     Key key,
@@ -11,7 +13,7 @@ class ScreenTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final titleStyle = TextStyle(
-      fontSize: 28.0,
+      fontSize: Dimens.h1_size,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     );

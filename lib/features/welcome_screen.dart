@@ -1,5 +1,5 @@
 import 'package:better_help/common/assets.dart';
-import 'package:better_help/common/ui/hb_alert_dialog.dart';
+import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_subtitle.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/common/ui/ui_utils.dart';
@@ -36,9 +36,16 @@ class WelcomeScreen extends StatelessWidget {
               height: 89.0,
             ),
             CupertinoButton(
-              child: Text(S.of(context).continue_with_google),
-              color: Colors.pink,
-              onPressed: () => showDialog(
+                child: Text(S
+                    .of(context)
+                    .continue_with_google),
+                color: Colors.pink,
+                onPressed: () =>
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Screens.NICKNAME.toString(),
+                            (route) =>
+                        false) /*showDialog(
                 context: context,
                 builder: (context) => HBAlertDialog(
                   title: S.of(context).dialog_continue_with_google_title,
@@ -46,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                   negativeText: S.of(context).cancel_action,
                   positiveText: S.of(context).continue_action,
                 ),
-              ),
+              ),*/
             ),
           ],
         ),
