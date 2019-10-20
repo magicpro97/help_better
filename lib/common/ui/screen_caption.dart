@@ -1,22 +1,21 @@
+import 'package:better_help/common/dimens.dart';
 import 'package:flutter/material.dart';
 
-import '../dimens.dart';
-
-class ScreenTitle extends StatelessWidget {
-  const ScreenTitle({
+class ScreenCaption extends StatelessWidget {
+  const ScreenCaption({
     Key key,
-    @required this.title,
+    @required this.subtitle,
   }) : super(key: key);
 
-  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.horizontal_space),
       child: Text(
-        title,
-        style: Theme.of(context).primaryTextTheme.title,
+        subtitle,
+        style: Theme.of(context).primaryTextTheme.caption,
         textAlign: TextAlign.center,
       ),
     );

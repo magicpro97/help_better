@@ -1,8 +1,8 @@
 import 'package:better_help/common/assets.dart';
+import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/screens.dart';
-import 'package:better_help/common/ui/screen_subtitle.dart';
+import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
-import 'package:better_help/common/ui/ui_utils.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +13,10 @@ class WelcomeScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       child: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: UIUtils.topSpaceDimen,
+              height: kToolbarHeight,
             ),
             Center(
               child: ScreenTitle(
@@ -23,28 +24,25 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: Dimens.normal_space,
             ),
             Center(
-              child: ScreenSubtitle(subtitle: S.of(context).slogan),
+              child: ScreenCaption(subtitle: S.of(context).slogan),
             ),
             SizedBox(
-              height: 24.0,
+              height: Dimens.normal_space,
             ),
             Image.asset(Assets.help_someone_colors),
             SizedBox(
-              height: 89.0,
+              height: Dimens.welcome_logo_space,
             ),
             CupertinoButton(
-                child: Text(S
-                    .of(context)
-                    .continue_with_google),
+                child: Text(S.of(context).continue_with_google),
                 color: Colors.pink,
-                onPressed: () =>
-                    Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Screens.NICKNAME.toString(),
-                            (route) =>
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Screens.NICKNAME.toString(),
+                    (route) =>
                         false) /*showDialog(
                 context: context,
                 builder: (context) => HBAlertDialog(
@@ -54,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                   positiveText: S.of(context).continue_action,
                 ),
               ),*/
-            ),
+                ),
           ],
         ),
       ),

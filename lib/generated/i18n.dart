@@ -36,9 +36,7 @@ class S implements WidgetsLocalizations {
   String get share_with_me => "Share with me";
   String get slogan => "Mình chẳng thể thay đổi quá khứ của bạn. \n Nhưng mình hứa sẽ chia sẻ cùng bạn";
   String get type_nick_name => "Nhập Nickname";
-
-  String get user_type_subtitle =>
-      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
+  String get user_type_subtitle => "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
   String get user_type_title => "Bạn cần chia sẻ về vấn đề gì?";
   String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
 }

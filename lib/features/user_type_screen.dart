@@ -1,5 +1,5 @@
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/ui/screen_subtitle.dart';
+import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,12 +10,12 @@ class UserTypeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: Dimens.horizontal_space),
+        //margin: const EdgeInsets.symmetric(horizontal: Dimens.horizontal_space),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: Dimens.top_space,
+              height: kToolbarHeight,
             ),
             Center(
               child: ScreenTitle(
@@ -34,11 +34,13 @@ class UserTypeScreen extends StatelessWidget {
             Divider(
               height: 1.0,
               thickness: 3.0,
+              indent: Dimens.horizontal_space,
+              endIndent: Dimens.horizontal_space,
             ),
             SizedBox(
               height: Dimens.normal_space,
             ),
-            ScreenSubtitle(
+            ScreenCaption(
               subtitle: S.of(context).user_type_subtitle,
             ),
             SizedBox(
@@ -78,15 +80,18 @@ class UserTypeScreen extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(bottom: Dimens.normal_space),
+      padding: const EdgeInsets.only(
+          bottom: Dimens.normal_space,
+          left: Dimens.horizontal_space,
+          right: Dimens.horizontal_space),
       child: RaisedButton(
         color: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
+          borderRadius: BorderRadius.circular(Dimens.optionButtonBorderRadius),
         ),
         elevation: Dimens.elevation,
         child: Padding(
-          padding: const EdgeInsets.all(29.0),
+          padding: const EdgeInsets.all(Dimens.optionButtonTextPadding),
           child: Text(
             content,
             textAlign: TextAlign.center,
