@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 class Dimens {
-  static const top_space = 40 + kBottomNavigationBarHeight;
+  static const top_space = 48.0;
   static const horizontal_space = 64.0;
   static const normal_space = 40.0;
   static const large_space = normal_space * 2;

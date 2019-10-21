@@ -29,6 +29,9 @@ class S implements WidgetsLocalizations {
   String get dialog_continue_with_google_title => "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
   String get don_t_need_your_real_name => "Bạn có thể nhập một tên không nhất thiết phải là tên thật của bạn. ";
   String get how_could_i_call_you => "Mình có thể gọi bạn là gì?";
+  String get main_message => "Tin nhắn";
+  String get main_more => "Thêm";
+  String get main_share_room => "Góc chia sẻ";
   String get option_family => "Hạnh phúc gia đình";
   String get option_go_a_head => "Vượt qua nỗi đau";
   String get option_love => "Chuyện tình yêu";

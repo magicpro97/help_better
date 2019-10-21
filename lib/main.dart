@@ -1,4 +1,6 @@
 import 'package:better_help/common/themes.dart';
+import 'package:better_help/features/main_screen.dart';
+import 'package:better_help/features/message_screen.dart';
 import 'package:better_help/features/nickname_screen.dart';
 import 'package:better_help/features/user_type_screen.dart';
 import 'package:better_help/features/welcome_screen.dart';
@@ -34,13 +36,15 @@ class MyApp extends StatelessWidget {
           Screens.WELCOME.toString(): (context) => WelcomeScreen(),
           Screens.NICKNAME.toString(): (context) => NicknameScreen(),
           Screens.USER_TYPE.toString(): (context) => UserTypeScreen(),
+          Screens.MAIN.toString(): (context) => MainScreen(),
+          Screens.MESSAGE.toString(): (context) => MessageScreen(),
         },
         onGenerateRoute: (settings) => CupertinoPageRoute(
             settings: settings,
             builder: (context) {
               ScreenUtil.instance =
-              ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)
-                ..init(context);
+                  ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)
+                    ..init(context);
               return WelcomeScreen();
             }),
       ),

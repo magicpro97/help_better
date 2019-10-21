@@ -1,4 +1,5 @@
 import 'package:better_help/common/dimens.dart';
+import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
@@ -25,11 +26,12 @@ class UserTypeScreen extends StatelessWidget {
               height: screenUtil.setHeight(Dimens.large_space),
             ),
             _buildOptionButton(
-                S.of(context).option_teenage, Colors.yellow[700]),
-            _buildOptionButton(S.of(context).option_love, Colors.pink),
-            _buildOptionButton(S.of(context).option_family, Colors.blue),
+                context, S.of(context).option_teenage, Colors.yellow[700]),
+            _buildOptionButton(context, S.of(context).option_love, Colors.pink),
             _buildOptionButton(
-                S.of(context).option_go_a_head, Colors.greenAccent),
+                context, S.of(context).option_family, Colors.blue),
+            _buildOptionButton(
+                context, S.of(context).option_go_a_head, Colors.greenAccent),
             SizedBox(
               height: screenUtil.setHeight(Dimens.large_space),
             ),
@@ -74,7 +76,7 @@ class UserTypeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOptionButton(String content, Color color) {
+  Widget _buildOptionButton(BuildContext context, String content, Color color) {
     final screenUtil = ScreenUtil.getInstance();
 
     final contentStyle = TextStyle(
@@ -104,7 +106,10 @@ class UserTypeScreen extends StatelessWidget {
             style: contentStyle,
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, Screens.MAIN.toString(), (route) => false);
+        },
       ),
     );
   }
