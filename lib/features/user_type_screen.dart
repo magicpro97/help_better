@@ -13,64 +13,77 @@ class UserTypeScreen extends StatelessWidget {
     final screenUtil = ScreenUtil.getInstance();
 
     return CupertinoPageScaffold(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: ScreenTitle(
-                title: S.of(context).user_type_title,
-              ),
-            ),
-            SizedBox(
-              height: screenUtil.setHeight(Dimens.large_space),
-            ),
-            _buildOptionButton(
-                context, S.of(context).option_teenage, Colors.yellow[700]),
-            _buildOptionButton(context, S.of(context).option_love, Colors.pink),
-            _buildOptionButton(
-                context, S.of(context).option_family, Colors.blue),
-            _buildOptionButton(
-                context, S.of(context).option_go_a_head, Colors.greenAccent),
-            SizedBox(
-              height: screenUtil.setHeight(Dimens.large_space),
-            ),
-            Divider(
-              height: 1.0,
-              thickness: 3.0,
-              indent: screenUtil.setHeight(Dimens.horizontal_space),
-              endIndent: screenUtil.setHeight(Dimens.horizontal_space),
-            ),
-            SizedBox(
-              height: screenUtil.setHeight(Dimens.normal_space),
-            ),
-            ScreenCaption(
-              caption: S.of(context).user_type_subtitle,
-            ),
-            SizedBox(
-              height: screenUtil.setHeight(Dimens.normal_space),
-            ),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: Dimens.elevation,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  S.of(context).user_type_volunteer_register,
-                  style: TextStyle(
-                    fontSize: screenUtil.setSp(Dimens.h2_size),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
+      child: SafeArea(
+        bottom: false,
+        child: Container(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.top_space),
                 ),
-              ),
-              onPressed: () {},
-            )
-          ],
+                Center(
+                  child: ScreenTitle(
+                    title: S.of(context).user_type_title,
+                  ),
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.large_space),
+                ),
+                _buildOptionButton(
+                    context, S.of(context).option_teenage, Colors.yellow[700]),
+                _buildOptionButton(
+                    context, S.of(context).option_love, Colors.pink),
+                _buildOptionButton(
+                    context, S.of(context).option_family, Colors.blue),
+                _buildOptionButton(context, S.of(context).option_go_a_head,
+                    Colors.greenAccent),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.large_space),
+                ),
+                Divider(
+                  height: 1.0,
+                  thickness: 3.0,
+                  indent: screenUtil.setHeight(Dimens.horizontal_space),
+                  endIndent: screenUtil.setHeight(Dimens.horizontal_space),
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.normal_space),
+                ),
+                ScreenCaption(
+                  caption: S.of(context).user_type_subtitle,
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.normal_space),
+                ),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: Dimens.elevation,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      S.of(context).user_type_volunteer_register,
+                      style: TextStyle(
+                        fontSize: screenUtil.setSp(Dimens.h2_size),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.normal_space),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
