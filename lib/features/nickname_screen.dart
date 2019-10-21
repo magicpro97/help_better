@@ -21,9 +21,6 @@ class NicknameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: kToolbarHeight,
-            ),
             Center(
               child: ScreenTitle(
                 title: S.of(context).how_could_i_call_you,

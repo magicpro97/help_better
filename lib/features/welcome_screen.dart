@@ -18,9 +18,6 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: kToolbarHeight,
-            ),
             Center(
               child: ScreenTitle(
                 title: S.of(context).share_with_me,

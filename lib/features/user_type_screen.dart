@@ -16,9 +16,6 @@ class UserTypeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: kToolbarHeight,
-            ),
             Center(
               child: ScreenTitle(
                 title: S.of(context).user_type_title,
@@ -33,6 +30,9 @@ class UserTypeScreen extends StatelessWidget {
             _buildOptionButton(S.of(context).option_family, Colors.blue),
             _buildOptionButton(
                 S.of(context).option_go_a_head, Colors.greenAccent),
+            SizedBox(
+              height: screenUtil.setHeight(Dimens.large_space),
+            ),
             Divider(
               height: 1.0,
               thickness: 3.0,
@@ -46,7 +46,7 @@ class UserTypeScreen extends StatelessWidget {
               caption: S.of(context).user_type_subtitle,
             ),
             SizedBox(
-              height: screenUtil.setHeight(Dimens.large_space),
+              height: screenUtil.setHeight(Dimens.normal_space),
             ),
             RaisedButton(
               shape: RoundedRectangleBorder(
