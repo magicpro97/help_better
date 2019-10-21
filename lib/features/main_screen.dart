@@ -1,4 +1,5 @@
 import 'package:better_help/features/message_tab.dart';
+import 'package:better_help/features/more_tab.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,7 @@ class MainScreen extends StatelessWidget {
       Container(
         color: Colors.red,
       ),
-      Container(
-        color: Colors.grey,
-      ),
+      MoreTab(),
     ];
 
     return CupertinoTabScaffold(

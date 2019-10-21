@@ -19,5 +19,10 @@
   "user_type_volunteer_register": "Đăng ký thành tình nguyện viên",
   "main_message": "Tin nhắn",
   "main_share_room": "Góc chia sẻ",
-  "main_more": "Thêm"
+  "main_more": "Thêm",
+  "more_change_nickname": "Đổi nickname",
+  "more_change_status": "Thay đổi trạng thái",
+  "more_register_volunteer": "Đăng ký thành viên tình nguyện",
+  "more_share_app": "Chia sẻ ứng dụng",
+  "more_greeting": "$haftADay bình an nhé $username!"
 }
