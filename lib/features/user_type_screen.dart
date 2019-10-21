@@ -4,13 +4,15 @@ import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil.getInstance();
+
     return CupertinoPageScaffold(
       child: Container(
-        //margin: const EdgeInsets.symmetric(horizontal: Dimens.horizontal_space),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -23,7 +25,7 @@ class UserTypeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.large_space),
             ),
             _buildOptionButton(
                 S.of(context).option_teenage, Colors.yellow[700]),
@@ -34,17 +36,17 @@ class UserTypeScreen extends StatelessWidget {
             Divider(
               height: 1.0,
               thickness: 3.0,
-              indent: Dimens.horizontal_space,
-              endIndent: Dimens.horizontal_space,
+              indent: screenUtil.setHeight(Dimens.horizontal_space),
+              endIndent: screenUtil.setHeight(Dimens.horizontal_space),
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.normal_space),
             ),
             ScreenCaption(
-              subtitle: S.of(context).user_type_subtitle,
+              caption: S.of(context).user_type_subtitle,
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.large_space),
             ),
             RaisedButton(
               shape: RoundedRectangleBorder(
@@ -57,7 +59,7 @@ class UserTypeScreen extends StatelessWidget {
                 child: Text(
                   S.of(context).user_type_volunteer_register,
                   style: TextStyle(
-                    fontSize: Dimens.h2_size,
+                    fontSize: screenUtil.setSp(Dimens.h2_size),
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -73,25 +75,29 @@ class UserTypeScreen extends StatelessWidget {
   }
 
   Widget _buildOptionButton(String content, Color color) {
+    final screenUtil = ScreenUtil.getInstance();
+
     final contentStyle = TextStyle(
-      fontSize: Dimens.h2_size,
+      fontSize: screenUtil.setSp(Dimens.h2_size),
       color: Colors.white,
     );
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(
-          bottom: Dimens.normal_space,
-          left: Dimens.horizontal_space,
-          right: Dimens.horizontal_space),
+      padding: EdgeInsets.only(
+          bottom: screenUtil.setHeight(Dimens.normal_space),
+          left: screenUtil.setHeight(Dimens.horizontal_space),
+          right: screenUtil.setHeight(Dimens.horizontal_space)),
       child: RaisedButton(
         color: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Dimens.optionButtonBorderRadius),
+          borderRadius: BorderRadius.circular(
+              screenUtil.setWidth(Dimens.optionButtonBorderRadius)),
         ),
         elevation: Dimens.elevation,
         child: Padding(
-          padding: const EdgeInsets.all(Dimens.optionButtonTextPadding),
+          padding: EdgeInsets.all(
+              screenUtil.setHeight(Dimens.optionButtonTextPadding)),
           child: Text(
             content,
             textAlign: TextAlign.center,

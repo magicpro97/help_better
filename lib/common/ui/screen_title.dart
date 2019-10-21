@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../dimens.dart';
 
@@ -12,11 +13,16 @@ class ScreenTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil.getInstance();
+    final textTitleStyle = Theme.of(context).primaryTextTheme.title;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimens.horizontal_space),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenUtil.setWidth(Dimens.horizontal_space)),
       child: Text(
         title,
-        style: Theme.of(context).primaryTextTheme.title,
+        style:
+            textTitleStyle.copyWith(fontSize: screenUtil.setSp(Dimens.h1_size)),
         textAlign: TextAlign.center,
       ),
     );

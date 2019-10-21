@@ -6,10 +6,13 @@ import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil.getInstance();
+
     return CupertinoPageScaffold(
       child: Container(
         child: Column(
@@ -24,17 +27,17 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.normal_space),
             ),
             Center(
-              child: ScreenCaption(subtitle: S.of(context).slogan),
+              child: ScreenCaption(caption: S.of(context).slogan),
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.normal_space),
             ),
             Image.asset(Assets.help_someone_colors),
             SizedBox(
-              height: Dimens.welcome_logo_space,
+              height: screenUtil.setHeight(Dimens.large_space),
             ),
             CupertinoButton(
                 child: Text(S.of(context).continue_with_google),

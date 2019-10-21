@@ -5,6 +5,7 @@ import 'package:better_help/features/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'common/screens.dart';
 import 'generated/i18n.dart';
@@ -34,9 +35,14 @@ class MyApp extends StatelessWidget {
           Screens.NICKNAME.toString(): (context) => NicknameScreen(),
           Screens.USER_TYPE.toString(): (context) => UserTypeScreen(),
         },
-        // initialRoute: Screens.WELCOME.toString(),
         onGenerateRoute: (settings) => CupertinoPageRoute(
-            settings: settings, builder: (context) => WelcomeScreen()),
+            settings: settings,
+            builder: (context) {
+              ScreenUtil.instance =
+              ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)
+                ..init(context);
+              return WelcomeScreen();
+            }),
       ),
     );
   }

@@ -5,16 +5,21 @@ import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NicknameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil.getInstance();
     final nickNameController = TextEditingController();
+    final textNicknameStyle = Theme.of(context).primaryTextTheme.body1;
 
     return CupertinoPageScaffold(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        margin: EdgeInsets.symmetric(
+            horizontal: screenUtil.setWidth(Dimens.horizontal_space)),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               height: kToolbarHeight,
@@ -25,20 +30,21 @@ class NicknameScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Dimens.normal_space,
+              height: screenUtil.setHeight(Dimens.normal_space),
             ),
             Center(
               child: ScreenCaption(
-                subtitle: S.of(context).don_t_need_your_real_name,
+                caption: S.of(context).don_t_need_your_real_name,
               ),
             ),
             SizedBox(
-              height: Dimens.normal_space * 2,
+              height: screenUtil.setHeight(Dimens.large_space),
             ),
             CupertinoTextField(
               placeholder: S.of(context).type_nick_name,
               controller: nickNameController,
-              style: Theme.of(context).primaryTextTheme.body1,
+              style: textNicknameStyle.copyWith(
+                  fontSize: screenUtil.setSp(Dimens.body1_size)),
               onSubmitted: (nickname) => Navigator.pushNamedAndRemoveUntil(
                   context, Screens.USER_TYPE.toString(), (route) => false),
             )
