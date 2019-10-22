@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "657803051991",
+    "firebase_url": "https://help-better.firebaseio.com",
+    "project_id": "help-better",
+    "storage_bucket": "help-better.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657803051991:android:a81734c4e97bb374930192",
+        "android_client_info": {
+          "package_name": "magicpro97.xyz.better_help"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657803051991-1tf02o4ij1bj2d8c0mtikpt97vlm5o6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA71yXZCR7bIwoedNxLhN2xlRc0XBxNM4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657803051991-1tf02o4ij1bj2d8c0mtikpt97vlm5o6o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
