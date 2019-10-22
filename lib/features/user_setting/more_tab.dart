@@ -1,7 +1,7 @@
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
-import 'package:better_help/features/option_button.dart';
+import 'package:better_help/features/user_setting/option_button.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,9 @@
 import 'package:better_help/common/themes.dart';
-import 'package:better_help/features/main_screen.dart';
-import 'package:better_help/features/message_screen.dart';
-import 'package:better_help/features/nickname_screen.dart';
-import 'package:better_help/features/user_type_screen.dart';
-import 'package:better_help/features/welcome_screen.dart';
+import 'package:better_help/features/auth0/welcome_screen.dart';
+import 'package:better_help/features/main/main_screen.dart';
+import 'package:better_help/features/message/message_screen.dart';
+import 'package:better_help/features/user_setting/nickname_screen.dart';
+import 'package:better_help/features/user_setting/user_type_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
