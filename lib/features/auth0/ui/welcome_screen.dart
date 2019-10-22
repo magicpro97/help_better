@@ -11,21 +11,33 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/bloc.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  WelcomeBloc welcomeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    welcomeBloc = BlocProvider.of<WelcomeBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    welcomeBloc.close();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final welcomeBloc = BlocProvider.of<WelcomeBloc>(context);
     final screenUtil = ScreenUtil.getInstance();
 
     return BlocBuilder<WelcomeBloc, WelcomeState>(
       bloc: welcomeBloc,
       builder: (context, state) {
-        welcomeBloc.add(CheckSignInStateEvent());
-        if (state is SignedState) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, Screens.MAIN.toString(), (route) => false);
-          welcomeBloc.close();
-        }
         return CupertinoPageScaffold(
           child: Container(
             child: Column(
@@ -57,11 +69,10 @@ class WelcomeScreen extends StatelessWidget {
                     if (state is NewUserState) {
                       Navigator.pushNamedAndRemoveUntil(context,
                           Screens.NICKNAME.toString(), (route) => false);
-                    } else {
+                    } else if (state is SignedState) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, Screens.MAIN.toString(), (route) => false);
                     }
-                    welcomeBloc.close();
                   },
                 ),
               ],

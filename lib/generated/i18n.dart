@@ -36,6 +36,8 @@ class S implements WidgetsLocalizations {
   String get more_change_status => "Thay đổi trạng thái";
   String get more_register_volunteer => "Đăng ký thành viên tình nguyện";
   String get more_share_app => "Chia sẻ ứng dụng";
+
+  String get more_sign_out => "Đăng xuất";
   String get option_family => "Hạnh phúc gia đình";
   String get option_go_a_head => "Vượt qua nỗi đau";
   String get option_love => "Chuyện tình yêu";
@@ -60,29 +62,64 @@ class $vi_VN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get option_love => "Chuyện tình yêu";
+
+  @override
+  String get dialog_continue_with_google_title =>
+      "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
+
+  @override
+  String get more_register_volunteer => "Đăng ký thành viên tình nguyện";
+
+  @override
+  String get continue_action => "Continue";
+
+  @override
+  String get share_with_me => "Chia sẻ nhé";
+
+  @override
+  String get main_message => "Tin nhắn";
+  @override
   String get option_family => "Hạnh phúc gia đình";
   @override
   String get app_name => "Better Help";
   @override
-  String get option_love => "Chuyện tình yêu";
+  String get main_share_room => "Góc chia sẻ";
+
   @override
-  String get dialog_continue_with_google_title => "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
+  String get user_type_subtitle =>
+      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
+
+  @override
+  String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
+  @override
+  String get more_change_status => "Thay đổi trạng thái";
   @override
   String get dialog_continue_with_google_content => "This allows the app and website to share information about you.";
   @override
-  String get continue_action => "Continue";
-  @override
   String get option_go_a_head => "Vượt qua nỗi đau";
   @override
-  String get share_with_me => "Chia sẻ nhé";
-  @override
   String get continue_with_google => "Tiếp tục với Google";
+  @override
+  String get more_share_app => "Chia sẻ ứng dụng";
+  @override
+  String get user_type_title => "Bạn cần chia sẻ về vấn đề gì?";
   @override
   String get option_teenage => "Tâm sinh lý tuổi dậy thì";
   @override
   String get slogan => "Mình chẳng thể thay đổi quá khứ của bạn. \n Nhưng mình hứa sẽ chia sẻ cùng bạn";
+
+  @override
+  String get main_more => "Thêm";
+
+  @override
+  String get more_change_nickname => "Đổi nickname";
   @override
   String get cancel_action => "Cancel";
+
+  @override
+  String more_greeting(String haftADay, String username) =>
+      "$haftADay bình an nhé $username!";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

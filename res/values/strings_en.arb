@@ -24,5 +24,6 @@
   "more_change_status": "Thay đổi trạng thái",
   "more_register_volunteer": "Đăng ký thành viên tình nguyện",
   "more_share_app": "Chia sẻ ứng dụng",
-  "more_greeting": "$haftADay bình an nhé $username!"
+  "more_greeting": "$haftADay bình an nhé $username!",
+  "more_sign_out": "Đăng xuất"
 }

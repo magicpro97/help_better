@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       providers: <BlocProvider>[
-        BlocProvider.value(value: WelcomeBloc()),
+        BlocProvider<WelcomeBloc>.value(value: WelcomeBloc()),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:better_help/common/auth0/auth.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
@@ -51,6 +52,19 @@ class MoreTab extends StatelessWidget {
                     ),
                     OptionButton(
                       name: S.of(context).more_share_app,
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(Dimens.xlarge_space),
+                    ),
+                    OptionButton(
+                      name: S
+                          .of(context)
+                          .more_sign_out,
+                      onPress: () {
+                        Auth.signOut();
+                        Navigator.pushNamed(
+                            context, Screens.WELCOME.toString());
+                      },
                     ),
                   ],
                 ),

@@ -5,5 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final toListUser = StreamTransformer<QuerySnapshot, List<User>>.fromHandlers(
   handleData: (data, sink) =>
-      data.documents.map((doc) => User.fromJson(doc.data)).toList(),
+      sink.add(data.documents.map((doc) => User.fromJson(doc.data)).toList()),
 );
+
