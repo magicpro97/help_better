@@ -14,7 +14,6 @@ class UserTypeScreen extends StatelessWidget {
 
     return CupertinoPageScaffold(
       child: SafeArea(
-        bottom: false,
         child: Container(
           height: double.infinity,
           child: SingleChildScrollView(
