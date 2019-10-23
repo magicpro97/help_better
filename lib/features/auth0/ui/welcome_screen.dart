@@ -1,6 +1,5 @@
 import 'package:better_help/common/assets.dart';
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
@@ -23,6 +22,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     welcomeBloc = BlocProvider.of<WelcomeBloc>(context);
+    welcomeBloc.add(CheckSignInStateEvent(context));
   }
 
   @override
@@ -65,16 +65,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: Text(S.of(context).continue_with_google),
                   color: Colors.pink,
                   onPressed: () {
-                    welcomeBloc.add(SignInEvent());
-                    if (state is NewUserState) {
-                      Navigator.pushNamedAndRemoveUntil(context,
-                          Screens.NICKNAME.toString(), (route) => false);
-                    } else if (state is SignedState) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Screens.MAIN.toString(), (route) => false);
-                    }
+                    welcomeBloc.add(SignInEvent(context));
                   },
                 ),
+                state is SignInFailState ? Text(
+                    'Đã có sự cố xảy ra. Hãy đăng nhập lại!') : SizedBox(
+                  height: 0.0,),
               ],
             ),
           ),
