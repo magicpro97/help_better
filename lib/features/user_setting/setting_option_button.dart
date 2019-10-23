@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OptionButton extends StatelessWidget {
+class SettingOptionButton extends StatelessWidget {
   final String name;
   final Function onPress;
 
-  const OptionButton({Key key, @required this.name, this.onPress})
+  const SettingOptionButton({Key key, @required this.name, this.onPress})
       : assert(name != null),
         super(key: key);
 
