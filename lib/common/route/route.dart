@@ -56,3 +56,7 @@ Future<T> goToUserTypeScreen<T extends Object>(BuildContext context,
           context, Screens.USER_TYPE.toString(), (route) => false,
           arguments: arguments);
 }
+
+@optionalTypeArgs
+bool backToLastScreen<T extends Object>(BuildContext context, {T result}) =>
+    Navigator.pop(context, result);

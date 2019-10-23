@@ -6,6 +6,8 @@ part 'user.g.dart';
 
 enum UserType { NORMAL, VOLUNTEER }
 
+enum UserNeeds { TEENAGE, FAMILY, LOVE, GO_AHEAD }
+
 @JsonSerializable()
 class User extends Base {
   final String id;
@@ -14,6 +16,7 @@ class User extends Base {
   final String phoneNumber;
   final String photoUrl;
   final List<UserType> types;
+  final UserNeeds needs;
   final DateTime created;
   final DateTime updated;
 
@@ -24,6 +27,7 @@ class User extends Base {
     this.phoneNumber,
     @required this.photoUrl,
     @required this.types,
+    this.needs,
     @required this.created,
     this.updated,
   })  : assert(displayName != null),

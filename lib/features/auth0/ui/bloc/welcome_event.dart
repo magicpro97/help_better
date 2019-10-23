@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class WelcomeEvent extends Equatable {
   const WelcomeEvent();

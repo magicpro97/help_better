@@ -22,7 +22,13 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
         goToMainScreen(event.context, deleteAllLastScreen: true);
         yield SignedState();
       } else {
-        yield SignInFailState();
+        if (await Auth.isNewUser()) {
+          Auth.createUser();
+          goToNicknameScreen(event.context, deleteAllLastScreen: true);
+          yield SignedState();
+        } else {
+          yield SignInFailState();
+        }
       }
     } else if (event is CheckSignInStateEvent) {
       final user = await Auth.currentUser();

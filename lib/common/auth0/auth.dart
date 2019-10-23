@@ -14,6 +14,24 @@ class Auth {
     return await UserDao.findById(firebaseUser.uid);
   }
 
+  static Future<bool> isNewUser() async {
+    final firebaseUser = await _auth.currentUser();
+    return await UserDao.findById(firebaseUser.uid) == null;
+  }
+
+  static Future<User> createUser() async {
+    final firebaseUser = await _auth.currentUser();
+    final newUser = User(
+        id: firebaseUser.uid,
+        displayName: firebaseUser.displayName,
+        email: firebaseUser.email,
+        photoUrl: firebaseUser.photoUrl,
+        types: [UserType.NORMAL],
+        created: DateTime.now());
+    UserDao.addUser(newUser);
+    return newUser;
+  }
+
   static Future<void> signOut() async {
     await _auth.signOut();
     await GoogleAuth.signOut();
@@ -33,17 +51,6 @@ class Auth {
     final authResult = await _auth.signInWithCredential(credential);
     final firebaseUser = authResult.user;
     final user = await UserDao.findById(firebaseUser.uid);
-    if (user == null) {
-      final newUser = User(
-          id: firebaseUser.uid,
-          displayName: firebaseUser.displayName,
-          email: firebaseUser.email,
-          photoUrl: firebaseUser.photoUrl,
-          types: [UserType.NORMAL],
-          created: DateTime.now());
-      UserDao.addUser(newUser);
-      return newUser;
-    }
     return user;
   }
 }

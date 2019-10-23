@@ -2,7 +2,8 @@ import 'package:better_help/common/themes.dart';
 import 'package:better_help/features/auth0/ui/welcome_screen.dart';
 import 'package:better_help/features/main/main_screen.dart';
 import 'package:better_help/features/message/message_screen.dart';
-import 'package:better_help/features/user_setting/nickname_screen.dart';
+import 'package:better_help/features/user_setting/nickname/bloc/nickname_bloc.dart';
+import 'package:better_help/features/user_setting/nickname/nickname_screen.dart';
 import 'package:better_help/features/user_setting/user_needs_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
       ),
       providers: <BlocProvider>[
         BlocProvider<WelcomeBloc>.value(value: WelcomeBloc()),
+        BlocProvider<NicknameBloc>.value(value: NicknameBloc()),
       ],
     );
   }

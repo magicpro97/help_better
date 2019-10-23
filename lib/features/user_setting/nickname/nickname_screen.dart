@@ -1,17 +1,36 @@
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
+import 'package:better_help/features/user_setting/nickname/bloc/bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NicknameScreen extends StatelessWidget {
+class NicknameScreen extends StatefulWidget {
+  @override
+  _NicknameScreenState createState() => _NicknameScreenState();
+}
+
+class _NicknameScreenState extends State<NicknameScreen> {
+  NicknameBloc nicknameBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    nicknameBloc = BlocProvider.of<NicknameBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    nicknameBloc.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
-    final nickNameController = TextEditingController();
     final textNicknameStyle = Theme.of(context).primaryTextTheme.body1;
 
     return CupertinoPageScaffold(
@@ -39,11 +58,12 @@ class NicknameScreen extends StatelessWidget {
             ),
             CupertinoTextField(
               placeholder: S.of(context).type_nick_name,
-              controller: nickNameController,
               style: textNicknameStyle.copyWith(
                   fontSize: screenUtil.setSp(Dimens.body1_size)),
-              onSubmitted: (nickname) => Navigator.pushNamedAndRemoveUntil(
-                  context, Screens.USER_TYPE.toString(), (route) => false),
+              onSubmitted: (nickname) =>
+                  nicknameBloc
+                      .add(
+                      SaveNewNickname(context: context, nickname: nickname)),
             )
           ],
         ),
