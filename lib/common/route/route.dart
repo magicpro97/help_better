@@ -47,7 +47,7 @@ Future<T> goToMessageScreen<T extends Object>(BuildContext context,
 }
 
 @optionalTypeArgs
-Future<T> goToUserTypeScreen<T extends Object>(BuildContext context,
+Future<T> goToUserNeedsScreen<T extends Object>(BuildContext context,
     {bool deleteAllLastScreen, Object arguments}) {
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.USER_TYPE.toString(),

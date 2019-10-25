@@ -37,8 +37,6 @@ class Auth {
     await GoogleAuth.signOut();
   }
 
-  static Stream<FirebaseUser> get userStream => _auth.onAuthStateChanged;
-
   static Future<User> signIn() async {
     final googleUser = await GoogleAuth.getSignedInAccount();
     if (googleUser == null) return null;
@@ -53,4 +51,7 @@ class Auth {
     final user = await UserDao.findById(firebaseUser.uid);
     return user;
   }
+
+  static Stream<FirebaseUser> get firebaseUserStream =>
+      _auth.onAuthStateChanged;
 }

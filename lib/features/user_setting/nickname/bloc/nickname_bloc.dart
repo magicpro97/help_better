@@ -22,7 +22,7 @@ class NicknameBloc extends Bloc<NicknameEvent, NicknameState> {
       });
       final result = backToLastScreen(event.context);
       if (!result) {
-        goToUserTypeScreen(event.context);
+        goToUserNeedsScreen(event.context);
       }
     }
   }

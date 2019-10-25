@@ -24,4 +24,7 @@ class UserDao {
 
   static Stream<List<User>> userListStream() =>
       _store.snapshots().transform(toListUser);
+
+  static Stream<User> userStream(String id) =>
+      _store.document(id).snapshots().transform(toUser);
 }

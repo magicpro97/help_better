@@ -1,14 +1,35 @@
-import 'package:better_help/common/auth0/auth.dart';
+import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
-import 'package:better_help/features/user_setting/setting_option_button.dart';
+import 'package:better_help/common/utils/time_utils.dart';
+import 'package:better_help/features/user_setting/more/bloc/bloc.dart';
+import 'package:better_help/features/user_setting/more/setting_option_button.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MoreTab extends StatelessWidget {
+class MoreTab extends StatefulWidget {
+  @override
+  _MoreTabState createState() => _MoreTabState();
+}
+
+class _MoreTabState extends State<MoreTab> {
+  MoreBloc moreBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    moreBloc = BlocProvider.of<MoreBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    moreBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
@@ -22,8 +43,18 @@ class MoreTab extends StatelessWidget {
               SizedBox(
                 height: screenUtil.setHeight(Dimens.top_space),
               ),
-              ScreenTitle(
-                title: S.of(context).more_greeting('Buổi tối', 'Huongali'),
+              StreamBuilder<User>(
+                stream: moreBloc.userStream,
+                builder: (context, snapshot) =>
+                    ScreenTitle(
+                      title: S.of(context).more_greeting(
+                          getAHaftDayName(context),
+                          snapshot.hasData
+                              ? snapshot.data.displayName
+                              : S
+                              .of(context)
+                              .you),
+                    ),
               ),
               SizedBox(
                 height: screenUtil.setHeight(Dimens.large_space),
@@ -33,13 +64,12 @@ class MoreTab extends StatelessWidget {
                   children: <Widget>[
                     SettingOptionButton(
                       name: S.of(context).more_change_nickname,
-                      onPress: () => Navigator.pushNamed(
-                          context, Screens.NICKNAME.toString()),
+                      onPress: () => moreBloc.add(ChangeNicknameEvent(context)),
                     ),
                     SettingOptionButton(
                       name: S.of(context).more_change_status,
-                      onPress: () => Navigator.pushNamed(
-                          context, Screens.USER_TYPE.toString()),
+                      onPress: () =>
+                          moreBloc.add(ChangeUserNeedsEvent(context)),
                     ),
                     SizedBox(
                       height: screenUtil.setHeight(Dimens.xlarge_space),
@@ -60,11 +90,7 @@ class MoreTab extends StatelessWidget {
                       name: S
                           .of(context)
                           .more_sign_out,
-                      onPress: () {
-                        Auth.signOut();
-                        Navigator.pushNamed(
-                            context, Screens.WELCOME.toString());
-                      },
+                      onPress: () => moreBloc.add(SignOutEvent(context)),
                     ),
                   ],
                 ),

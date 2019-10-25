@@ -8,3 +8,5 @@ final toListUser = StreamTransformer<QuerySnapshot, List<User>>.fromHandlers(
       sink.add(data.documents.map((doc) => User.fromJson(doc.data)).toList()),
 );
 
+final toUser = StreamTransformer<DocumentSnapshot, User>.fromHandlers(
+    handleData: (data, sink) => sink.add(User.fromJson(data.data)));
