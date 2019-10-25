@@ -28,7 +28,6 @@ class S implements WidgetsLocalizations {
   String get dialog_continue_with_google_content => "This allows the app and website to share information about you.";
   String get dialog_continue_with_google_title => "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
   String get don_t_need_your_real_name => "Bạn có thể nhập một tên không nhất thiết phải là tên thật của bạn. ";
-
   String get evening => "Buổi chiều";
   String get how_could_i_call_you => "Mình có thể gọi bạn là gì?";
   String get main_message => "Tin nhắn";
@@ -39,9 +38,7 @@ class S implements WidgetsLocalizations {
   String get more_register_volunteer => "Đăng ký thành viên tình nguyện";
   String get more_share_app => "Chia sẻ ứng dụng";
   String get more_sign_out => "Đăng xuất";
-
   String get morning => "Buổi sáng";
-
   String get night => "Buổi tối";
   String get option_family => "Hạnh phúc gia đình";
   String get option_go_a_head => "Vượt qua nỗi đau";
@@ -53,7 +50,6 @@ class S implements WidgetsLocalizations {
   String get user_type_subtitle => "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
   String get user_type_title => "Bạn cần chia sẻ về vấn đề gì?";
   String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
-
   String get you => "bạn";
   String more_greeting(String haftADay, String username) => "$haftADay bình an nhé $username!";
 }

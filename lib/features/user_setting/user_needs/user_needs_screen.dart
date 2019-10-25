@@ -1,13 +1,30 @@
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
+import 'package:better_help/features/user_setting/user_needs/bloc/user_needs_bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class UserNeedsScreen extends StatelessWidget {
+import 'bloc/bloc.dart';
+import 'bloc/user_needs_event.dart';
+import 'components/needs_button.dart';
+
+class UserNeedsScreen extends StatefulWidget {
+  @override
+  _UserNeedsScreenState createState() => _UserNeedsScreenState();
+}
+
+class _UserNeedsScreenState extends State<UserNeedsScreen> {
+  final userNeedBloc = UserNeedsBloc();
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNeedBloc.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
@@ -25,20 +42,46 @@ class UserNeedsScreen extends StatelessWidget {
                 ),
                 Center(
                   child: ScreenTitle(
-                    title: S.of(context).user_type_title,
+                    title: S
+                        .of(context)
+                        .user_type_title,
                   ),
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.large_space),
                 ),
-                _buildOptionButton(
-                    context, S.of(context).option_teenage, Colors.yellow[700]),
-                _buildOptionButton(
-                    context, S.of(context).option_love, Colors.pink),
-                _buildOptionButton(
-                    context, S.of(context).option_family, Colors.blue),
-                _buildOptionButton(context, S.of(context).option_go_a_head,
-                    Colors.greenAccent),
+                NeedsButton(
+                  content: S
+                      .of(context)
+                      .option_teenage,
+                  color: Colors.yellow[700],
+                  onPress: () =>
+                      userNeedBloc.add(SelectOptionTeenageEvent(context)),
+                ),
+                NeedsButton(
+                  content: S
+                      .of(context)
+                      .option_love,
+                  color: Colors.pink,
+                  onPress: () =>
+                      userNeedBloc.add(SelectOptionLoveEvent(context)),
+                ),
+                NeedsButton(
+                  content: S
+                      .of(context)
+                      .option_family,
+                  color: Colors.blue,
+                  onPress: () =>
+                      userNeedBloc.add(SelectOptionFamilyEvent(context)),
+                ),
+                NeedsButton(
+                  content: S
+                      .of(context)
+                      .option_go_a_head,
+                  color: Colors.greenAccent,
+                  onPress: () =>
+                      userNeedBloc.add(SelectOptionGoAheadEvent(context)),
+                ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.large_space),
                 ),
@@ -52,7 +95,9 @@ class UserNeedsScreen extends StatelessWidget {
                   height: screenUtil.setHeight(Dimens.normal_space),
                 ),
                 ScreenCaption(
-                  caption: S.of(context).user_type_subtitle,
+                  caption: S
+                      .of(context)
+                      .user_type_subtitle,
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.normal_space),
@@ -66,7 +111,9 @@ class UserNeedsScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
-                      S.of(context).user_type_volunteer_register,
+                      S
+                          .of(context)
+                          .user_type_volunteer_register,
                       style: TextStyle(
                         fontSize: screenUtil.setSp(Dimens.h2_size),
                         fontWeight: FontWeight.bold,
@@ -84,44 +131,6 @@ class UserNeedsScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildOptionButton(BuildContext context, String content, Color color) {
-    final screenUtil = ScreenUtil.getInstance();
-
-    final contentStyle = TextStyle(
-      fontSize: screenUtil.setSp(Dimens.h2_size),
-      color: Colors.white,
-    );
-
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-          bottom: screenUtil.setHeight(Dimens.normal_space),
-          left: screenUtil.setHeight(Dimens.horizontal_space),
-          right: screenUtil.setHeight(Dimens.horizontal_space)),
-      child: RaisedButton(
-        color: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-              screenUtil.setWidth(Dimens.optionButtonBorderRadius)),
-        ),
-        elevation: Dimens.elevation,
-        child: Padding(
-          padding: EdgeInsets.all(
-              screenUtil.setHeight(Dimens.optionButtonTextPadding)),
-          child: Text(
-            content,
-            textAlign: TextAlign.center,
-            style: contentStyle,
-          ),
-        ),
-        onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, Screens.MAIN.toString(), (route) => false);
-        },
       ),
     );
   }

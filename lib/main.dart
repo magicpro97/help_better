@@ -5,7 +5,7 @@ import 'package:better_help/features/message/message_screen.dart';
 import 'package:better_help/features/user_setting/more/bloc/more_bloc.dart';
 import 'package:better_help/features/user_setting/nickname/bloc/nickname_bloc.dart';
 import 'package:better_help/features/user_setting/nickname/nickname_screen.dart';
-import 'package:better_help/features/user_setting/user_needs_screen.dart';
+import 'package:better_help/features/user_setting/user_needs/user_needs_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

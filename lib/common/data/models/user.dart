@@ -8,6 +8,13 @@ enum UserType { NORMAL, VOLUNTEER }
 
 enum UserNeeds { TEENAGE, FAMILY, LOVE, GO_AHEAD }
 
+final userNeedMap = {
+  UserNeeds.TEENAGE: 'TEENAGE',
+  UserNeeds.FAMILY: 'FAMILY',
+  UserNeeds.LOVE: 'LOVE',
+  UserNeeds.GO_AHEAD: 'GO_AHEAD',
+};
+
 @JsonSerializable()
 class User extends Base {
   final String id;
@@ -30,7 +37,8 @@ class User extends Base {
     this.needs,
     @required this.created,
     this.updated,
-  })  : assert(displayName != null),
+  })
+      : assert(displayName != null),
         assert(email != null),
         assert(photoUrl != null),
         assert(types != null),
