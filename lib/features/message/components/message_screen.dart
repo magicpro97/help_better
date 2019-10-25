@@ -7,8 +7,8 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final messages = [
-      Message(),
-      Message(),
+      MessageItem(),
+      MessageItem(),
     ];
 
     return CupertinoPageScaffold(
@@ -24,7 +24,7 @@ class MessageScreen extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   reverse: true,
-                  itemBuilder: (context, index) => Message(),
+                  itemBuilder: (context, index) => MessageItem(),
                   itemCount: messages.length,
                 ),
               ),
@@ -37,7 +37,7 @@ class MessageScreen extends StatelessWidget {
   }
 }
 
-class Message extends StatelessWidget {
+class MessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
