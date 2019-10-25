@@ -1,19 +1,30 @@
+import 'package:better_help/common/data/models/message.dart';
+import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'components/message_group/message_group_card.dart';
+import 'message_group_card.dart';
 
 class MessageTab extends StatelessWidget {
   final groups = [
     MessageGroupCard(
-        displayName: 'Dương Nguyễn',
-        lastMessage: 'Perter asdasd ád',
-        lastMessageTime: '10:00',
-        imageUrl:
-            'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?cs=srgb&dl=beauty-bloom-blue-67636.jpg&fm=jpg')
+      messageGroup: MessageGroup(
+          id: 'id',
+          displayName: 'Dương Nguyễn',
+          imageUrl:
+          'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?cs=srgb&dl=beauty-bloom-blue-67636.jpg&fm=jpg',
+          created: DateTime.now()),
+      lastMessage: Message(
+        id: 'a',
+        userId: 'a',
+        content: ['a'],
+        type: MessageType.TEXT,
+        created: DateTime.now(),
+      ),
+    ),
   ];
 
   @override
@@ -34,9 +45,9 @@ class MessageTab extends StatelessWidget {
               ),
               Expanded(
                   child: ListView.builder(
-                itemBuilder: (context, index) => groups[index],
-                itemCount: groups.length,
-              )),
+                    itemBuilder: (context, index) => groups[index],
+                    itemCount: groups.length,
+                  )),
             ],
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:better_help/features/main/sharing_tab.dart';
-import 'package:better_help/features/message/message_tab.dart';
+import 'package:better_help/features/message/message_group/message_tab.dart';
 import 'package:better_help/features/user_setting/more/more_tab.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';

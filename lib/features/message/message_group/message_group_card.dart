@@ -1,23 +1,20 @@
+import 'package:better_help/common/data/models/message.dart';
+import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MessageGroupCard extends StatelessWidget {
-  final String displayName;
-  final String lastMessage;
-  final String lastMessageTime;
-  final String imageUrl;
+  final MessageGroup messageGroup;
+  final Message lastMessage;
 
-  const MessageGroupCard(
-      {Key key,
-      @required this.displayName,
-      @required this.lastMessage,
-      @required this.lastMessageTime,
-      @required this.imageUrl})
-      : assert(displayName != null),
+  const MessageGroupCard({
+    Key key,
+    @required this.messageGroup,
+    @required this.lastMessage,
+  })
+      : assert(messageGroup != null),
         assert(lastMessage != null),
-        assert(imageUrl != null),
-        assert(imageUrl != null),
         super(key: key);
 
   @override
@@ -25,17 +22,17 @@ class MessageGroupCard extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: CachedNetworkImageProvider(
-          imageUrl,
+          messageGroup.imageUrl,
         ),
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(displayName),
-          Text(lastMessageTime),
+          Text(messageGroup.displayName),
+          Text(lastMessage.created.toString()),
         ],
       ),
-      subtitle: Text(lastMessage),
+      subtitle: Text(lastMessage.content.first),
       onTap: () => Navigator.pushNamed(context, Screens.MESSAGE.toString()),
     );
   }
