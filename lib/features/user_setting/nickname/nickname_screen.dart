@@ -5,7 +5,6 @@ import 'package:better_help/features/user_setting/nickname/bloc/bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NicknameScreen extends StatefulWidget {
@@ -14,12 +13,11 @@ class NicknameScreen extends StatefulWidget {
 }
 
 class _NicknameScreenState extends State<NicknameScreen> {
-  NicknameBloc nicknameBloc;
+  final nicknameBloc = NicknameBloc();
 
   @override
   void initState() {
     super.initState();
-    nicknameBloc = BlocProvider.of<NicknameBloc>(context);
   }
 
   @override

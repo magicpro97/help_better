@@ -16,12 +16,11 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  WelcomeBloc welcomeBloc;
+  final welcomeBloc = WelcomeBloc();
 
   @override
   void initState() {
     super.initState();
-    welcomeBloc = BlocProvider.of<WelcomeBloc>(context);
     welcomeBloc.add(CheckSignInStateEvent(context));
   }
 
