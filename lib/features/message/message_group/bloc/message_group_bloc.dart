@@ -14,7 +14,7 @@ class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
       _messageGroupController.stream;
 
   MessageGroupBloc() {
-    MessageGroupDao.messageGroupStream().pipe(_messageGroupController);
+    MessageGroupDao.messageGroupListStream().pipe(_messageGroupController);
   }
 
   @override

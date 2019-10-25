@@ -1,0 +1,18 @@
+import 'dart:async';
+
+import 'package:better_help/common/data/models/message.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final toMessage = StreamTransformer<DocumentSnapshot, Message>.fromHandlers(
+  handleData: (data, sink) => sink.add(Message.fromJson(data.data)),
+);
+
+final toMessageList =
+    StreamTransformer<QuerySnapshot, List<Message>>.fromHandlers(
+  handleData: (data, sink) => sink
+      .add(data.documents.map((doc) => Message.fromJson(doc.data)).toList()),
+);
+
+final toLatestMessage = StreamTransformer<List<Message>, Message>.fromHandlers(
+  handleData: (data, sink) => sink.add(data.last),
+);

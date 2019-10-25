@@ -12,3 +12,6 @@ String getAHaftDayName(BuildContext context) {
     return S.of(context).night;
   }
 }
+
+String getHourAndMinute(DateTime dateTime) =>
+    '${dateTime.hour}:${dateTime.minute}';
