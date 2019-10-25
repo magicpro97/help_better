@@ -7,7 +7,6 @@ import 'package:better_help/features/user_setting/more/setting_option_button.dar
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MoreTab extends StatefulWidget {
@@ -16,12 +15,11 @@ class MoreTab extends StatefulWidget {
 }
 
 class _MoreTabState extends State<MoreTab> {
-  MoreBloc moreBloc;
+  final moreBloc = MoreBloc();
 
   @override
   void initState() {
     super.initState();
-    moreBloc = BlocProvider.of<MoreBloc>(context);
   }
 
   @override
