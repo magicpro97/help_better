@@ -5,6 +5,7 @@ import 'package:better_help/common/data/dao/message_group_dao.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/tranformer/message.dart';
+import 'package:better_help/common/route/route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -15,6 +16,8 @@ class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
   final _latestMessageController = BehaviorSubject<Message>();
 
   Stream<MessageGroup> get messageGroupStream => _messageGroupController.stream;
+
+  MessageGroup get messageGroup => _messageGroupController.value;
 
   Stream<Message> get latestGroupStream => _latestMessageController.stream;
 
@@ -38,6 +41,9 @@ class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
 
   @override
   Stream<GroupCardState> mapEventToState(
-    GroupCardEvent event,
-  ) async* {}
+    GroupCardEvent event,) async* {
+    if (event is MakeChattingEvent) {
+      goToMessageScreen(event.context, messageGroup.id);
+    }
+  }
 }

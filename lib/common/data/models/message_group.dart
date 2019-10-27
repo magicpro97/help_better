@@ -10,6 +10,7 @@ class MessageGroup extends Base {
   final String id;
   final String displayName;
   final String imageUrl;
+  final List<String> memberIds;
   final DateTime created;
   final DateTime updated;
 
@@ -17,10 +18,13 @@ class MessageGroup extends Base {
     @required this.id,
     @required this.displayName,
     @required this.imageUrl,
+    @required this.memberIds,
     @required this.created,
     this.updated,
   })  : assert(displayName != null),
         assert(imageUrl != null),
+        assert(memberIds != null),
+        assert(memberIds.length >= 2),
         super(id, created, updated);
 
   factory MessageGroup.fromJson(Map<String, dynamic> json) =>

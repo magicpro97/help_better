@@ -1,6 +1,5 @@
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
-import 'package:better_help/common/screens.dart';
 import 'package:better_help/common/utils/time_utils.dart';
 import 'package:better_help/features/message/message_group/group_card/bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -73,8 +72,7 @@ class _MessageGroupCardState extends State<MessageGroupCard> {
                   subtitle: nullText == null
                       ? Text(latestMessage.content.first)
                       : nullText,
-                  onTap: () =>
-                      Navigator.pushNamed(context, Screens.MESSAGE.toString()),
+                  onTap: () => groupCardBloc.add(MakeChattingEvent(context)),
                 );
               });
         });
