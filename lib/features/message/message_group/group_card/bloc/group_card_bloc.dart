@@ -20,6 +20,7 @@ class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
 
   void initStream(String groupId) {
     MessageGroupDao.messageGroupStream(groupId).pipe(_messageGroupController);
+
     MessageDao.messageList(groupId)
         .transform(toLatestMessage)
         .pipe(_latestMessageController);

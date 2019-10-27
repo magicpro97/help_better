@@ -29,13 +29,13 @@ class UserNeedsBloc extends Bloc<UserNeedsEvent, UserNeedsState> {
     }
     final result = backToLastScreen(event.context);
     if (!result) {
-      goToMainScreen(event.context);
+      goToMainScreen(event.context, deleteAllLastScreen: true);
     }
   }
 
   Future updateUserNeeds(UserNeeds needs) async {
     final user = await Auth.currentUser();
     final data = {_key: userNeedMap[needs]};
-    UserDao.updateUser(id: user.id, fields: data);
+    await UserDao.updateUser(id: user.id, fields: data);
   }
 }

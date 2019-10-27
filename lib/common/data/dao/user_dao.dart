@@ -9,12 +9,12 @@ class UserDao {
   static const String USERS = 'users';
   static final _store = Firestore.instance.collection(USERS);
 
-  static void addUser(User user) =>
-      _store.document(user.id).setData(user.toJson());
+  static Future<void> addUser(User user) async =>
+      await _store.document(user.id).setData(user.toJson());
 
-  static void updateUser(
-      {@required String id, @required Map<String, dynamic> fields}) =>
-      _store.document(id).updateData(fields);
+  static Future<void> updateUser(
+      {@required String id, @required Map<String, dynamic> fields}) async =>
+      await _store.document(id).updateData(fields);
 
   static Future<User> findById(String id) async {
     final doc = await _store.document(id).get();

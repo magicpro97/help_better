@@ -34,68 +34,89 @@ class _MoreTabState extends State<MoreTab> {
 
     return SafeArea(
       child: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: screenUtil.setHeight(Dimens.top_space),
-              ),
-              StreamBuilder<User>(
-                stream: moreBloc.userStream,
-                builder: (context, snapshot) =>
-                    ScreenTitle(
-                      title: S.of(context).more_greeting(
-                          getAHaftDayName(context),
-                          snapshot.hasData
-                              ? snapshot.data.displayName
-                              : S
-                              .of(context)
-                              .you),
-                    ),
-              ),
-              SizedBox(
-                height: screenUtil.setHeight(Dimens.large_space),
-              ),
-              Container(
+        child: StreamBuilder<User>(
+            stream: moreBloc.userStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Something went wrong. ${snapshot.error}'),
+                );
+              }
+
+              return SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SettingOptionButton(
-                      name: S.of(context).more_change_nickname,
-                      onPress: () => moreBloc.add(ChangeNicknameEvent(context)),
+                    SizedBox(
+                      height: screenUtil.setHeight(Dimens.top_space),
                     ),
-                    SettingOptionButton(
-                      name: S.of(context).more_change_status,
-                      onPress: () =>
-                          moreBloc.add(ChangeUserNeedsEvent(context)),
+                    Center(
+                      child: ScreenTitle(
+                        title: S.of(context).more_greeting(
+                            getAHaftDayName(context),
+                            snapshot.hasData
+                                ? snapshot.data.displayName
+                                : S
+                                .of(context)
+                                .you),
+                      ),
                     ),
                     SizedBox(
-                      height: screenUtil.setHeight(Dimens.xlarge_space),
+                      height: screenUtil.setHeight(Dimens.large_space),
                     ),
-                    SettingOptionButton(
-                      name: S.of(context).more_register_volunteer,
-                    ),
-                    SizedBox(
-                      height: screenUtil.setHeight(Dimens.xlarge_space),
-                    ),
-                    SettingOptionButton(
-                      name: S.of(context).more_share_app,
-                    ),
-                    SizedBox(
-                      height: screenUtil.setHeight(Dimens.xlarge_space),
-                    ),
-                    SettingOptionButton(
-                      name: S
-                          .of(context)
-                          .more_sign_out,
-                      onPress: () => moreBloc.add(SignOutEvent(context)),
-                    ),
+                    _optionList(),
                   ],
                 ),
-              )
-            ],
+              );
+            }),
+      ),
+    );
+  }
+
+  Widget _optionList() {
+    final screenUtil = ScreenUtil.getInstance();
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SettingOptionButton(
+            name: S
+                .of(context)
+                .more_change_nickname,
+            onPress: () => moreBloc.add(ChangeNicknameEvent(context)),
           ),
-        ),
+          SettingOptionButton(
+            name: S
+                .of(context)
+                .more_change_status,
+            onPress: () => moreBloc.add(ChangeUserNeedsEvent(context)),
+          ),
+          SizedBox(
+            height: screenUtil.setHeight(Dimens.xlarge_space),
+          ),
+          SettingOptionButton(
+            name: S
+                .of(context)
+                .more_register_volunteer,
+          ),
+          SizedBox(
+            height: screenUtil.setHeight(Dimens.xlarge_space),
+          ),
+          SettingOptionButton(
+            name: S
+                .of(context)
+                .more_share_app,
+          ),
+          SizedBox(
+            height: screenUtil.setHeight(Dimens.xlarge_space),
+          ),
+          SettingOptionButton(
+            name: S
+                .of(context)
+                .more_sign_out,
+            onPress: () => moreBloc.add(SignOutEvent(context)),
+          ),
+        ],
       ),
     );
   }

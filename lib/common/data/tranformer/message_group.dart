@@ -19,6 +19,7 @@ StreamTransformer<List<MessageGroup>, List<MessageGroupCard>>.fromHandlers(
             messageGroupId: messageGroup.id,
           ))
           .toList()),
+  handleError: (data, trace, sink) => sink.addError(data, trace),
 );
 
 final toMessageGroup =

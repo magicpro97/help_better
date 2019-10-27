@@ -20,14 +20,10 @@ class MoreBloc extends Bloc<MoreEvent, MoreState> {
 
   StreamSubscription _firebaseUserSubscription;
 
-  StreamSubscription _userSubscription;
-
   MoreBloc() {
     _firebaseUserSubscription = Auth.firebaseUserStream.listen((fbUser) {
       if (fbUser != null) {
-        _userSubscription = UserDao.userStream(fbUser.uid).listen((newUser) {
-          changeUser(newUser);
-        });
+        UserDao.findById(fbUser.uid).then((data) => changeUser(data));
       }
     });
   }
@@ -37,7 +33,6 @@ class MoreBloc extends Bloc<MoreEvent, MoreState> {
     super.close();
     _userController.close();
     _firebaseUserSubscription.cancel();
-    _userSubscription.cancel();
   }
 
   @override

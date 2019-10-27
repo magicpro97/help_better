@@ -8,8 +8,7 @@ Future<T> goToMainScreen<T extends Object>(BuildContext context,
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.MAIN.toString(),
           arguments: arguments)
-      : Navigator.pushNamedAndRemoveUntil(
-          context, Screens.MAIN.toString(), (route) => false,
+      : Navigator.pushReplacementNamed(context, Screens.MAIN.toString(),
           arguments: arguments);
 }
 
@@ -19,8 +18,7 @@ Future<T> goToNicknameScreen<T extends Object>(BuildContext context,
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.NICKNAME.toString(),
           arguments: arguments)
-      : Navigator.pushNamedAndRemoveUntil(
-          context, Screens.NICKNAME.toString(), (route) => false,
+      : Navigator.pushReplacementNamed(context, Screens.NICKNAME.toString(),
           arguments: arguments);
 }
 
@@ -30,8 +28,7 @@ Future<T> goToWelcomeScreen<T extends Object>(BuildContext context,
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.WELCOME.toString(),
           arguments: arguments)
-      : Navigator.pushNamedAndRemoveUntil(
-          context, Screens.WELCOME.toString(), (route) => false,
+      : Navigator.pushReplacementNamed(context, Screens.WELCOME.toString(),
           arguments: arguments);
 }
 
@@ -41,8 +38,7 @@ Future<T> goToMessageScreen<T extends Object>(BuildContext context,
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.MESSAGE.toString(),
           arguments: arguments)
-      : Navigator.pushNamedAndRemoveUntil(
-          context, Screens.MESSAGE.toString(), (route) => false,
+      : Navigator.pushReplacementNamed(context, Screens.MESSAGE.toString(),
           arguments: arguments);
 }
 
@@ -52,8 +48,7 @@ Future<T> goToUserNeedsScreen<T extends Object>(BuildContext context,
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.pushNamed(context, Screens.USER_TYPE.toString(),
           arguments: arguments)
-      : Navigator.pushNamedAndRemoveUntil(
-          context, Screens.USER_TYPE.toString(), (route) => false,
+      : Navigator.pushReplacementNamed(context, Screens.USER_TYPE.toString(),
           arguments: arguments);
 }
 

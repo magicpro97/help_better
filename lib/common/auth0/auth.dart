@@ -28,7 +28,7 @@ class Auth {
         photoUrl: firebaseUser.photoUrl,
         types: [UserType.NORMAL],
         created: DateTime.now());
-    UserDao.addUser(newUser);
+    await UserDao.addUser(newUser);
     return newUser;
   }
 

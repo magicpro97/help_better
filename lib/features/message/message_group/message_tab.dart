@@ -51,6 +51,12 @@ class _MessageTabState extends State<MessageTab> {
                             child: CupertinoActivityIndicator(),
                           );
                         }
+
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Something happens. ${snapshot.error}'),
+                          );
+                        }
                         final messageGroupCard = snapshot.data;
 
                         return ListView.builder(
