@@ -1,7 +1,14 @@
+import 'package:better_help/common/data/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageItem extends StatelessWidget {
+  final Message message;
+
+  const MessageItem({Key key, @required this.message})
+      : assert(message != null),
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
@@ -17,7 +24,7 @@ class MessageItem extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: Text(
-                'Hello',
+                message.content,
               ),
             ),
           ],

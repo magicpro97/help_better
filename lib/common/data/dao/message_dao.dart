@@ -12,4 +12,12 @@ class MessageDao {
       .collection(_subCollection)
       .snapshots()
       .transform(toMessageList);
+
+  static Stream<Message> message(String groupId, String messageId) =>
+      _store
+          .document(groupId)
+          .collection(_subCollection)
+          .document(messageId)
+          .snapshots()
+          .transform(toMessage);
 }

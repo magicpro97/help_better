@@ -40,7 +40,8 @@ Future<T> goToMessageScreen<T extends Object>(BuildContext context,
     {bool deleteAllLastScreen, Object arguments}) {
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.push(
-    context, CupertinoPageRoute(builder: (context) => MessageScreen()),)
+    context,
+    CupertinoPageRoute(builder: (context) => MessageScreen(groupId: groupId,)),)
       : Navigator.pushReplacementNamed(context, Screens.MESSAGE.toString(),
       arguments: arguments);
 }

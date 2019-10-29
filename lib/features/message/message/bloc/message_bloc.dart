@@ -26,8 +26,12 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   @override
   void close() {
     super.close();
-    _messageGroupController.close();
-    _messageListController.close();
+    _messageGroupController
+        .drain()
+        .then((data) => _messageGroupController.close());
+    _messageListController
+        .drain()
+        .then((data) => _messageListController.close());
   }
 
   @override

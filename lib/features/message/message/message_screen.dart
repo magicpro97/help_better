@@ -1,5 +1,6 @@
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
+import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/features/message/message/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ import 'message_item.dart';
 class MessageScreen extends StatefulWidget {
   final String groupId;
 
-  const MessageScreen({Key key, this.groupId}) : super(key: key);
+  const MessageScreen({Key key, @required this.groupId})
+      : assert(groupId != null),
+        super(key: key);
 
   @override
   _MessageScreenState createState() => _MessageScreenState();
@@ -38,7 +41,7 @@ class _MessageScreenState extends State<MessageScreen> {
         middle: StreamBuilder<MessageGroup>(
             stream: messageBloc.messageGroupStream,
             builder: (context, snapshot) {
-              return Text(snapshot.hasData ? snapshot.data : '');
+              return Text(snapshot.hasData ? snapshot.data.displayName : '');
             }),
       ),
       child: SafeArea(
@@ -50,10 +53,14 @@ class _MessageScreenState extends State<MessageScreen> {
                 child: StreamBuilder<List<Message>>(
                     stream: messageBloc.messageListStream,
                     builder: (context, snapshot) {
-                      if (snapshot.hasError || !snapshot.hasData) {
+                      if (snapshot.hasError) {
                         return Center(
                           child: Text('Something went wrong.'),
                         );
+                      }
+
+                      if (!snapshot.hasData) {
+                        return ScreenLoading();
                       }
 
                       final messages = snapshot.data;
@@ -61,7 +68,10 @@ class _MessageScreenState extends State<MessageScreen> {
                       return ListView.builder(
                         shrinkWrap: true,
                         reverse: true,
-                        itemBuilder: (context, index) => MessageItem(),
+                        itemBuilder: (context, index) =>
+                            MessageItem(
+                              message: messages[index],
+                            ),
                         itemCount: messages.length,
                       );
                     }),
