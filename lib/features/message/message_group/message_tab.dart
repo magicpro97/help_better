@@ -1,13 +1,13 @@
 import 'package:better_help/common/data/tranformer/message_group.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
+import 'package:better_help/features/message/group_card/message_group_card.dart';
 import 'package:better_help/features/message/message_group/bloc/bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'group_card/message_group_card.dart';
 
 class MessageTab extends StatefulWidget {
   @override

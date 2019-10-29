@@ -9,7 +9,7 @@ import 'package:better_help/common/route/route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import './bloc.dart';
+import 'bloc.dart';
 
 class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
   final _messageGroupController = BehaviorSubject<MessageGroup>();

@@ -16,7 +16,7 @@ final messageTypeMap = {
 class Message extends Base {
   final String id;
   final String userId;
-  final List<String> content;
+  final String content;
   final MessageType type;
   final DateTime created;
   final DateTime updated;
