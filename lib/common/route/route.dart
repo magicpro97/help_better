@@ -1,3 +1,4 @@
+import 'package:better_help/features/app/bloc/app_bloc.dart';
 import 'package:better_help/features/message/message/message_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
@@ -36,12 +37,18 @@ Future<T> goToWelcomeScreen<T extends Object>(BuildContext context,
 
 @optionalTypeArgs
 Future<T> goToMessageScreen<T extends Object>(BuildContext context,
-    String groupId,
+    String groupId, AppBloc appBloc,
     {bool deleteAllLastScreen, Object arguments}) {
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.push(
     context,
-    CupertinoPageRoute(builder: (context) => MessageScreen(groupId: groupId,)),)
+    CupertinoPageRoute(
+        builder: (context) =>
+            MessageScreen(
+              appBloc: appBloc,
+              groupId: groupId,
+            )),
+  )
       : Navigator.pushReplacementNamed(context, Screens.MESSAGE.toString(),
       arguments: arguments);
 }

@@ -18,6 +18,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   User get currentUser => _userController.value;
 
   AppBloc() {
+    Auth.currentUser().then((user) => changeUser(user));
+
     Auth.firebaseUserStream.listen((data) {
       if (data != null) {
         UserDao.findById(data.uid).then((user) => changeUser(user));

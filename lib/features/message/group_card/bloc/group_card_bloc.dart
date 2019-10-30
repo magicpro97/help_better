@@ -6,14 +6,20 @@ import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/tranformer/message.dart';
 import 'package:better_help/common/route/route.dart';
+import 'package:better_help/features/app/bloc/app_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'bloc.dart';
 
 class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
+  final AppBloc appBloc;
+
   final _messageGroupController = BehaviorSubject<MessageGroup>();
   final _latestMessageController = BehaviorSubject<Message>();
+
+  GroupCardBloc({@required this.appBloc}) : assert(appBloc != null);
 
   Stream<MessageGroup> get messageGroupStream => _messageGroupController.stream;
 
@@ -22,7 +28,8 @@ class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
   Stream<Message> get latestGroupStream => _latestMessageController.stream;
 
   void initStream(String groupId) {
-    MessageGroupDao.messageGroupStream(groupId).pipe(_messageGroupController);
+    MessageGroupDao.messageGroupStream(groupId: groupId)
+        .pipe(_messageGroupController);
 
     MessageDao.messageList(groupId)
         .transform(toLatestMessage)
@@ -40,10 +47,9 @@ class GroupCardBloc extends Bloc<GroupCardEvent, GroupCardState> {
   GroupCardState get initialState => InitialGroupCardState();
 
   @override
-  Stream<GroupCardState> mapEventToState(
-    GroupCardEvent event,) async* {
+  Stream<GroupCardState> mapEventToState(GroupCardEvent event,) async* {
     if (event is MakeChattingEvent) {
-      goToMessageScreen(event.context, messageGroup.id);
+      goToMessageScreen(event.context, messageGroup.id, appBloc);
     }
   }
 }

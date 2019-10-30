@@ -4,9 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageItem extends StatelessWidget {
   final Message message;
+  final bool isSendingMessage;
 
-  const MessageItem({Key key, @required this.message})
+  const MessageItem(
+      {Key key, @required this.message, @required this.isSendingMessage})
       : assert(message != null),
+        assert(isSendingMessage != null),
         super(key: key);
 
   @override
@@ -16,11 +19,14 @@ class MessageItem extends StatelessWidget {
     return Container(
       child: ListTile(
         title: Row(
+          mainAxisAlignment: isSendingMessage
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(screenUtil.setHeight(20.0)),
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: isSendingMessage ? Colors.blue : Colors.grey[400],
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: Text(

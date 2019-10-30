@@ -1,6 +1,7 @@
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
+import 'package:better_help/features/app/bloc/app_bloc.dart';
 import 'package:better_help/features/message/message/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,12 @@ import 'chat_bar.dart';
 import 'message_item.dart';
 
 class MessageScreen extends StatefulWidget {
+  final AppBloc appBloc;
   final String groupId;
 
-  const MessageScreen({Key key, @required this.groupId})
+  const MessageScreen({Key key, @required this.groupId, @required this.appBloc})
       : assert(groupId != null),
+        assert(appBloc != null),
         super(key: key);
 
   @override
@@ -20,11 +23,12 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-  final messageBloc = MessageBloc();
+  MessageBloc messageBloc;
 
   @override
   void initState() {
     super.initState();
+    messageBloc = MessageBloc(appBloc: widget.appBloc);
     messageBloc.initStream(widget.groupId);
   }
 
@@ -71,6 +75,9 @@ class _MessageScreenState extends State<MessageScreen> {
                         itemBuilder: (context, index) =>
                             MessageItem(
                               message: messages[index],
+                              isSendingMessage:
+                              messageBloc.appBloc.currentUser.id ==
+                                  messages[index].userId,
                             ),
                         itemCount: messages.length,
                       );

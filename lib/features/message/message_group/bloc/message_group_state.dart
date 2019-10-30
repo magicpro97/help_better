@@ -8,3 +8,8 @@ class InitialMessageGroupState extends MessageGroupState {
   @override
   List<Object> get props => [];
 }
+
+class LoadedState extends MessageGroupState {
+  @override
+  List<Object> get props => null;
+}

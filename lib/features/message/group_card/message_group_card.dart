@@ -1,8 +1,11 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
+import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/common/utils/time_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'bloc/bloc.dart';
 
@@ -20,14 +23,10 @@ class MessageGroupCard extends StatefulWidget {
   _MessageGroupCardState createState() => _MessageGroupCardState();
 }
 
-class _MessageGroupCardState extends State<MessageGroupCard> {
-  final groupCardBloc = GroupCardBloc();
-
-  @override
-  void initState() {
-    super.initState();
-    groupCardBloc.initStream(widget.messageGroupId);
-  }
+class _MessageGroupCardState extends State<MessageGroupCard>
+    with AfterLayoutMixin {
+  bool isInitialize = false;
+  GroupCardBloc groupCardBloc;
 
   @override
   void dispose() {
@@ -37,7 +36,7 @@ class _MessageGroupCardState extends State<MessageGroupCard> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<MessageGroup>(
+    return isInitialize ? StreamBuilder<MessageGroup>(
         stream: groupCardBloc.messageGroupStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -76,6 +75,15 @@ class _MessageGroupCardState extends State<MessageGroupCard> {
                   onTap: () => groupCardBloc.add(MakeChattingEvent(context)),
                 );
               });
-        });
+        }) : Center(child: ScreenLoading(),);
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    groupCardBloc = Provider.of<GroupCardBloc>(context);
+    groupCardBloc.initStream(widget.messageGroupId);
+    setState(() {
+      isInitialize = true;
+    });
   }
 }
