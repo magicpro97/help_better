@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:better_help/common/data/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +16,6 @@ final toMessageList =
 );
 
 final toLatestMessage = StreamTransformer<List<Message>, Message>.fromHandlers(
-  handleData: (data, sink) => {log(data.last.toString()), sink.add(data.last)},
+  handleData: (data, sink) => sink.add(data.last),
   handleError: (data, trace, sink) => sink.addError(data, trace),
 );
