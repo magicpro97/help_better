@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
@@ -32,6 +34,7 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void dispose() {
     super.dispose();
+    log("CLOSSSSSSSSSSSSSSE");
     messageGroupBloc.close();
   }
 

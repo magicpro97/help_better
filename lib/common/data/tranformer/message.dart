@@ -16,6 +16,6 @@ final toMessageList =
 );
 
 final toLatestMessage = StreamTransformer<List<Message>, Message>.fromHandlers(
-  handleData: (data, sink) => sink.add(data.last),
+  handleData: (data, sink) => sink.add(data.first),
   handleError: (data, trace, sink) => sink.addError(data, trace),
 );

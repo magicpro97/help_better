@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ChatBar extends StatelessWidget {
+class ChatBar extends StatefulWidget {
   final String userId;
   final String messageGroupId;
   final MessageGroupBloc messageGroupBloc;
@@ -20,10 +20,23 @@ class ChatBar extends StatelessWidget {
         super(key: key);
 
   @override
+  _ChatBarState createState() => _ChatBarState();
+}
+
+class _ChatBarState extends State<ChatBar> {
+  final textController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    textController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
     final textMessageStyle = Theme.of(context).primaryTextTheme.body1;
-    final textController = TextEditingController();
+
 
     return Container(
       height: screenUtil.setHeight(150.0),
@@ -41,17 +54,25 @@ class ChatBar extends StatelessWidget {
                 placeholder: 'Text message',
                 style: textMessageStyle.copyWith(
                     fontSize: screenUtil.setSp(Dimens.body1_size)),
+                onSubmitted: (content) {
+                  widget.messageGroupBloc.add(AddMessageEvent(
+                      content: textController.text,
+                      messageType: MessageType.TEXT,
+                      messageGroupId: widget.messageGroupId,
+                      userId: widget.userId));
+                  textController.text = "";
+                },
               ),
             ),
           ),
           CupertinoButton(
               child: Icon(CupertinoIcons.forward),
               onPressed: () {
-                messageGroupBloc.add(AddMessageEvent(
+                widget.messageGroupBloc.add(AddMessageEvent(
                     content: textController.text,
                     messageType: MessageType.TEXT,
-                    messageGroupId: messageGroupId,
-                    userId: userId));
+                    messageGroupId: widget.messageGroupId,
+                    userId: widget.userId));
                 textController.text = "";
               }),
         ],
