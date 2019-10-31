@@ -1,9 +1,6 @@
 import 'package:better_help/common/themes.dart';
 import 'package:better_help/features/app/app.dart';
 import 'package:better_help/features/app/bloc/app_bloc.dart';
-import 'package:better_help/features/message/group_card/bloc/bloc.dart';
-import 'package:better_help/features/message/message/bloc/message_bloc.dart';
-import 'package:better_help/features/message/message_group/bloc/bloc.dart';
 import 'package:better_help/features/user_setting/more/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +22,6 @@ class MyApp extends StatelessWidget {
         ProxyProvider<AppBloc, MoreBloc>(
           builder: (context, appBloc, moreBloc) => MoreBloc(appBloc: appBloc),
           dispose: (context, moreBloc) => moreBloc.close(),
-        ),
-        ProxyProvider<AppBloc, MessageBloc>(
-          builder: (context, appBloc, messageBloc) =>
-              MessageBloc(appBloc: appBloc),
-          dispose: (context, messageBloc) => messageBloc.close(),
-        ),
-        ProxyProvider<AppBloc, GroupCardBloc>(
-          builder: (context, appBloc, groupCardBloc) =>
-              GroupCardBloc(appBloc: appBloc),
-          dispose: (context, groupCardBloc) => groupCardBloc.close(),
-        ),
-        ProxyProvider<AppBloc, MessageGroupBloc>(
-          builder: (context, appBloc, messageGroupBloc) =>
-              MessageGroupBloc(appBloc: appBloc),
         ),
       ],
     );

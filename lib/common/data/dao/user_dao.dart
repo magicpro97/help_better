@@ -12,14 +12,28 @@ class UserDao {
   static Future<void> addUser(User user) async =>
       await _store.document(user.id).setData(user.toJson());
 
-  static Future<void> updateUser(
-      {@required String id, @required Map<String, dynamic> fields}) async =>
+  static Future<void> updateUser({
+    @required String id,
+    @required Map<String, dynamic> fields,
+  }) async =>
       await _store.document(id).updateData(fields);
 
   static Future<User> findById(String id) async {
     final doc = await _store.document(id).get();
     if (doc.exists) return User.fromJson(doc.data);
     return null;
+  }
+
+  static Future<List<User>> getOthersUser({
+    @required String currentUserId,
+  }) async {
+    final docs = await _store.getDocuments();
+    final List<User> users = [];
+    docs.documents.forEach((doc) {
+      final user = User.fromJson(doc.data);
+      if (user.id != currentUserId) users.add(user);
+    });
+    return users;
   }
 
   static Stream<List<User>> userListStream() =>

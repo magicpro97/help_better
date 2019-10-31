@@ -1,21 +1,25 @@
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
+import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
-import 'package:better_help/features/app/bloc/app_bloc.dart';
-import 'package:better_help/features/message/message/bloc/bloc.dart';
+import 'package:better_help/features/message/message_group/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'chat_bar.dart';
-import 'message_item.dart';
+import 'components/chat_bar.dart';
+import 'components/message_item.dart';
 
 class MessageScreen extends StatefulWidget {
-  final AppBloc appBloc;
-  final String groupId;
+  final MessageGroup messageGroup;
+  final User currentUser;
 
-  const MessageScreen({Key key, @required this.groupId, @required this.appBloc})
-      : assert(groupId != null),
-        assert(appBloc != null),
+  const MessageScreen({
+    Key key,
+    @required this.messageGroup,
+    @required this.currentUser,
+  })
+      : assert(messageGroup != null),
+        assert(currentUser != null),
         super(key: key);
 
   @override
@@ -23,30 +27,19 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-  MessageBloc messageBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    messageBloc = MessageBloc(appBloc: widget.appBloc);
-    messageBloc.initStream(widget.groupId);
-  }
+  final messageGroupBloc = MessageGroupBloc();
 
   @override
   void dispose() {
     super.dispose();
-    messageBloc.close();
+    messageGroupBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: StreamBuilder<MessageGroup>(
-            stream: messageBloc.messageGroupStream,
-            builder: (context, snapshot) {
-              return Text(snapshot.hasData ? snapshot.data.displayName : '');
-            }),
+        middle: Text(widget.messageGroup.displayName),
       ),
       child: SafeArea(
         child: Scaffold(
@@ -55,7 +48,8 @@ class _MessageScreenState extends State<MessageScreen> {
             children: <Widget>[
               Expanded(
                 child: StreamBuilder<List<Message>>(
-                    stream: messageBloc.messageListStream,
+                    stream: messageGroupBloc.messageListStream(
+                        messageGroupId: widget.messageGroup.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Center(
@@ -75,15 +69,18 @@ class _MessageScreenState extends State<MessageScreen> {
                         itemBuilder: (context, index) =>
                             MessageItem(
                               message: messages[index],
-                              isSendingMessage:
-                              messageBloc.appBloc.currentUser.id ==
-                                  messages[index].userId,
+                              user: widget.currentUser,
+                              isLastMessage: messages.length - 1 == index,
                             ),
                         itemCount: messages.length,
                       );
                     }),
               ),
-              ChatBar(),
+              ChatBar(
+                messageGroupBloc: messageGroupBloc,
+                userId: widget.currentUser.id,
+                messageGroupId: widget.messageGroup.id,
+              ),
             ],
           ),
         ),

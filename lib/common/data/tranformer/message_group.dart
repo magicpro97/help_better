@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:better_help/common/data/models/message_group.dart';
-import 'package:better_help/features/message/group_card/message_group_card.dart';
+import 'package:better_help/common/data/models/user.dart';
+import 'package:better_help/features/message/message_group_list/message_group_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meta/meta.dart';
 
 final toMessageGroupList =
     StreamTransformer<QuerySnapshot, List<MessageGroup>>.fromHandlers(
@@ -11,13 +13,16 @@ final toMessageGroupList =
       handleError: (data, trace, sink) => sink.addError(data, trace),
     );
 
-final toMessageGroupCardList =
-StreamTransformer<List<MessageGroup>, List<MessageGroupCard>>.fromHandlers(
+StreamTransformer<List<MessageGroup>,
+    List<MessageGroupCard>> toMessageGroupCardList(
+    {@required User currentUser}) =>
+    StreamTransformer.fromHandlers(
   handleData: (data, sink) =>
       sink.add(data
           .map((messageGroup) =>
           MessageGroupCard(
-            messageGroupId: messageGroup.id,
+            messageGroup: messageGroup,
+            currentUser: currentUser,
           ))
           .toList()),
   handleError: (data, trace, sink) => sink.addError(data, trace),
