@@ -28,7 +28,7 @@ class MessageGroupCard extends StatelessWidget {
           if (!snapshot.hasData) {
             return Container();
           }
-          final latestMessage = snapshot.data;
+          var latestMessage = snapshot.data;
 
           return ListTile(
             leading: CircleAvatar(

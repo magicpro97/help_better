@@ -15,7 +15,7 @@ class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
       MessageGroupDao.messageGroupStream(messageGroupId: messageGroupId);
 
   Stream<List<Message>> messageListStream({@required String messageGroupId}) =>
-      MessageDao.messageListStream(messageGroupId);
+      MessageDao.messageListStream(messageGroupId, desc: true);
 
   @override
   MessageGroupState get initialState => InitialMessageGroupState();

@@ -8,12 +8,15 @@ class MessageDao {
   static final _subCollection = 'messages';
   static final _store = Firestore.instance.collection(_collection);
 
-  static Stream<List<Message>> messageListStream(String groupId) =>
+  static Stream<List<Message>> messageListStream(String groupId, {
+    bool desc = false,
+  }) =>
       _store
-      .document(groupId)
-      .collection(_subCollection)
-      .snapshots()
-      .transform(toMessageList);
+          .document(groupId)
+          .collection(_subCollection)
+          .orderBy('created', descending: desc)
+          .snapshots()
+          .transform(toMessageList);
 
   static Stream<Message> message(String groupId, String messageId) =>
       _store

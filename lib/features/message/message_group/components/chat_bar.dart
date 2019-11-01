@@ -55,12 +55,14 @@ class _ChatBarState extends State<ChatBar> {
                 style: textMessageStyle.copyWith(
                     fontSize: screenUtil.setSp(Dimens.body1_size)),
                 onSubmitted: (content) {
-                  widget.messageGroupBloc.add(AddMessageEvent(
-                      content: textController.text,
-                      messageType: MessageType.TEXT,
-                      messageGroupId: widget.messageGroupId,
-                      userId: widget.userId));
-                  textController.text = "";
+                  if (content.isNotEmpty) {
+                    widget.messageGroupBloc.add(AddMessageEvent(
+                        content: textController.text,
+                        messageType: MessageType.TEXT,
+                        messageGroupId: widget.messageGroupId,
+                        userId: widget.userId));
+                    textController.text = "";
+                  }
                 },
               ),
             ),
@@ -68,12 +70,14 @@ class _ChatBarState extends State<ChatBar> {
           CupertinoButton(
               child: Icon(CupertinoIcons.forward),
               onPressed: () {
-                widget.messageGroupBloc.add(AddMessageEvent(
-                    content: textController.text,
-                    messageType: MessageType.TEXT,
-                    messageGroupId: widget.messageGroupId,
-                    userId: widget.userId));
-                textController.text = "";
+                if (textController.text.isNotEmpty) {
+                  widget.messageGroupBloc.add(AddMessageEvent(
+                      content: textController.text,
+                      messageType: MessageType.TEXT,
+                      messageGroupId: widget.messageGroupId,
+                      userId: widget.userId));
+                  textController.text = "";
+                }
               }),
         ],
       ),

@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:better_help/common/data/dao/message_group_dao.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
@@ -34,15 +33,17 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void dispose() {
     super.dispose();
-    log("CLOSSSSSSSSSSSSSSE");
     messageGroupBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = widget.currentUser;
+    final messageGroup = widget.messageGroup;
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(widget.messageGroup.displayName),
+        middle: Text(messageGroup.displayName),
       ),
       child: SafeArea(
         child: Scaffold(
@@ -50,34 +51,79 @@ class _MessageScreenState extends State<MessageScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Expanded(
-                child: StreamBuilder<List<Message>>(
-                    stream: messageGroupBloc.messageListStream(
-                        messageGroupId: widget.messageGroup.id),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text('Something went wrong.'),
+                child: FutureBuilder<List<User>>(
+                  future: MessageGroupDao.getOtherUser(
+                      groupId: messageGroup.id, currentUserId: currentUser.id),
+                  builder: (context, otherUserSnapshot) =>
+                  otherUserSnapshot
+                      .hasData
+                      ? StreamBuilder<List<Message>>(
+                      stream: messageGroupBloc.messageListStream(
+                          messageGroupId: messageGroup.id),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Something went wrong.'),
+                          );
+                        }
+
+                        if (!snapshot.hasData) {
+                          return ScreenLoading();
+                        }
+
+                        final otherUsers = otherUserSnapshot.data;
+                        final messages = snapshot.data;
+                        List<Message> tempTimeGroupMessage = [];
+
+                        return ListView.builder(
+                          reverse: true,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
+                            Message lastConversationMessage = message;
+                            bool isFirstMessageGroup = false;
+                            if (index < messages.length - 1) {
+                              if (message.created
+                                  .difference(
+                                  messages[index + 1].created)
+                                  .inMinutes >
+                                  3) {
+                                isFirstMessageGroup = true;
+                                if (tempTimeGroupMessage != null &&
+                                    tempTimeGroupMessage.isNotEmpty) {
+                                  lastConversationMessage =
+                                      tempTimeGroupMessage.last;
+                                }
+                                tempTimeGroupMessage = [];
+                              } else {
+                                isFirstMessageGroup = false;
+                                tempTimeGroupMessage.add(message);
+                              }
+                            } else {
+                              isFirstMessageGroup = true;
+                            }
+                            final otherUser = otherUsers.firstWhere(
+                                    (user) => user.id == message.userId,
+                                orElse: () => null);
+                            final owner = currentUser.id == message.userId
+                                ? currentUser
+                                : otherUser;
+
+                            return MessageItem(
+                              message: message,
+                              currentUser: currentUser,
+                              messageOwner: owner,
+                              isLastMessage:
+                              lastConversationMessage != null,
+                              isFirstMessageGroup: isFirstMessageGroup,
+                            );
+                          },
+                          itemCount: messages.length,
                         );
-                      }
-
-                      if (!snapshot.hasData) {
-                        return ScreenLoading();
-                      }
-
-                      final messages = snapshot.data;
-
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        reverse: true,
-                        itemBuilder: (context, index) =>
-                            MessageItem(
-                              message: messages[index],
-                              user: widget.currentUser,
-                              isLastMessage: messages.length - 1 == index,
-                            ),
-                        itemCount: messages.length,
-                      );
-                    }),
+                      })
+                      : Center(
+                    child: ScreenLoading(),
+                  ),
+                ),
               ),
               ChatBar(
                 messageGroupBloc: messageGroupBloc,

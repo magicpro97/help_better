@@ -68,7 +68,7 @@ class $vi_VN extends S {
   String get option_love => "Chuyện tình yêu";
   @override
   String get dialog_continue_with_google_title =>
-      "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
+	  "\"Chia sẻ nhé\" Wants to Use \"google.com\" to Sign In";
   @override
   String get more_register_volunteer => "Đăng ký thành viên tình nguyện";
   @override
@@ -85,7 +85,7 @@ class $vi_VN extends S {
   String get main_share_room => "Góc chia sẻ";
   @override
   String get user_type_subtitle =>
-      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
+	  "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác. ";
   @override
   String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
   @override
@@ -112,7 +112,7 @@ class $vi_VN extends S {
   String get cancel_action => "Cancel";
   @override
   String more_greeting(String haftADay, String username) =>
-      "$haftADay bình an nhé $username!";
+	  "$haftADay bình an nhé $username!";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
