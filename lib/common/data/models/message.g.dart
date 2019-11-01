@@ -12,6 +12,7 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
     userId: json['userId'] as String,
     content: json['content'] as String,
     type: _$enumDecodeNullable(_$MessageTypeEnumMap, json['type']),
+      status: _$enumDecodeNullable(_$MessageStatusEnumMap, json['status']),
     created: json['created'] == null
         ? null
         : DateTime.parse(json['created'] as String),
@@ -26,6 +27,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'userId': instance.userId,
       'content': instance.content,
       'type': _$MessageTypeEnumMap[instance.type],
+    'status': _$MessageStatusEnumMap[instance.status],
       'created': instance.created?.toIso8601String(),
       'updated': instance.updated?.toIso8601String(),
     };
@@ -66,4 +68,10 @@ const _$MessageTypeEnumMap = {
   MessageType.TEXT: 'TEXT',
   MessageType.IMAGE: 'IMAGE',
   MessageType.STICKER: 'STICKER',
+};
+
+const _$MessageStatusEnumMap = {
+    MessageStatus.SEND: 'SEND',
+    MessageStatus.SENT: 'SENT',
+    MessageStatus.READ: 'READ',
 };

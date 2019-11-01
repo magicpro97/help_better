@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MessageItem extends StatelessWidget {
+class MessageItem extends StatefulWidget {
   final Message message;
   final User currentUser;
   final User messageOwner;
@@ -26,14 +26,21 @@ class MessageItem extends StatelessWidget {
         assert(isFirstMessageGroup != null),
         super(key: key);
 
-  bool get isFromCurrentUser => currentUser.id == message.userId;
+  @override
+  _MessageItemState createState() => _MessageItemState();
+}
 
-  bool get showOtherUserAvatar => !isFromCurrentUser && isLastMessage;
+class _MessageItemState extends State<MessageItem> {
+  bool get isFromCurrentUser => widget.currentUser.id == widget.message.userId;
+
+  bool get showOtherUserAvatar => !isFromCurrentUser && widget.isLastMessage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: isFirstMessageGroup ? _buildMessage() : _buildMessageNoHeader(),
+      child: widget.isFirstMessageGroup
+          ? _buildMessage()
+          : _buildMessageNoHeader(),
     );
   }
 
@@ -43,7 +50,7 @@ class MessageItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          message.created.toString(),
+          widget.message.created.toString(),
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -66,7 +73,8 @@ class MessageItem extends StatelessWidget {
 
   Widget _buildOtherUserImage() =>
       CircleAvatar(
-        backgroundImage: CachedNetworkImageProvider(messageOwner.photoUrl),
+        backgroundImage: CachedNetworkImageProvider(
+            widget.messageOwner.photoUrl),
       );
 
   Widget _buildMessageContent() {
@@ -83,7 +91,7 @@ class MessageItem extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: Text(
-            message.content,
+            widget.message.content,
           ),
         ),
       ],
