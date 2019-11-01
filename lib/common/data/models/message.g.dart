@@ -28,8 +28,8 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'content': instance.content,
       'type': _$MessageTypeEnumMap[instance.type],
     'status': _$MessageStatusEnumMap[instance.status],
-      'created': instance.created?.toIso8601String(),
-      'updated': instance.updated?.toIso8601String(),
+	'created': instance.created?.toUtc(),
+	'updated': instance.updated?.toUtc(),
     };
 
 T _$enumDecode<T>(

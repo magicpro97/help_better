@@ -28,6 +28,7 @@ class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
           userId: event.userId,
           content: event.content,
           type: event.messageType,
+          status: MessageStatus.SEND,
           created: DateTime.now());
       MessageDao.addMessage(groupId: event.messageGroupId, message: newMessage);
     }
