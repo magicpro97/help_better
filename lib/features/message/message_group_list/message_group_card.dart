@@ -5,10 +5,12 @@ import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/data/tranformer/message.dart';
+import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/route/route.dart';
 import 'package:better_help/common/utils/time_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageGroupCard extends StatelessWidget {
 	final MessageGroup messageGroup;
@@ -23,14 +25,16 @@ class MessageGroupCard extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final screenUtil = ScreenUtil.instance;
+
 		final unReadTextStyle = Theme
 			.of(context)
 			.primaryTextTheme
-			.caption;
+			.caption.copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
 		final readTextStyle = Theme
 			.of(context)
 			.primaryTextTheme
-			.body1;
+			.body1.copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
 
 		return StreamBuilder<Message>(
 			stream: MessageDao.messageListStream(messageGroup.id)
@@ -73,7 +77,7 @@ class MessageGroupCard extends StatelessWidget {
 							),
 						],
 					),
-					subtitle: Text(latestMessage.content),
+					subtitle: Text(latestMessage.content, style: latestMessageTextStyle,),
 					onTap: () => goToMessageScreen(context, messageGroup, currentUser),
 				);
 			});
