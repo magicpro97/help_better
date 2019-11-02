@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:better_help/common/auth0/auth.dart';
+import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/route/route.dart';
-import 'package:better_help/features/app/bloc/app_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
 import './bloc.dart';
 
 class MoreBloc extends Bloc<MoreEvent, MoreState> {
-  final AppBloc appBloc;
 
   final _userController = BehaviorSubject<User>();
 
@@ -23,8 +21,12 @@ class MoreBloc extends Bloc<MoreEvent, MoreState> {
 
   StreamSubscription _firebaseUserSubscription;
 
-  MoreBloc({@required this.appBloc}) : assert(appBloc != null) {
-    appBloc.userStream.pipe(_userController);
+  MoreBloc() {
+    Auth.currentUser().then((user) {
+      if (user != null) {
+        UserDao.userStream(user.id).pipe(_userController);
+      }
+    });
   }
 
   @override

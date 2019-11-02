@@ -11,7 +11,7 @@ class Auth {
 
   static Future<User> currentUser() async {
     final firebaseUser = await _auth.currentUser();
-    return await UserDao.findById(firebaseUser.uid);
+    return firebaseUser != null ? await UserDao.findById(firebaseUser.uid) :  null;
   }
 
   static Future<bool> isNewUser() async {
