@@ -11,13 +11,13 @@ MessageGroup _$MessageGroupFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     displayName: json['displayName'] as String,
     imageUrl: json['imageUrl'] as String,
-	  memberIds: (json['memberIds'] as List)?.map((e) => e as String)?.toList(),
+    memberIds: (json['memberIds'] as List)?.map((e) => e as String)?.toList(),
     created: json['created'] == null
         ? null
-        : DateTime.parse(json['created'] as String),
+        : (json['created'] as Timestamp).toDate(),
     updated: json['updated'] == null
         ? null
-        : DateTime.parse(json['updated'] as String),
+        : (json['updated'] as Timestamp).toDate(),
   );
 }
 
@@ -27,6 +27,6 @@ Map<String, dynamic> _$MessageGroupToJson(MessageGroup instance) =>
       'displayName': instance.displayName,
       'imageUrl': instance.imageUrl,
       'memberIds': instance.memberIds,
-	    'created': instance.created?.toUtc(),
-	    'updated': instance.updated?.toUtc(),
+      'created': instance.created?.toUtc(),
+      'updated': instance.updated?.toUtc(),
     };

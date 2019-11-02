@@ -19,10 +19,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
     needs: _$enumDecodeNullable(_$UserNeedsEnumMap, json['needs']),
     created: json['created'] == null
         ? null
-        : DateTime.parse(json['created'] as String),
+        : (json['created'] as Timestamp).toDate(),
     updated: json['updated'] == null
         ? null
-        : DateTime.parse(json['updated'] as String),
+        : (json['updated'] as Timestamp).toDate(),
   );
 }
 

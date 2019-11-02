@@ -1,4 +1,5 @@
 import 'package:better_help/common/data/models/base.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 

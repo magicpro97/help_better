@@ -57,7 +57,7 @@ class _AppState extends State<App> {
               ScreenUtil.instance =
                   ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)
                     ..init(context);
-              return snapshot.hasData || !snapshot.hasError
+              return !snapshot.hasData || snapshot.hasError
                   ? WelcomeScreen()
                   : MainScreen();
             }),
