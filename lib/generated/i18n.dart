@@ -32,6 +32,8 @@ class S implements WidgetsLocalizations {
   String get how_could_i_call_you => "Mình có thể gọi bạn là gì?";
   String get main_message => "Tin nhắn";
   String get main_more => "Thêm";
+
+  String get main_need_help => "Cần giúp";
   String get main_share_room => "Góc chia sẻ";
   String get more_change_nickname => "Đổi nickname";
   String get more_change_status => "Thay đổi trạng thái";
@@ -39,6 +41,15 @@ class S implements WidgetsLocalizations {
   String get more_share_app => "Chia sẻ ứng dụng";
   String get more_sign_out => "Đăng xuất";
   String get morning => "Buổi sáng";
+
+  String get need_help_action => "Trở thành tình nguyện viên";
+
+  String get need_help_caption =>
+      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác.";
+
+  String get need_help_list_title => "Danh sách cần giúp đỡ";
+
+  String get need_help_title => "Bạn muốn giúp đỡ";
   String get night => "Buổi tối";
   String get option_family => "Hạnh phúc gia đình";
   String get option_go_a_head => "Vượt qua nỗi đau";
@@ -52,6 +63,8 @@ class S implements WidgetsLocalizations {
   String get user_type_volunteer_register => "Đăng ký thành tình nguyện viên";
   String get you => "bạn";
   String more_greeting(String haftADay, String username) => "$haftADay bình an nhé $username!";
+
+  String need_help_description(String s) => "Cần giúp đỡ về $s";
 }
 
 class $en extends S {

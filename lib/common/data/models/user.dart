@@ -1,6 +1,8 @@
 import 'package:better_help/common/data/models/base.dart';
+import 'package:better_help/generated/i18n.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -15,6 +17,35 @@ final userNeedMap = {
   UserNeeds.LOVE: 'LOVE',
   UserNeeds.GO_AHEAD: 'GO_AHEAD',
 };
+
+final userNeedMapColor = {
+  UserNeeds.TEENAGE: Colors.yellow[700],
+  UserNeeds.FAMILY: Colors.blue,
+  UserNeeds.LOVE: Colors.pink,
+  UserNeeds.GO_AHEAD: Colors.greenAccent,
+};
+
+Map<UserNeeds, String> userNeedsOptionMapString(BuildContext context) =>
+    {
+      UserNeeds.TEENAGE: S
+          .of(context)
+          .option_family,
+      UserNeeds.FAMILY: S
+          .of(context)
+          .option_family,
+      UserNeeds.LOVE: S
+          .of(context)
+          .option_love,
+      UserNeeds.GO_AHEAD: S
+          .of(context)
+          .option_go_a_head,
+    };
+
+String userNeedsDescription(BuildContext context, UserNeeds needs) =>
+    S
+        .of(context)
+        .need_help_description(
+        userNeedsOptionMapString(context)[needs].toLowerCase());
 
 @JsonSerializable()
 class User extends Base {

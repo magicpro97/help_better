@@ -19,13 +19,13 @@ class UserNeedsBloc extends Bloc<UserNeedsEvent, UserNeedsState> {
     UserNeedsEvent event,
   ) async* {
     if (event is SelectOptionTeenageEvent) {
-      await updateUserNeeds(UserNeeds.TEENAGE);
+      updateUserNeeds(UserNeeds.TEENAGE);
     } else if (event is SelectOptionLoveEvent) {
-      await updateUserNeeds(UserNeeds.LOVE);
+      updateUserNeeds(UserNeeds.LOVE);
     } else if (event is SelectOptionFamilyEvent) {
-      await updateUserNeeds(UserNeeds.FAMILY);
+      updateUserNeeds(UserNeeds.FAMILY);
     } else if (event is SelectOptionGoAheadEvent) {
-      await updateUserNeeds(UserNeeds.GO_AHEAD);
+      updateUserNeeds(UserNeeds.GO_AHEAD);
     }
     final result = backToLastScreen(event.context);
     if (!result) {

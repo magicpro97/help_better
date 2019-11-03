@@ -15,8 +15,10 @@ class UserDao {
   static Future<void> updateUser({
     @required String id,
     @required Map<String, dynamic> fields,
-  }) async =>
-      await _store.document(id).updateData(fields);
+  }) async {
+    fields['updated'] = DateTime.now().toUtc();
+    await _store.document(id).updateData(fields);
+  }
 
   static Future<User> findById(String id) async {
     final doc = await _store.document(id).get();

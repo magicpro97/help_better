@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:better_help/common/auth0/auth.dart';
 import 'package:better_help/common/route/route.dart';
+import 'package:better_help/features/main/main_screen.dart';
 import 'package:bloc/bloc.dart';
 
 import 'bloc.dart';
@@ -34,7 +35,8 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
       final user = await Auth.currentUser();
       if (user != null) {
         yield SignedState();
-        goToMainScreen(event.context, deleteAllLastScreen: true);
+        goToMainScreen(event.context,
+            deleteAllLastScreen: true, arguments: MainArgument(user: user));
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
@@ -54,7 +55,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   content: S
                       .of(context)
                       .option_teenage,
-                  color: Colors.yellow[700],
+                  color: userNeedMapColor[UserNeeds.TEENAGE],
                   onPress: () =>
                       userNeedBloc.add(SelectOptionTeenageEvent(context)),
                 ),
@@ -62,7 +63,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   content: S
                       .of(context)
                       .option_love,
-                  color: Colors.pink,
+                  color: userNeedMapColor[UserNeeds.LOVE],
                   onPress: () =>
                       userNeedBloc.add(SelectOptionLoveEvent(context)),
                 ),
@@ -70,7 +71,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   content: S
                       .of(context)
                       .option_family,
-                  color: Colors.blue,
+                  color: userNeedMapColor[UserNeeds.FAMILY],
                   onPress: () =>
                       userNeedBloc.add(SelectOptionFamilyEvent(context)),
                 ),
@@ -78,7 +79,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   content: S
                       .of(context)
                       .option_go_a_head,
-                  color: Colors.greenAccent,
+                  color: userNeedMapColor[UserNeeds.GO_AHEAD],
                   onPress: () =>
                       userNeedBloc.add(SelectOptionGoAheadEvent(context)),
                 ),
