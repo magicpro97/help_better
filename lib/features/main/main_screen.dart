@@ -79,6 +79,7 @@ class _MainScreenState extends State<MainScreen> {
                   SharingTab(),
                   NeedHelpTab(
                     currentUser: user,
+                    friends: friends,
                   ),
                   MoreTab(),
                 ];

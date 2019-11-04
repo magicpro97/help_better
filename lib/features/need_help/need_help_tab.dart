@@ -16,9 +16,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NeedHelpTab extends StatefulWidget {
   final User currentUser;
+  final List<User> friends;
 
-  const NeedHelpTab({Key key, @required this.currentUser})
+  const NeedHelpTab(
+      {Key key, @required this.currentUser, @required this.friends})
       : assert(currentUser != null),
+        assert(friends != null),
         super(key: key);
 
   @override
@@ -96,6 +99,7 @@ class _NeedHelpTabState extends State<NeedHelpTab> {
 
   Widget _buildHelpList() {
     final screenUtil = ScreenUtil.instance;
+    final friends = widget.friends;
 
     return Scaffold(
         body: Container(
@@ -112,7 +116,9 @@ class _NeedHelpTabState extends State<NeedHelpTab> {
             child: StreamBuilder<List<NeedCardItem>>(
                 stream: needHelpBloc.userListStream.transform(
                     toNeedCardItemList(
-                        context: context, needHelpBloc: needHelpBloc)),
+                        context: context,
+                        needHelpBloc: needHelpBloc,
+                        otherUser: friends)),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();

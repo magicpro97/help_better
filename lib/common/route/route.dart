@@ -47,7 +47,7 @@ Future<T> goToMessageScreen<T extends Object>(BuildContext context,
         builder: (context) =>
             MessageScreen(
               messageGroup: messageGroup,
-              currentUser: currentUser,
+                currentUser: currentUser, otherUser: otherUser,
             )),
   )
       : Navigator.pushReplacementNamed(context, Screens.MESSAGE.toString(),
