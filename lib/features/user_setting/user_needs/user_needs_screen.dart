@@ -123,7 +123,8 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () =>
+                      userNeedBloc.add(JoinVolunteerEvent(context)),
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.normal_space),

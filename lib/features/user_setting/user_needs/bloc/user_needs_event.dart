@@ -42,3 +42,12 @@ class SelectOptionGoAheadEvent extends UserNeedsEvent {
   @override
   List<Object> get props => null;
 }
+
+class JoinVolunteerEvent extends UserNeedsEvent {
+  final BuildContext context;
+
+  JoinVolunteerEvent(this.context) : super(context);
+
+  @override
+  List<Object> get props => null;
+}

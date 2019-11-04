@@ -26,6 +26,8 @@ class UserNeedsBloc extends Bloc<UserNeedsEvent, UserNeedsState> {
       updateUserNeeds(UserNeeds.FAMILY);
     } else if (event is SelectOptionGoAheadEvent) {
       updateUserNeeds(UserNeeds.GO_AHEAD);
+    } else if (event is JoinVolunteerEvent) {
+	    addVolunteerType();
     }
     final result = backToLastScreen(event.context);
     if (!result) {
@@ -33,9 +35,15 @@ class UserNeedsBloc extends Bloc<UserNeedsEvent, UserNeedsState> {
     }
   }
 
-  Future updateUserNeeds(UserNeeds needs) async {
+  Future<void> updateUserNeeds(UserNeeds needs) async {
     final user = await Auth.currentUser();
     final data = {_key: userNeedMap[needs]};
     await UserDao.updateUser(id: user.id, fields: data);
+  }
+
+  Future<void> addVolunteerType() async {
+	  final user = await Auth.currentUser();
+	  user.types.add(UserType.VOLUNTEER);
+	  await UserDao.updateUser(id: user.id, fields: user.toJson());
   }
 }
