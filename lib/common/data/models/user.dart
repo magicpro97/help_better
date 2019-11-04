@@ -53,6 +53,7 @@ class User extends Base {
   final String phoneNumber;
   final String photoUrl;
   final List<UserType> types;
+  final List<String> friendIds;
   final UserNeeds needs;
   final DateTime created;
   final DateTime updated;
@@ -65,6 +66,7 @@ class User extends Base {
     @required this.photoUrl,
     @required this.types,
     this.needs,
+    this.friendIds,
     @required this.created,
     this.updated,
   })

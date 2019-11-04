@@ -10,23 +10,27 @@ final toMessageGroupList =
     StreamTransformer<QuerySnapshot, List<MessageGroup>>.fromHandlers(
   handleData: (data, sink) => sink.add(
       data.documents.map((doc) => MessageGroup.fromJson(doc.data)).toList()),
-      handleError: (data, trace, sink) => sink.addError(data, trace),
+        handleError: (data, trace, sink) => sink.addError(data, trace),
     );
 
-StreamTransformer<List<MessageGroup>,
-    List<MessageGroupCard>> toMessageGroupCardList(
-    {@required User currentUser}) =>
+StreamTransformer<List<MessageGroup>, List<MessageGroupCard>>
+toMessageGroupCardList(
+    {@required User currentUser, @required List<User> friends}) =>
     StreamTransformer.fromHandlers(
-  handleData: (data, sink) =>
-      sink.add(data
-          .map((messageGroup) =>
-          MessageGroupCard(
-            messageGroup: messageGroup,
-            currentUser: currentUser,
-          ))
-          .toList()),
-  handleError: (data, trace, sink) => sink.addError(data, trace),
-);
+        handleData: (data, sink) =>
+            sink.add(data
+                .map((messageGroup) =>
+                MessageGroupCard(
+                    messageGroup: messageGroup,
+                    currentUser: currentUser,
+                    otherUser: friends
+                        .where(
+                            (user) => messageGroup.memberIds.contains(user.id))
+                        .toList(),
+                ))
+                .toList()),
+        handleError: (data, trace, sink) => sink.addError(data, trace),
+    );
 
 final toMessageGroup =
 StreamTransformer<DocumentSnapshot, MessageGroup>.fromHandlers(

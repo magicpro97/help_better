@@ -15,14 +15,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MessageGroupCard extends StatelessWidget {
   final MessageGroup messageGroup;
   final User currentUser;
+  final List<User> otherUser;
 
   const MessageGroupCard({
     Key key,
     @required this.messageGroup,
     @required this.currentUser,
+    @required this.otherUser,
   })
       : assert(messageGroup != null),
         assert(currentUser != null),
+        assert(otherUser != null),
         super(key: key);
 
   @override
@@ -45,7 +48,9 @@ class MessageGroupCard extends StatelessWidget {
             .transform(toLatestMessage),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Container();
+            return Center(
+              child: Text('You have not any messsages.'),
+            );
           }
 
           if (snapshot.hasError) {
@@ -62,14 +67,14 @@ class MessageGroupCard extends StatelessWidget {
           return ListTile(
             leading: CircleAvatar(
               backgroundImage: CachedNetworkImageProvider(
-                messageGroup.imageUrl,
+                messageGroup.imageUrl ?? otherUser.first.photoUrl,
               ),
             ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  messageGroup.displayName,
+                  messageGroup.displayName ?? displayName(otherUser),
                   style: latestMessageTextStyle,
                 ),
                 Text(
@@ -84,8 +89,16 @@ class MessageGroupCard extends StatelessWidget {
               latestMessage.content,
               style: latestMessageTextStyle,
             ),
-            onTap: () => goToMessageScreen(context, messageGroup, currentUser),
+            onTap: () =>
+                goToMessageScreen(
+                    context, messageGroup, currentUser, otherUser),
           );
         });
   }
+}
+
+String displayName(List<User> users) {
+  var name = "";
+  users.forEach((users) => name = name + ", ");
+  return name.trim();
 }

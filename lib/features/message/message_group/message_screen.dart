@@ -13,14 +13,17 @@ import 'components/message_item.dart';
 class MessageScreen extends StatefulWidget {
   final MessageGroup messageGroup;
   final User currentUser;
+  final List<User> otherUser;
 
   const MessageScreen({
     Key key,
     @required this.messageGroup,
     @required this.currentUser,
+    @required this.otherUser,
   })
       : assert(messageGroup != null),
         assert(currentUser != null),
+        assert(otherUser != null),
         super(key: key);
 
   @override
@@ -40,6 +43,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     final currentUser = widget.currentUser;
     final messageGroup = widget.messageGroup;
+    //final otherUser = widget.otherUser;
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(

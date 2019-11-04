@@ -38,7 +38,7 @@ Future<T> goToWelcomeScreen<T extends Object>(BuildContext context,
 
 @optionalTypeArgs
 Future<T> goToMessageScreen<T extends Object>(BuildContext context,
-    MessageGroup messageGroup, User currentUser,
+    MessageGroup messageGroup, User currentUser, List<User> otherUser,
     {bool deleteAllLastScreen, Object arguments}) {
   return (deleteAllLastScreen == null || deleteAllLastScreen == false)
       ? Navigator.push(

@@ -4,6 +4,7 @@ import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/data/tranformer/message_group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 class MessageGroupDao {
   static final _collection = 'message_groups';
@@ -32,5 +33,31 @@ class MessageGroupDao {
       }
     }
     return users;
+  }
+
+  static Future<MessageGroup> add({@required List<User> members}) async {
+    final memberIds = members.map((mem) => mem.id).toList();
+    final currentMG =
+        (await _store.where('memberIds', isEqualTo: memberIds).getDocuments())
+            .documents
+            .first;
+    if (currentMG == null) {
+      final newMessageGroup = MessageGroup(
+          id: Uuid().v1(), memberIds: memberIds, created: DateTime.now());
+      await _store
+          .document(newMessageGroup.id)
+          .setData(newMessageGroup.toJson());
+      return newMessageGroup;
+    } else {
+      return MessageGroup.fromJson(currentMG.data);
+    }
+  }
+
+  static Future<List<MessageGroup>> getList({@required String userId}) async {
+    final qSnapshot =
+    await _store.where('memberIds', arrayContains: userId).getDocuments();
+    return qSnapshot.documents
+        .map((doc) => MessageGroup.fromJson(doc.data))
+        .toList();
   }
 }

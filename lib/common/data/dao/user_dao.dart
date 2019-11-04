@@ -38,6 +38,20 @@ class UserDao {
     return users;
   }
 
+  static Future<List<User>> getHasKnowUser({
+    @required String currentUserId,
+  }) async {
+    final currentUser = await findById(currentUserId);
+    final users = <User>[];
+    if (currentUser.friendIds == null || currentUser.friendIds.isEmpty) {
+      return users;
+    }
+    for (final id in currentUser.friendIds) {
+      users.add(await findById(id));
+    }
+    return users;
+  }
+
   static Stream<List<User>> userListStream() =>
       _store.snapshots().transform(toListUser);
 

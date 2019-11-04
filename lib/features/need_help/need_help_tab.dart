@@ -110,8 +110,9 @@ class _NeedHelpTabState extends State<NeedHelpTab> {
           ),
           Expanded(
             child: StreamBuilder<List<NeedCardItem>>(
-                stream:
-                    needHelpBloc.userListStream.transform(toNeedCardItemList),
+                stream: needHelpBloc.userListStream.transform(
+                    toNeedCardItemList(
+                        context: context, needHelpBloc: needHelpBloc)),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();

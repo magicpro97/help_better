@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/user.dart';
+import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/features/main/sharing_tab.dart';
 import 'package:better_help/features/message/message_group_list/message_tab.dart';
 import 'package:better_help/features/need_help/need_help_tab.dart';
@@ -40,37 +44,75 @@ class _MainScreenState extends State<MainScreen> {
             .settings
             .arguments as MainArgument).user;
 
-    return CupertinoTabScaffold(
-      tabBuilder: (BuildContext context, int index) {
-        final tabs = [
-          MessageTab(),
-          SharingTab(),
-          NeedHelpTab(
-            currentUser: user,
-          ),
-          MoreTab(),
-        ];
+    return StreamBuilder<User>(
+      stream: UserDao.userStream(user.id),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          log(snapshot.data.toString());
+        }
 
-        return tabs[index];
+        if (!snapshot.hasData) {
+          return Center(
+            child: ScreenLoading(),
+          );
+        }
+        final user = snapshot.data;
+
+        return FutureBuilder(
+          future: UserDao.getHasKnowUser(currentUserId: user.id),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              log(snapshot.data.toString());
+            }
+
+            if (!snapshot.hasData) {
+              return Center(
+                child: ScreenLoading(),
+              );
+            }
+            final friends = snapshot.data;
+
+            return CupertinoTabScaffold(
+              tabBuilder: (BuildContext context, int index) {
+                final tabs = [
+                  MessageTab(currentUser: user, friends: friends,),
+                  SharingTab(),
+                  NeedHelpTab(
+                    currentUser: user,
+                  ),
+                  MoreTab(),
+                ];
+
+                return tabs[index];
+              },
+              tabBar: CupertinoTabBar(
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.message),
+                      title: Text(S
+                          .of(context)
+                          .main_message)),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.hearing),
+                      title: Text(S
+                          .of(context)
+                          .main_share_room)),
+                  BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.group_solid),
+                      title: Text(S
+                          .of(context)
+                          .main_need_help)),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.more_horiz),
+                      title: Text(S
+                          .of(context)
+                          .main_more)),
+                ],
+              ),
+            );
+          },
+        );
       },
-      tabBar: CupertinoTabBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              title: Text(S.of(context).main_message)),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.hearing),
-              title: Text(S.of(context).main_share_room)),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.group_solid),
-              title: Text(S
-                  .of(context)
-                  .main_need_help)),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz),
-              title: Text(S.of(context).main_more)),
-        ],
-      ),
     );
   }
 }

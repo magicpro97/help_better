@@ -9,7 +9,9 @@ import './bloc.dart';
 
 class MessageGroupListBloc
     extends Bloc<MessageGroupListEvent, MessageGroupListState> {
-  Stream<List<MessageGroup>> listMessageGroupList({@required String userId}) =>
+  Stream<List<MessageGroup>> listMessageGroupList({
+    @required String userId,
+  }) =>
       MessageGroupDao.messageGroupListStream(userId: userId);
 
   @override

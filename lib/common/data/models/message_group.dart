@@ -17,14 +17,13 @@ class MessageGroup extends Base {
 
   MessageGroup({
     @required this.id,
-    @required this.displayName,
-    @required this.imageUrl,
+    this.displayName,
+    this.imageUrl,
     @required this.memberIds,
     @required this.created,
     this.updated,
-  })  : assert(displayName != null),
-        assert(imageUrl != null),
-        assert(memberIds != null),
+  })
+      : assert(memberIds != null),
         assert(memberIds.length >= 2),
         super(id, created, updated);
 

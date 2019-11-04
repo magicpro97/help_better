@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/utils/time_utils.dart';
@@ -8,8 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NeedCardItem extends StatelessWidget {
   final User user;
+  final Function onTap;
 
-  const NeedCardItem({Key key, @required this.user})
+  const NeedCardItem({Key key, @required this.user, this.onTap})
       : assert(user != null),
         super(key: key);
 
@@ -21,8 +20,6 @@ class NeedCardItem extends StatelessWidget {
         .primaryTextTheme
         .caption
         .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
-
-    log(user.needs.toString());
 
     return Container(
       child: ListTile(
@@ -45,6 +42,7 @@ class NeedCardItem extends StatelessWidget {
           ],
         ),
         subtitle: Text(userNeedsDescription(context, user.needs) ?? ''),
+        onTap: onTap,
       ),
     );
   }

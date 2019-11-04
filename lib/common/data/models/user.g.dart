@@ -17,6 +17,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
         ?.map((e) => _$enumDecodeNullable(_$UserTypeEnumMap, e))
         ?.toList(),
     needs: _$enumDecodeNullable(_$UserNeedsEnumMap, json['needs']),
+      friendIds: (json['friendIds'] as List)?.map((e) => e as String)?.toList(),
     created: json['created'] == null
         ? null
         : (json['created'] as Timestamp).toDate(),
@@ -34,8 +35,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'photoUrl': instance.photoUrl,
       'types': instance.types?.map((e) => _$UserTypeEnumMap[e])?.toList(),
       'needs': _$UserNeedsEnumMap[instance.needs],
-	'created': instance.created?.toUtc(),
-	'updated': instance.updated?.toUtc(),
+    'friendIds': instance.friendIds,
+    'created': instance.created?.toUtc(),
+    'updated': instance.updated?.toUtc(),
     };
 
 T _$enumDecode<T>(
