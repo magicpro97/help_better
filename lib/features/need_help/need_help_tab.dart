@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:better_help/common/assets.dart';
+import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/data/tranformer/user.dart';
 import 'package:better_help/common/dimens.dart';
@@ -38,9 +39,23 @@ class _NeedHelpTabState extends State<NeedHelpTab> {
     final currentUser = widget.currentUser;
 
     return SafeArea(
-        child: currentUser.types.contains(UserType.VOLUNTEER)
-            ? _buildHelpList()
-            : _buildInvitation());
+      child: StreamBuilder<User>(
+        stream: UserDao.userStream(currentUser.id),
+        builder: (context, snapshot) {
+          if (snapshot.hasError || !snapshot.hasData) {
+            log(snapshot.data.toString());
+            return Center(
+              child: Text("Lỗi"),
+            );
+          }
+          final user = snapshot.data;
+
+          return user.types.contains(UserType.VOLUNTEER)
+              ? _buildHelpList()
+              : _buildInvitation();
+        },
+      ),
+    );
   }
 
   Widget _buildInvitation() {

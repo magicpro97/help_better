@@ -20,7 +20,8 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
     if (event is SignInEvent) {
       final user = await Auth.signIn();
       if (user != null) {
-        goToMainScreen(event.context, deleteAllLastScreen: true);
+        goToMainScreen(event.context,
+            deleteAllLastScreen: true, arguments: MainArgument(user: user));
         yield SignedState();
       } else {
         if (await Auth.isNewUser()) {
