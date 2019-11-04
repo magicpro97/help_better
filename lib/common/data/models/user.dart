@@ -19,8 +19,8 @@ final userNeedMap = {
 };
 
 final userNeedMapColor = {
-  UserNeeds.TEENAGE: Colors.yellow[700],
-  UserNeeds.FAMILY: Colors.blue,
+  UserNeeds.TEENAGE: Colors.blue,
+  UserNeeds.FAMILY: Colors.yellow[700],
   UserNeeds.LOVE: Colors.pink,
   UserNeeds.GO_AHEAD: Colors.greenAccent,
 };
@@ -42,9 +42,7 @@ Map<UserNeeds, String> userNeedsOptionMapString(BuildContext context) =>
     };
 
 String userNeedsDescription(BuildContext context, UserNeeds needs) =>
-    S
-        .of(context)
-        .need_help_description(
+    S.of(context).need_help_description(
         userNeedsOptionMapString(context)[needs].toLowerCase());
 
 @JsonSerializable()
