@@ -41,9 +41,7 @@ class S implements WidgetsLocalizations {
   String get more_sign_out => "Đăng xuất";
   String get morning => "Buổi sáng";
   String get need_help_action => "Trở thành tình nguyện viên";
-
-  String get need_help_caption =>
-      "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác.";
+  String get need_help_caption => "Tham gia cộng đồng tình nguyện, cùng chung tay giúp đỡ người khác.";
   String get need_help_list_title => "Danh sách cần giúp đỡ";
   String get need_help_title => "Bạn muốn giúp đỡ";
   String get night => "Buổi tối";

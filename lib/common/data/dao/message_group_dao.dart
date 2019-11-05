@@ -7,57 +7,57 @@ import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 class MessageGroupDao {
-  static final _collection = 'message_groups';
-  static final _store = Firestore.instance.collection(_collection);
+    static final _collection = 'message_groups';
+    static final _store = Firestore.instance.collection(_collection);
 
-  static Stream<List<MessageGroup>> messageGroupListStream(
-      {@required String userId, int limit = 20}) =>
-      _store
-          .limit(limit)
-          .where('memberIds', arrayContains: userId)
-          .snapshots()
-          .transform(toMessageGroupList);
+    static Stream<List<MessageGroup>> messageGroupListStream(
+        {@required String userId, int limit = 20}) =>
+        _store
+            .limit(limit)
+            .where('memberIds', arrayContains: userId)
+            .snapshots()
+            .transform(toMessageGroupList);
 
-  static Stream<MessageGroup> messageGroupStream(
-      {@required String messageGroupId}) =>
-      _store.document(messageGroupId).snapshots().transform(toMessageGroup);
+    static Stream<MessageGroup> messageGroupStream(
+        {@required String messageGroupId}) =>
+        _store.document(messageGroupId).snapshots().transform(toMessageGroup);
 
-  static Future<List<User>> getOtherUser(
-      {@required String groupId, @required String currentUserId}) async {
-    final List<User> users = [];
-    final doc = await _store.document(groupId).get();
-    final messageGroup = MessageGroup.fromJson(doc.data);
-    for (String id in messageGroup.memberIds) {
-      if (id != currentUserId) {
-        users.add(await UserDao.findById(id));
-      }
+    static Future<List<User>> getOtherUser(
+        {@required String groupId, @required String currentUserId}) async {
+        final List<User> users = [];
+        final doc = await _store.document(groupId).get();
+        final messageGroup = MessageGroup.fromJson(doc.data);
+        for (String id in messageGroup.memberIds) {
+            if (id != currentUserId) {
+                users.add(await UserDao.findById(id));
+            }
+        }
+        return users;
     }
-    return users;
-  }
 
-  static Future<MessageGroup> add({@required List<User> members}) async {
-    final memberIds = members.map((mem) => mem.id).toList();
-    final currentMG =
-        (await _store.where('memberIds', isEqualTo: memberIds).getDocuments())
-            .documents
-            .first;
-    if (currentMG == null) {
-      final newMessageGroup = MessageGroup(
-          id: Uuid().v1(), memberIds: memberIds, created: DateTime.now());
-      await _store
-          .document(newMessageGroup.id)
-          .setData(newMessageGroup.toJson());
-      return newMessageGroup;
-    } else {
-      return MessageGroup.fromJson(currentMG.data);
+    static Future<MessageGroup> add({@required List<String> memberIds}) async {
+        final newMessageGroup = MessageGroup(
+            id: Uuid().v1(), memberIds: memberIds, created: DateTime.now());
+        await _store.document(newMessageGroup.id).setData(newMessageGroup.toJson());
+        return newMessageGroup;
     }
-  }
 
-  static Future<List<MessageGroup>> getList({@required String userId}) async {
-    final qSnapshot =
-    await _store.where('memberIds', arrayContains: userId).getDocuments();
-    return qSnapshot.documents
-        .map((doc) => MessageGroup.fromJson(doc.data))
-        .toList();
-  }
+    static Future<List<MessageGroup>> getList({@required String userId}) async {
+        final qSnapshot =
+        await _store.where('memberIds', arrayContains: userId).getDocuments();
+        return qSnapshot.documents
+            .map((doc) => MessageGroup.fromJson(doc.data))
+            .toList();
+    }
+
+    static Future<MessageGroup> get({@required List<String> memberIds}) async {
+        final docs =
+            (await _store.where('memberIds', isEqualTo: memberIds).getDocuments())
+                .documents;
+        if (docs.length > 0) {
+            return MessageGroup.fromJson(docs.first.data);
+        } else {
+            return null;
+        }
+    }
 }
