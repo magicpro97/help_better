@@ -12,7 +12,7 @@ import './bloc.dart';
 
 class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
   Stream<MessageGroup> messageGroupStream({@required String messageGroupId}) =>
-      MessageGroupDao.messageGroupStream(messageGroupId: messageGroupId);
+      MessageGroupDao.stream(messageGroupId: messageGroupId);
 
   Stream<List<Message>> messageListStream({@required String messageGroupId}) =>
       MessageDao.messageListStream(messageGroupId, desc: true);

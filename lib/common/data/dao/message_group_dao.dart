@@ -1,6 +1,7 @@
 import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
+import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/data/tranformer/message_group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -10,16 +11,16 @@ class MessageGroupDao {
     static final _collection = 'message_groups';
     static final _store = Firestore.instance.collection(_collection);
 
-    static Stream<List<MessageGroup>> messageGroupListStream(
-        {@required String userId, int limit = 20}) =>
+    static Stream<List<MessageGroup>> listStream(
+        {@required String userId, int limit = 20, OrderBy orderBy}) =>
         _store
             .limit(limit)
             .where('memberIds', arrayContains: userId)
+            .orderBy(orderBy.field, descending: orderBy.desc)
             .snapshots()
             .transform(toMessageGroupList);
 
-    static Stream<MessageGroup> messageGroupStream(
-        {@required String messageGroupId}) =>
+    static Stream<MessageGroup> stream({@required String messageGroupId}) =>
         _store.document(messageGroupId).snapshots().transform(toMessageGroup);
 
     static Future<List<User>> getOtherUser(
