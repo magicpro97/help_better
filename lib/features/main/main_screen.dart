@@ -52,8 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         }
 
         if (!snapshot.hasData) {
-          return Center(
-            child: ScreenLoading(),
+          return CupertinoPageScaffold(
+            child: Center(
+              child: ScreenLoading(),
+            ),
           );
         }
         final user = snapshot.data;
@@ -66,8 +68,10 @@ class _MainScreenState extends State<MainScreen> {
             }
 
             if (!snapshot.hasData) {
-              return Center(
-                child: ScreenLoading(),
+              return CupertinoPageScaffold(
+                child: Center(
+                  child: ScreenLoading(),
+                ),
               );
             }
             final friends = snapshot.data;

@@ -97,14 +97,6 @@ class _MoreTabState extends State<MoreTab> {
           SettingOptionButton(
             name: S
                 .of(context)
-                .more_register_volunteer,
-          ),
-          SizedBox(
-            height: screenUtil.setHeight(Dimens.xlarge_space),
-          ),
-          SettingOptionButton(
-            name: S
-                .of(context)
                 .more_share_app,
           ),
           SizedBox(
