@@ -2,6 +2,7 @@ import 'package:better_help/common/data/dao/message_group_dao.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
+import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/features/message/message_group/bloc/bloc.dart';
 import 'package:better_help/features/message/message_group_list/message_group_card.dart';
@@ -62,7 +63,8 @@ class _MessageScreenState extends State<MessageScreen> {
                                         .hasData
                                         ? StreamBuilder<List<Message>>(
                                         stream: messageGroupBloc.messageListStream(
-                                            messageGroupId: messageGroup.id),
+                                            messageGroupId: messageGroup.id,
+                                            orderBy: OrderBy(field: 'created', desc: true)),
                                         builder: (context, snapshot) {
                                             if (snapshot.hasError) {
                                                 return Center(

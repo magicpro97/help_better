@@ -1,4 +1,5 @@
 import 'package:better_help/common/data/models/message.dart';
+import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/data/tranformer/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -8,13 +9,13 @@ class MessageDao {
   static final _subCollection = 'messages';
   static final _store = Firestore.instance.collection(_collection);
 
-  static Stream<List<Message>> messageListStream(String groupId, {
-    bool desc = false,
+  static Stream<List<Message>> listStream(String groupId, {
+    @required OrderBy orderBy,
   }) =>
       _store
           .document(groupId)
           .collection(_subCollection)
-          .orderBy('created', descending: desc)
+          .orderBy(orderBy.field, descending: orderBy.desc)
           .snapshots()
           .transform(toMessageList);
 
@@ -26,7 +27,7 @@ class MessageDao {
           .snapshots()
           .transform(toMessage);
 
-  static Future<void> addMessage({
+  static Future<void> add({
     @required String groupId,
     @required Message message,
   }) async =>

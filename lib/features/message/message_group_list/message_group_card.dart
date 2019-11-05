@@ -4,6 +4,7 @@ import 'package:better_help/common/data/dao/message_dao.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
+import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/data/tranformer/message.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/route/route.dart';
@@ -22,8 +23,7 @@ class MessageGroupCard extends StatelessWidget {
         @required this.messageGroup,
         @required this.currentUser,
         @required this.otherUser,
-    })
-        : assert(messageGroup != null),
+    })  : assert(messageGroup != null),
             assert(currentUser != null),
             assert(otherUser != null),
             super(key: key);
@@ -32,19 +32,18 @@ class MessageGroupCard extends StatelessWidget {
     Widget build(BuildContext context) {
         final screenUtil = ScreenUtil.instance;
 
-        final unReadTextStyle = Theme
-            .of(context)
+        final unReadTextStyle = Theme.of(context)
             .primaryTextTheme
             .caption
             .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
-        final readTextStyle = Theme
-            .of(context)
+        final readTextStyle = Theme.of(context)
             .primaryTextTheme
             .body1
             .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
 
         return StreamBuilder<Message>(
-            stream: MessageDao.messageListStream(messageGroup.id)
+            stream: MessageDao.listStream(messageGroup.id,
+                orderBy: OrderBy(field: 'created'))
                 .transform(toLatestMessage),
             builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -87,9 +86,8 @@ class MessageGroupCard extends StatelessWidget {
                         latestMessage.content,
                         style: latestMessageTextStyle,
                     ),
-                    onTap: () =>
-                        goToMessageScreen(
-                            context, messageGroup, currentUser, otherUser),
+                    onTap: () => goToMessageScreen(
+                        context, messageGroup, currentUser, otherUser),
                 );
             });
     }
