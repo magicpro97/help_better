@@ -94,8 +94,11 @@ class MessageGroupCard extends StatelessWidget {
 }
 
 String displayName(List<User> users) {
-    var name = "";
-    users.forEach((user) => name = name + "${user.displayName}, ");
-    final newName = name.substring(0, name.lastIndexOf(', ')).trim();
-    return newName;
+    if (users.length > 1) {
+        var name = "";
+        users.forEach((user) => name = name + "${user.displayName}, ");
+        final newName = name.substring(0, name.lastIndexOf(', ')).trim();
+        return newName;
+    }
+    return users.first.displayName;
 }

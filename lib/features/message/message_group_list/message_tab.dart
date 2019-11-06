@@ -2,7 +2,6 @@ import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/data/tranformer/message_group.dart';
 import 'package:better_help/common/dimens.dart';
-import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,7 +62,7 @@ class _MessageTabState extends State<MessageTab> {
                                         currentUser: currentUser, friends: friends)),
                                     builder: (context, snapshot) {
                                         if (!snapshot.hasData) {
-                                            return ScreenLoading();
+                                            return Container();
                                         }
 
                                         if (snapshot.hasError) {
