@@ -7,7 +7,7 @@ export default function onMessageCreate() {
     .onCreate((snapshot, context) => {
       if (context.params.messages === "messages") {
         updateMessageStatus(snapshot);
-        updateMessageGroup(snapshot);
+        return updateMessageGroup(snapshot);
       }
       return snapshot;
     });
@@ -17,12 +17,13 @@ const updateMessageGroup = (snapshot: DocumentSnapshot) => {
   const createTime = snapshot.createTime;
   if (snapshot.ref.parent.parent !== null) {
     const doc = snapshot.ref.parent.parent;
-    doc
+    return doc
       .update({
         updated: createTime
       })
       .catch(err => console.log(err));
   }
+  return snapshot;
 };
 
 const updateMessageStatus = (snapshot: FirebaseFirestore.DocumentSnapshot) => {
@@ -31,7 +32,7 @@ const updateMessageStatus = (snapshot: FirebaseFirestore.DocumentSnapshot) => {
     if (message !== undefined) {
       const status = message["status"] as string;
       if (status === "SEND") {
-        snapshot.ref
+        return snapshot.ref
           .update({
             status: nextMessageStatus(status)
           })
@@ -39,6 +40,7 @@ const updateMessageStatus = (snapshot: FirebaseFirestore.DocumentSnapshot) => {
       }
     }
   }
+  return snapshot;
 };
 
 function nextMessageStatus(status: string): string {
