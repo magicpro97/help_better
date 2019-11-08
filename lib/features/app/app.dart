@@ -9,7 +9,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class App extends StatelessWidget {
+import 'bloc/bloc.dart';
+
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> with WidgetsBindingObserver {
+  final appBloc = AppBloc();
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    appBloc.add(AppStateChange(state: state));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    appBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(

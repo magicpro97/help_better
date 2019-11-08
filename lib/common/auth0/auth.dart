@@ -33,6 +33,7 @@ class Auth {
   }
 
   static Future<void> signOut() async {
+    await beOffline();
     await _auth.signOut();
     await GoogleAuth.signOut();
   }
@@ -49,9 +50,19 @@ class Auth {
     final authResult = await _auth.signInWithCredential(credential);
     final firebaseUser = authResult.user;
     final user = await UserDao.findById(firebaseUser.uid);
+    await beOnline();
     return user;
   }
 
   static Stream<FirebaseUser> get firebaseUserStream =>
       _auth.onAuthStateChanged;
+
+  static Future<void> beOffline() async => UserDao.updateUser(id: (await currentUser()).id, fields: {
+    'online': false
+  });
+
+
+  static Future<void> beOnline() async => UserDao.updateUser(id: (await currentUser()).id, fields: {
+    'online': true
+  });
 }

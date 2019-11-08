@@ -35,6 +35,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
     } else if (event is CheckSignInStateEvent) {
       final user = await Auth.currentUser();
       if (user != null) {
+        Auth.beOnline();
         yield SignedState();
         goToMainScreen(event.context,
             deleteAllLastScreen: true, arguments: MainArgument(user: user));
