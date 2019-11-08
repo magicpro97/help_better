@@ -1,5 +1,8 @@
 import * as admin from "firebase-admin";
-import message from "./message";
+import messages from "./messages";
+import users from "./users";
 admin.initializeApp();
 
-export const onCreateMessage = message.triggers.onCreateMessage();
+const db = admin.firestore();
+export const onCreateMessage = messages.triggers.onCreateMessage();
+export const onUserStateChange = users.triggers.onUserStateChange(db);
