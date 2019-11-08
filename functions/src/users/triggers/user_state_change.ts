@@ -1,46 +1,29 @@
 import * as functions from "firebase-functions";
-import { Firestore } from "@google-cloud/firestore";
-import { FCollection, User, Message } from "../../constants";
+import { DocumentReference } from "@google-cloud/firestore";
+import { FCollection, User, MessageGroup } from "../../constants";
 
-export default function onUserStateChange(db: Firestore) {
-  const { USERS, MESSAGES, MESSAGE_GROUPS } = FCollection;
-  return functions.firestore
-    .document(`${USERS}/{userId}`)
-    .onWrite((change, _) => {
-      const user = change.after.data() as User;
-      if (user !== undefined) {
-        if (user.online) {
-          return db
-            .collection(`${MESSAGE_GROUPS}`)
-            .where("memberIds", "array-contains", user.id)
-            .get()
-            .then(mGSnapshot => {
-              for (const mGDoc of mGSnapshot.docs) {
-                mGDoc.ref
-                  .collection(`${MESSAGES}`)
-                  .get()
-                  .then(mSnapshot => {
-                    for (const mDoc of mSnapshot.docs) {
-                      const message = mDoc.data() as Message;
-                      if (
-                        message.status !== "RECEIVED" &&
-                        message.userId !== user.id
-                      ) {
-                        mDoc.ref
-                          .update({
-                            status: "RECEIVED"
-                          })
-                          .catch(err => console.log(err));
-                      }
+export default function onUserStateChange() {
+    const { USERS, MESSAGES, MESSAGE_GROUPS } = FCollection;
+    return functions.firestore
+        .document(`${USERS}/{userId}`)
+        .onWrite((change, _) => {
+            const user = change.after.data() as User;
+            if (user !== undefined && user.online) {
+                const app = (change.after.ref.parent.parent as DocumentReference)
+                return app.collection(`${MESSAGE_GROUPS}`).where("memberIds", "array-contains", user.id).get().then((mGSnap) => {
+                    for (const mGDoc of mGSnap.docs) {
+                        const messageGroup = mGDoc.data() as MessageGroup;
+                        const friendIds = messageGroup.memberIds.filter((id) => id !== user.id);
+                        mGDoc.ref.collection(`${MESSAGES}`).where("status", "==", "SENT").where("userId", "in", friendIds).get().then((mSnap) => {
+                            for (const mDoc of mSnap.docs) {
+                                mDoc.ref.update({
+                                    status: "RECEIVED",
+                                }).then().catch(err => console.log(err))
+                            }
+                        }).catch(err => console.log(err));
                     }
-                  })
-                  .catch(err => console.log(err));
-              }
-            })
-            .catch(err => console.log(err));
-        }
-        return null;
-      }
-      return null;
-    });
+                }).catch(err => console.log(err));
+            }
+            return null;
+        });
 }

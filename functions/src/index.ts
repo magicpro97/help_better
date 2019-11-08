@@ -3,6 +3,6 @@ import messages from "./messages";
 import users from "./users";
 admin.initializeApp();
 
-const db = admin.firestore();
+/*const db = admin.firestore();*/
 export const onCreateMessage = messages.triggers.onCreateMessage();
-export const onUserStateChange = users.triggers.onUserStateChange(db);
+export const onUserStateChange = users.triggers.onUserStateChange();

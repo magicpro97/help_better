@@ -1,7 +1,7 @@
 import { Timestamp } from "@google-cloud/firestore";
 
 export enum FCollection {
-  MESSAGES = "messsages",
+  MESSAGES = "messages",
   MESSAGE_GROUPS = "message_groups",
   USERS = "users"
 }
