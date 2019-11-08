@@ -11,7 +11,7 @@ MessageGroup _$MessageGroupFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     displayName: json['displayName'] as String,
     imageUrl: json['imageUrl'] as String,
-    memberIds: (json['memberIds'] as List)?.map((e) => e as String)?.toList(),
+    memberIds: (json['memberIds'] as List).map((e) => e as String).toList(),
     created: json['created'] == null
         ? null
         : (json['created'] as Timestamp).toDate(),

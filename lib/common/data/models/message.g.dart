@@ -11,8 +11,8 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     userId: json['userId'] as String,
     content: json['content'] as String,
-    type: _$enumDecodeNullable(_$MessageTypeEnumMap, json['type']),
-    status: _$enumDecodeNullable(_$MessageStatusEnumMap, json['status']),
+    type: _$enumDecode(_$MessageTypeEnumMap, json['type']),
+    status: _$enumDecode(_$MessageStatusEnumMap, json['status']),
     created: json['created'] == null
         ? null
         : (json['created'] as Timestamp).toDate(),
@@ -27,9 +27,9 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'userId': instance.userId,
       'content': instance.content,
       'type': _$MessageTypeEnumMap[instance.type],
-  'status': _$MessageStatusEnumMap[instance.status],
-  'created': instance.created?.toUtc(),
-  'updated': instance.updated?.toUtc(),
+      'status': _$MessageStatusEnumMap[instance.status],
+      'created': instance.created?.toUtc(),
+      'updated': instance.updated?.toUtc(),
     };
 
 T _$enumDecode<T>(
@@ -53,17 +53,6 @@ T _$enumDecode<T>(
   return value ?? unknownValue;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
 const _$MessageTypeEnumMap = {
   MessageType.TEXT: 'TEXT',
   MessageType.IMAGE: 'IMAGE',
@@ -73,5 +62,6 @@ const _$MessageTypeEnumMap = {
 const _$MessageStatusEnumMap = {
   MessageStatus.SEND: 'SEND',
   MessageStatus.SENT: 'SENT',
-  MessageStatus.READ: 'READ',
+  MessageStatus.SEEN: 'SEEN',
+  MessageStatus.RECEIVED: 'RECEIVED',
 };

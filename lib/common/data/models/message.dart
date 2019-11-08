@@ -8,46 +8,53 @@ part 'message.g.dart';
 enum MessageType { TEXT, IMAGE, STICKER }
 
 final messageTypeMap = {
-  MessageType.TEXT: 'TEXT',
-  MessageType.IMAGE: 'IMAGE',
-  MessageType.STICKER: 'STICKER',
+    MessageType.TEXT: 'TEXT',
+    MessageType.IMAGE: 'IMAGE',
+    MessageType.STICKER: 'STICKER',
 };
 
-enum MessageStatus { SEND, SENT, READ }
+enum MessageStatus { SEND, SENT, SEEN, RECEIVED }
 
 final messageStatusMap = {
-  MessageStatus.SEND: 'SEND',
-  MessageStatus.SENT: 'SENT',
-  MessageStatus.READ: 'READ',
+    MessageStatus.SEND: 'SEND',
+    MessageStatus.SENT: 'SENT',
+    MessageStatus.SEEN: 'SEEN',
+    MessageStatus.RECEIVED: 'RECEIVED',
 };
 
 @JsonSerializable()
-class Message extends Base {
-  final String id;
-  final String userId;
-  final String content;
-  final MessageType type;
-  final MessageStatus status;
-  final DateTime created;
-  final DateTime updated;
+class Message extends Base{
+    @JsonKey(nullable: false)
+    final String id;
+    @JsonKey(nullable: false)
+    final String userId;
+    @JsonKey(nullable: false)
+    final String content;
+    @JsonKey(nullable: false)
+    final MessageType type;
+    @JsonKey(nullable: false)
+    final MessageStatus status;
+    @JsonKey(nullable: false)
+    final DateTime created;
+    final DateTime updated;
 
-  Message({
-    @required this.id,
-    @required this.userId,
-    @required this.content,
-    @required this.type,
-    @required this.status,
-    @required this.created,
-    this.updated,
-  })
-      : assert(userId != null),
-        assert(content != null),
-        assert(type != null),
-        assert(status != null),
-        super(id, created, updated);
+    Message({
+        @required this.id,
+        @required this.userId,
+        @required this.content,
+        @required this.type,
+        @required this.status,
+        @required this.created,
+        this.updated,
+    })
+        : assert(userId != null),
+            assert(content != null),
+            assert(type != null),
+            assert(status != null),
+            super(id, created, updated);
 
-  factory Message.fromJson(Map<String, dynamic> json) =>
-      _$MessageFromJson(json);
+    factory Message.fromJson(Map<String, dynamic> json) =>
+        _$MessageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+    Map<String, dynamic> toJson() => _$MessageToJson(this);
 }

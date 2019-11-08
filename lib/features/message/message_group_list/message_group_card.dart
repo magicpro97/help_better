@@ -56,7 +56,7 @@ class MessageGroupCard extends StatelessWidget {
 
                 final latestMessage = snapshot.data;
                 final latestMessageTextStyle =
-                latestMessage.status != MessageStatus.READ &&
+                latestMessage.status != MessageStatus.SEEN &&
                     currentUser.id != latestMessage.userId
                     ? unReadTextStyle
                     : readTextStyle;
