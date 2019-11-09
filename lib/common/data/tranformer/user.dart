@@ -23,7 +23,8 @@ final toUser = StreamTransformer<DocumentSnapshot, User>.fromHandlers(
 
 StreamTransformer<List<User>, List<NeedCardItem>> toNeedCardItemList(
     {@required NeedHelpBloc needHelpBloc,
-	    @required BuildContext context, @required List<User> otherUser}) =>
+        @required BuildContext context,
+        @required List<User> otherUser}) =>
     StreamTransformer.fromHandlers(
         handleData: (data, sink) =>
             sink.add(data
@@ -31,11 +32,10 @@ StreamTransformer<List<User>, List<NeedCardItem>> toNeedCardItemList(
                 NeedCardItem(
                     user: user,
                     onTap: () =>
-                        needHelpBloc
-                            .add(
-	                        CreateMessageGroup(user: user,
-		                        context: context,
-		                        otherUser: otherUser)),
+                        needHelpBloc.add(CreateMessageGroup(
+                            user: user,
+                            context: context,
+                            otherUser: otherUser)),
                 ))
           .toList()),
         handleError: (data, trace, sink) => sink.addError(data, trace),

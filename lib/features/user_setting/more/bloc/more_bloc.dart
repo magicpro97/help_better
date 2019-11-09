@@ -30,7 +30,7 @@ class MoreBloc extends Bloc<MoreEvent, MoreState> {
   }
 
   @override
-  void close() {
+  Future<void> close() async {
     super.close();
     _userController.close();
     _firebaseUserSubscription.cancel();

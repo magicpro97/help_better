@@ -15,7 +15,9 @@ class MessageGroupDao {
         {@required String userId, int limit = 20, OrderBy orderBy}) =>
         _store
             .limit(limit)
-            .where('memberIds', arrayContains: userId)
+            .where(
+            'messageStatus',
+        )
             .orderBy(orderBy.field, descending: orderBy.desc)
             .snapshots()
             .transform(toMessageGroupList);
@@ -28,7 +30,7 @@ class MessageGroupDao {
         final List<User> users = [];
         final doc = await _store.document(groupId).get();
         final messageGroup = MessageGroup.fromJson(doc.data);
-        for (String id in messageGroup.memberIds) {
+        for (String id in messageGroup.memberStatus.map((mem) => mem.id)) {
             if (id != currentUserId) {
                 users.add(await UserDao.findById(id));
             }
@@ -37,8 +39,14 @@ class MessageGroupDao {
     }
 
     static Future<MessageGroup> add({@required List<String> memberIds}) async {
+        final memberStatus = <MemberStatus>[];
+        memberIds.forEach(
+                (id) =>
+                memberStatus.add(MemberStatus(id: id, state: MemberState.IN)));
         final newMessageGroup = MessageGroup(
-            id: Uuid().v1(), memberIds: memberIds, created: DateTime.now());
+            id: Uuid().v1(),
+            memberStatus: memberStatus,
+            created: DateTime.now());
         await _store.document(newMessageGroup.id).setData(newMessageGroup.toJson());
         return newMessageGroup;
     }

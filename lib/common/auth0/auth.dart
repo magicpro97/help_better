@@ -11,7 +11,9 @@ class Auth {
 
   static Future<User> currentUser() async {
     final firebaseUser = await _auth.currentUser();
-    return firebaseUser != null ? await UserDao.findById(firebaseUser.uid) :  null;
+    return firebaseUser != null
+        ? await UserDao.findById(firebaseUser.uid)
+        : null;
   }
 
   static Future<bool> isNewUser() async {
@@ -57,12 +59,18 @@ class Auth {
   static Stream<FirebaseUser> get firebaseUserStream =>
       _auth.onAuthStateChanged;
 
-  static Future<void> beOffline() async => UserDao.updateUser(id: (await currentUser()).id, fields: {
-    'online': false
-  });
+  static Future<void> beOffline() async {
+    final user = await currentUser();
+    if (user != null) {
+      UserDao.updateUser(id: user.id, fields: {'online': false});
+    }
+  }
 
-
-  static Future<void> beOnline() async => UserDao.updateUser(id: (await currentUser()).id, fields: {
-    'online': true
-  });
+  static Future<void> beOnline() async {
+    final user = await currentUser();
+    if (user != null) {
+      UserDao.updateUser(
+          id: user.id, fields: {'online': true});
+    }
+  }
 }

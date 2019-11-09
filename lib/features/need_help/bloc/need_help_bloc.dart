@@ -32,11 +32,8 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
             final memberIds = members.map((mem) => mem.id).toList();
             var messageGroup = await MessageGroupDao.get(memberIds: memberIds);
             if (messageGroup == null) {
-                addUniqueUser(user.friendIds, currentUser);
-                addUniqueUser(currentUser.friendIds, user);
-                await UserDao.updateUser(
-                    id: currentUser.id, fields: currentUser.toJson());
-                await UserDao.updateUser(id: user.id, fields: user.toJson());
+                addUniqueUser(user, currentUser.id);
+                addUniqueUser(currentUser, user.id);
                 messageGroup = await MessageGroupDao.add(memberIds: memberIds);
             }
             goToMessageScreen(
@@ -44,13 +41,19 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
                 messageGroup,
                 currentUser,
                 event.otherUser
-                    ..removeWhere((user) => !messageGroup.memberIds.contains(user.id)));
+                    ..removeWhere((user) =>
+                    !messageGroup.memberStatus.map((mem) => mem.id).contains(
+                        user.id)));
         }
     }
 
-    void addUniqueUser(List<String> userIds, User user) {
-        if (!user.friendIds.contains(user.id)) {
-            user.friendIds.add(user.id);
+    Future<void> addUniqueUser(User user, String id) async {
+        if (!user.friendIds.contains(id)) {
+            user.friendIds.add(id);
+            await UserDao.updateUser(
+                id: user.id, fields: {
+                'friendIds': user.friendIds,
+            });
         }
     }
 }
