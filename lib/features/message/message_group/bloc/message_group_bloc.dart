@@ -12,26 +12,28 @@ import 'package:uuid/uuid.dart';
 import './bloc.dart';
 
 class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
-  Stream<MessageGroup> messageGroupStream({@required String messageGroupId}) =>
-      MessageGroupDao.stream(messageGroupId: messageGroupId);
+    Stream<MessageGroup> messageGroupStream(
+        {@required String messageGroupId}) =>
+        MessageGroupDao.stream(messageGroupId: messageGroupId);
 
-  Stream<List<Message>> messageListStream({@required String messageGroupId, OrderBy orderBy}) =>
-      MessageDao.listStream(messageGroupId, orderBy: orderBy);
+    Stream<List<Message>> messageListStream(
+        {@required String messageGroupId, OrderBy orderBy}) =>
+        MessageDao.listStream(messageGroupId, orderBy: orderBy);
 
-  @override
-  MessageGroupState get initialState => InitialMessageGroupState();
+    @override
+    MessageGroupState get initialState => InitialMessageGroupState();
 
-  @override
-  Stream<MessageGroupState> mapEventToState(MessageGroupEvent event,) async* {
-    if (event is AddMessageEvent) {
-      final newMessage = Message(
-          id: Uuid().v1(),
-          userId: event.userId,
-          content: event.content,
-          type: event.messageType,
-          status: MessageStatus.SEND,
-          created: DateTime.now());
-      MessageDao.add(groupId: event.messageGroupId, message: newMessage);
+    @override
+    Stream<MessageGroupState> mapEventToState(MessageGroupEvent event,) async* {
+        if (event is AddMessageEvent) {
+            final newMessage = Message(
+                id: Uuid().v1(),
+                userId: event.userId,
+                content: event.content,
+                type: event.messageType,
+                status: {event.userId: MessageStatus.SEND},
+                created: DateTime.now());
+            MessageDao.add(groupId: event.messageGroupId, message: newMessage);
+        }
     }
-  }
 }

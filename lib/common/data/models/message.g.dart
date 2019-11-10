@@ -6,16 +6,17 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Message _$MessageFromJson(Map<String, dynamic> json) {
+Message _$MessageFromJson(Map json) {
   return Message(
     id: json['id'] as String,
     userId: json['userId'] as String,
     content: json['content'] as String,
     type: _$enumDecode(_$MessageTypeEnumMap, json['type']),
-    status: _$enumDecode(_$MessageStatusEnumMap, json['status']),
-    created: json['created'] == null
-        ? null
-        : (json['created'] as Timestamp).toDate(),
+      status: (json['status'] as Map).map(
+              (k, e) =>
+              MapEntry(k as String, _$enumDecode(_$MessageStatusEnumMap, e)),
+      ),
+      created: (json['created'] as Timestamp).toDate(),
     updated: json['updated'] == null
         ? null
         : (json['updated'] as Timestamp).toDate(),
@@ -27,8 +28,9 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'userId': instance.userId,
       'content': instance.content,
       'type': _$MessageTypeEnumMap[instance.type],
-      'status': _$MessageStatusEnumMap[instance.status],
-      'created': instance.created?.toUtc(),
+    'status':
+    instance.status.map((k, e) => MapEntry(k, _$MessageStatusEnumMap[e])),
+    'created': instance.created.toUtc(),
       'updated': instance.updated?.toUtc(),
     };
 

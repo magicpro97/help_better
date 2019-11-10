@@ -39,57 +39,58 @@ class _MessageItemState extends State<MessageItem> {
 
     bool get isFirstMessageGroup => widget.isFirstMessageGroup;
 
-    bool get isSentMessage => widget.message.status == MessageStatus.SENT;
-
-    bool get isReceivedMessage => widget.message.status == MessageStatus.RECEIVED;
-
-    bool get isSeenMessage => widget.message.status == MessageStatus.SEEN;
-
     bool get showMessageStatus => isFromCurrentUser;
 
     @override
     Widget build(BuildContext context) {
-        return Container(child: _buildMessage());
+        return _buildMessage();
     }
 
     Widget _buildMessage() {
         return Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-                isFirstMessageGroup
-                    ? Column(
-                    children: <Widget>[
-                        Text(
-                            widget.message.created.toString(),
-                            textAlign: TextAlign.center,
-                        ),
-                        SizedBox(
-                            height: screenUtil.setHeight(Dimens.normal_space),
-                        ),
-                    ],
-                )
-                    : Container(),
-                ListTile(
-                    leading: showOtherUserAvatar ? _buildOtherUserImage() : null,
-                    title: _buildMessageContent(),
-                    trailing: showMessageStatus ? _buildMessageStatus() : null,
+                isFirstMessageGroup ? _buildConversationHeader() : Container(),
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: ListTile(
+                        leading: showOtherUserAvatar
+                            ? _buildOtherUserImage()
+                            : null,
+                        title: _buildMessageContent(),
+                        trailing: showMessageStatus
+                            ? _buildMessageStatus()
+                            : null,
+                    ),
                 ),
             ],
         );
     }
 
     Widget _buildMessageStatus() {
-        if (isSentMessage) {
+        final message = widget.message;
+        if (message.isSentMessage()) {
+            if (message.isSeenMessage()) {
+                return _buildSeenIcon();
+            } else if (message.isReceivedMessage()) {
+                return _buildReceivedIcon();
+            }
             return _buildSentIcon();
-        } else if (isSeenMessage) {
-            return _buildSeenIcon();
-        } else if (isReceivedMessage) {
-            return _buildReceivedIcon();
         } else {
             return _buildUnSendIcon();
         }
     }
 
-    Widget _buildSeenIcon() => Container();
+    Widget _buildConversationHeader() =>
+        Container(
+            height: screenUtil.setHeight(Dimens.top_space),
+            child: Text(
+                widget.message.created.toString(),
+                textAlign: TextAlign.center,
+            ),
+        );
+
+    Widget _buildSeenIcon() => Container(width: 20,);
 
     Widget _buildSentIcon() => Icon(
         Icons.check_circle_outline,

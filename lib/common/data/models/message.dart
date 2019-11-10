@@ -22,7 +22,7 @@ final messageStatusMap = {
     MessageStatus.RECEIVED: 'RECEIVED',
 };
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class Message extends Base{
     @JsonKey(nullable: false)
     final String id;
@@ -33,7 +33,7 @@ class Message extends Base{
     @JsonKey(nullable: false)
     final MessageType type;
     @JsonKey(nullable: false)
-    final MessageStatus status;
+    final Map<String, MessageStatus> status;
     @JsonKey(nullable: false)
     final DateTime created;
     final DateTime updated;
@@ -57,4 +57,28 @@ class Message extends Base{
         _$MessageFromJson(json);
 
     Map<String, dynamic> toJson() => _$MessageToJson(this);
+
+
+    bool get hasReceiver => status.keys.length > 1;
+
+    bool isReceivedMessage() {
+        if (hasReceiver && status.values.contains(MessageStatus.RECEIVED)) {
+            return true;
+        }
+        return false;
+    }
+
+    bool isSeenMessage() {
+        if (hasReceiver && status.values.contains(MessageStatus.SEEN)) {
+            return true;
+        }
+        return false;
+    }
+
+    bool isSentMessage() {
+        if (status[userId] == MessageStatus.SENT) {
+            return true;
+        }
+        return false;
+    }
 }

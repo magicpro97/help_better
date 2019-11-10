@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:better_help/common/data/dao/message_group_dao.dart';
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/message_group.dart';
@@ -67,6 +69,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                             orderBy: OrderBy(field: 'created', desc: true)),
                                         builder: (context, snapshot) {
                                             if (snapshot.hasError) {
+                                                log(snapshot.error.toString());
                                                 return Center(
                                                     child: Text('Something went wrong.'),
                                                 );
