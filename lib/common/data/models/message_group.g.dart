@@ -6,17 +6,34 @@ part of 'message_group.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MemberStatus _$MemberStatusFromJson(Map<dynamic, dynamic> json) {
-    return MemberStatus(
+MessageGroup _$MessageGroupFromJson(Map<String, dynamic> json) {
+    return MessageGroup(
         id: json['id'] as String,
-        state: _$enumDecode(_$MemberStateEnumMap, json['state']),
+        displayName: json['displayName'] as String,
+        imageUrl: json['imageUrl'] as String,
+        memberIds: (json['memberIds'] as List)
+            ?.map((e) => e as String)
+            ?.toList(),
+        memberStatus: (json['memberStatus'] as Map).map(
+                (k, e) => MapEntry(k, _$enumDecode(_$MemberStateEnumMap, e)),
+        ),
+        created: (json['created'] as Timestamp).toDate(),
+        updated: json['updated'] == null
+            ? null
+            : (json['updated'] as Timestamp).toDate(),
     );
 }
 
-Map<String, dynamic> _$MemberStatusToJson(MemberStatus instance) =>
+Map<String, dynamic> _$MessageGroupToJson(MessageGroup instance) =>
     <String, dynamic>{
         'id': instance.id,
-        'state': _$MemberStateEnumMap[instance.state],
+        'displayName': instance.displayName,
+        'imageUrl': instance.imageUrl,
+        'memberIds': instance.memberIds,
+        'memberStatus': instance.memberStatus
+            .map((k, e) => MapEntry(k, _$MemberStateEnumMap[e])),
+        'created': instance.created.toUtc(),
+        'updated': instance.updated?.toUtc(),
     };
 
 T _$enumDecode<T>(Map<T, dynamic> enumValues,
@@ -43,28 +60,3 @@ const _$MemberStateEnumMap = {
     MemberState.IN: 'IN',
     MemberState.OUT: 'OUT',
 };
-
-MessageGroup _$MessageGroupFromJson(Map<String, dynamic> json) {
-  return MessageGroup(
-    id: json['id'] as String,
-    displayName: json['displayName'] as String,
-    imageUrl: json['imageUrl'] as String,
-      memberStatus: (json['memberStatus'] as List)
-          .map((e) => MemberStatus.fromJson(e as Map))
-          .toList(),
-      created: (json['created'] as Timestamp).toDate(),
-    updated: json['updated'] == null
-        ? null
-        : (json['updated'] as Timestamp).toDate(),
-  );
-}
-
-Map<String, dynamic> _$MessageGroupToJson(MessageGroup instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'displayName': instance.displayName,
-      'imageUrl': instance.imageUrl,
-        'memberStatus': instance.memberStatus.map((e) => e.toJson()).toList(),
-        'created': instance.created.toUtc(),
-      'updated': instance.updated?.toUtc(),
-    };

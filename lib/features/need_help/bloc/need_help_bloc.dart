@@ -42,16 +42,14 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
                 currentUser,
                 event.otherUser
                     ..removeWhere((user) =>
-                    !messageGroup.memberStatus.map((mem) => mem.id).contains(
-                        user.id)));
+                    !messageGroup.memberIds.contains(user.id)));
         }
     }
 
     Future<void> addUniqueUser(User user, String id) async {
         if (!user.friendIds.contains(id)) {
             user.friendIds.add(id);
-            await UserDao.updateUser(
-                id: user.id, fields: {
+            await UserDao.updateUser(id: user.id, fields: {
                 'friendIds': user.friendIds,
             });
         }

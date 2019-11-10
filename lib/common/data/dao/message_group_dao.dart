@@ -12,12 +12,9 @@ class MessageGroupDao {
     static final _store = Firestore.instance.collection(_collection);
 
     static Stream<List<MessageGroup>> listStream(
-        {@required String userId, int limit = 20, OrderBy orderBy}) =>
+        {@required String userId, OrderBy orderBy}) =>
         _store
-            .limit(limit)
-            .where(
-            'messageStatus',
-        )
+            .where('memberIds', arrayContains: userId)
             .orderBy(orderBy.field, descending: orderBy.desc)
             .snapshots()
             .transform(toMessageGroupList);
@@ -30,7 +27,7 @@ class MessageGroupDao {
         final List<User> users = [];
         final doc = await _store.document(groupId).get();
         final messageGroup = MessageGroup.fromJson(doc.data);
-        for (String id in messageGroup.memberStatus.map((mem) => mem.id)) {
+        for (String id in messageGroup.memberIds) {
             if (id != currentUserId) {
                 users.add(await UserDao.findById(id));
             }
@@ -39,13 +36,12 @@ class MessageGroupDao {
     }
 
     static Future<MessageGroup> add({@required List<String> memberIds}) async {
-        final memberStatus = <MemberStatus>[];
-        memberIds.forEach(
-                (id) =>
-                memberStatus.add(MemberStatus(id: id, state: MemberState.IN)));
+        final memberStatus = <String, MemberState>{};
+        memberIds.forEach((id) => memberStatus[id] = MemberState.IN);
         final newMessageGroup = MessageGroup(
             id: Uuid().v1(),
             memberStatus: memberStatus,
+            memberIds: memberIds,
             created: DateTime.now());
         await _store.document(newMessageGroup.id).setData(newMessageGroup.toJson());
         return newMessageGroup;

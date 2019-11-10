@@ -25,9 +25,7 @@ toMessageGroupCardList(
                     currentUser: currentUser,
                     otherUser: friends
                         .where(
-                            (user) =>
-                            messageGroup.memberStatus.map((mem) => mem.id)
-                                .contains(user.id))
+                            (user) => messageGroup.memberIds.contains(user.id))
                         .toList(),
                 ))
                 .toList()),
