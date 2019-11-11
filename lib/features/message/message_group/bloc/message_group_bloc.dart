@@ -34,6 +34,14 @@ class MessageGroupBloc extends Bloc<MessageGroupEvent, MessageGroupState> {
                 status: {event.userId: MessageStatus.SEND},
                 created: DateTime.now());
             MessageDao.add(groupId: event.messageGroupId, message: newMessage);
+        } else if (event is GoOutEvent) {
+            event.messageGroup.memberStatus[event.currentUser.id] =
+                MemberState.OUT;
+            MessageGroupDao.update(messageGroup: event.messageGroup);
+        } else if (event is ComeInEvent) {
+            event.messageGroup.memberStatus[event.currentUser.id] =
+                MemberState.IN;
+            MessageGroupDao.update(messageGroup: event.messageGroup);
         }
     }
 }

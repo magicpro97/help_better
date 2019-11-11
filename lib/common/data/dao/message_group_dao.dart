@@ -65,4 +65,7 @@ class MessageGroupDao {
             return null;
         }
     }
+
+    static Future<void> update({@required MessageGroup messageGroup}) =>
+        _store.document(messageGroup.id).updateData(messageGroup.toJson());
 }

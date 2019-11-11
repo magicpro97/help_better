@@ -3,7 +3,7 @@ import { MessageGroup, Message, MemberState, MessageStatus } from "../../constan
 import { Timestamp } from "@google-cloud/firestore";
 
 export default function onMemberStateChange() {
-    return functions.firestore.document("message_groups/{messageGroupId}").onWrite((change, context) => {
+    return functions.firestore.document("message_groups/{messageGroupId}").onUpdate((change, context) => {
         const messageGroup = change.after.data() as MessageGroup;
         const memberIds = messageGroup.memberIds;
         const memberStatus = messageGroup.memberStatus;

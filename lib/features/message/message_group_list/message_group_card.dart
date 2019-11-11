@@ -23,7 +23,8 @@ class MessageGroupCard extends StatelessWidget {
         @required this.messageGroup,
         @required this.currentUser,
         @required this.otherUser,
-    })  : assert(messageGroup != null),
+    })
+        : assert(messageGroup != null),
             assert(currentUser != null),
             assert(otherUser != null),
             super(key: key);
@@ -32,11 +33,13 @@ class MessageGroupCard extends StatelessWidget {
     Widget build(BuildContext context) {
         final screenUtil = ScreenUtil.instance;
 
-        final unReadTextStyle = Theme.of(context)
+        final unReadTextStyle = Theme
+            .of(context)
             .primaryTextTheme
             .caption
             .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
-        final readTextStyle = Theme.of(context)
+        final readTextStyle = Theme
+            .of(context)
             .primaryTextTheme
             .body1
             .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
@@ -71,12 +74,14 @@ class MessageGroupCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                             Text(
-                                messageGroup.displayName ?? displayName(otherUser),
+                                messageGroup.displayName ??
+                                    displayName(otherUser),
                                 style: latestMessageTextStyle,
                             ),
                             Text(
                                 getHourAndMinute(
-                                    latestMessage.updated ?? latestMessage.created,
+                                    latestMessage.updated ??
+                                        latestMessage.created,
                                 ),
                                 style: latestMessageTextStyle,
                             ),
@@ -86,8 +91,9 @@ class MessageGroupCard extends StatelessWidget {
                         latestMessage.content,
                         style: latestMessageTextStyle,
                     ),
-                    onTap: () => goToMessageScreen(
-                        context, messageGroup, currentUser, otherUser),
+                    onTap: () =>
+                        goToMessageScreen(
+                            context, messageGroup, currentUser, otherUser),
                 );
             });
     }
