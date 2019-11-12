@@ -5,6 +5,7 @@ import messageGroups from "./message_groups"
 admin.initializeApp();
 
 /*const db = admin.firestore();*/
-export const onCreateMessage = messages.triggers.onCreateMessage();
+const cMessaging = admin.messaging();
+export const onCreateMessage = messages.triggers.onCreateMessage(cMessaging);
 export const onUserStateChange = users.triggers.onUserStateChange();
 export const onMemberStateChange = messageGroups.triggers.onMemberStateChange();

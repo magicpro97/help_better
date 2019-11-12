@@ -1,17 +1,52 @@
 import * as functions from "firebase-functions";
 import { DocumentSnapshot, Timestamp } from "@google-cloud/firestore";
 import { Message, MessageGroup, User, MessageStatus, FCollection, MemberState } from "../../constants";
+import { messaging } from "firebase-admin";
 
-export default function onMessageCreate() {
+export default function onCreate(cMessaging : messaging.Messaging) {
     return functions.firestore
         .document("message_groups/{messageGroupId}/{messages}/{messageId}")
         .onCreate((snapshot, context) => {
             if (context.params.messages === "messages") {
                 updateMessageStatus(snapshot).catch(err => console.log(err));
+                notifyToOtherUser(snapshot, cMessaging).catch(err => console.log(err));
                 return updateMessageGroup(snapshot);
             }
             return snapshot;
         });
+}
+
+const notifyToOtherUser = async (snapshot: DocumentSnapshot, cMessaging: messaging.Messaging) => {
+    const newMessage = snapshot.data() as Message;
+    const messageGroups = snapshot.ref.parent.parent;
+    if (messageGroups) {
+        const messageGroup = ((await messageGroups.get()).data() as MessageGroup);
+        const memberStatus = messageGroup.memberStatus;
+        const otherUserIds = messageGroup.memberIds.filter(id => id !== newMessage.userId && memberStatus[id] !== MemberState.IN);
+        const app = messageGroups.parent.parent;
+        if (app && otherUserIds.length > 0) {
+            const uSnap = await app.collection("users").where("id", "in", otherUserIds).get();
+            for (const doc of uSnap.docs) {
+                const user = doc.data() as User;
+                const tokens = user.tokens;
+                if (tokens) {
+                    const token = tokens.pop();
+                    if (token) {
+                        const payload: messaging.MessagingPayload = {
+                            notification: {
+                            title: user.displayName,
+                            body: newMessage.content,
+                            icon: user.photoUrl,
+                            click_action: 'FLUTTER_NOTIFICATION_CLICK' // required only for onResume or onLaunch callbacks
+                            }
+                        };
+                        await cMessaging.sendToDevice(token, payload);
+                    }
+                }
+            }
+        }
+    }
+    return snapshot;
 }
 
 const updateMessageGroup = (snapshot: DocumentSnapshot) => {
