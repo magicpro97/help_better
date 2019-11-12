@@ -61,8 +61,8 @@ class MessageGroupCard extends StatelessWidget {
                 final latestMessageTextStyle =
                 latestMessage.isSeenMessage() &&
                     currentUser.id != latestMessage.userId
-                    ? unReadTextStyle
-                    : readTextStyle;
+                    ? readTextStyle
+                    : unReadTextStyle;
 
                 return ListTile(
                     leading: CircleAvatar(
