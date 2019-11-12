@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
-import 'package:better_help/features/app/bloc/app_bloc.dart';
 import 'package:better_help/features/main/sharing_tab.dart';
 import 'package:better_help/features/message/message_group_list/message_tab.dart';
 import 'package:better_help/features/need_help/need_help_tab.dart';
@@ -15,13 +14,10 @@ import 'package:flutter/material.dart';
 import 'bloc/bloc.dart';
 
 class MainScreen extends StatefulWidget {
-    final AppBloc appBloc;
-    
     const MainScreen({
-        Key key, @required this.appBloc,
+        Key key,
     })
-        : assert(appBloc != null),
-            super(key: key);
+        :super(key: key);
     
     @override
     _MainScreenState createState() => _MainScreenState();

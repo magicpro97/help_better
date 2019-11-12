@@ -83,7 +83,7 @@ class Auth {
         final user = await currentUser();
         if (user != null) {
             final tokens = user.tokens ?? <String>[];
-            if (!user.tokens.contains(token)) {
+            if (!tokens.contains(token)) {
                 tokens.add(token);
                 UserDao.updateUser(id: userId, fields: {'tokens': tokens});
             }
