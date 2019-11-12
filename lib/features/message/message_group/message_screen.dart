@@ -153,8 +153,12 @@ class _MessageScreenState extends State<MessageScreen> {
                                                             currentUser: currentUser,
                                                             otherUsers: otherUsers,
                                                             isLastCurrentUserMessage: lastCurrentUserMessage
-                                                                .id ==
-                                                                message.userId,
+                                                                .userId ==
+                                                                message
+                                                                    .userId &&
+                                                                lastCurrentUserMessage
+                                                                    .id ==
+                                                                    message.id,
                                                             isLastConversationMessage:
                                                             lastConversationMessage !=
                                                                 null,

@@ -102,7 +102,7 @@ class _MessageItemState extends State<MessageItem> {
         );
 
     Widget _buildSeenIcon(List<User> seenUser) =>
-        widget.isLastCurrentUserMessage ? seenUser.length > 1 ? CircleAvatar(
+        widget.isLastCurrentUserMessage ? seenUser.length < 2 ? CircleAvatar(
             maxRadius: screenUtil.setHeight(Dimens.currentUserMessageHeight),
             backgroundImage: CachedNetworkImageProvider(
                 seenUser.first.photoUrl),) : Container() : Container(
