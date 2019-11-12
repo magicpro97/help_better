@@ -21,6 +21,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
             ?.map((e) => e as String)
             ?.toList(),
         tokens: (json['tokens'] as List)?.map((e) => e as String)?.toList(),
+        online: json['online'] as bool,
         created: json['created'] == null
             ? null
             : (json['created'] as Timestamp).toDate(),
@@ -40,6 +41,7 @@ Map<String, dynamic> _$UserToJson(User instance) =>
         'types': instance.types.map((e) => _$UserTypeEnumMap[e]).toList(),
         'friendIds': instance.friendIds,
         'tokens': instance.tokens,
+        'online': instance.online,
         'created': instance.created?.toUtc(),
         'updated': instance.updated?.toUtc(),
     };

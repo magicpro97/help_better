@@ -1,6 +1,7 @@
 import 'package:better_help/common/data/models/message.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/dimens.dart';
+import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ class MessageItem extends StatefulWidget {
     final Message message;
     final User currentUser;
     final User messageOwner;
+    final bool isLastConversationMessage;
     final bool isLastMessage;
     final bool isFirstMessageGroup;
 
@@ -18,11 +20,14 @@ class MessageItem extends StatefulWidget {
         @required this.currentUser,
         @required this.messageOwner,
         @required this.isLastMessage,
+        @required this.isLastConversationMessage,
         @required this.isFirstMessageGroup,
-    })  : assert(message != null),
+    })
+        : assert(message != null),
             assert(currentUser != null),
             assert(messageOwner != null),
             assert(isLastMessage != null),
+            assert(isLastConversationMessage != null),
             assert(isFirstMessageGroup != null),
             super(key: key);
 
@@ -33,36 +38,34 @@ class MessageItem extends StatefulWidget {
 class _MessageItemState extends State<MessageItem> {
     final screenUtil = ScreenUtil.getInstance();
 
-    bool get isFromCurrentUser => widget.currentUser.id == widget.message.userId;
+    bool get isFromCurrentUser =>
+        widget.currentUser.id == widget.message.userId;
 
-    bool get showOtherUserAvatar => !isFromCurrentUser && widget.isLastMessage;
-
+    bool get showOtherUserAvatar =>
+        !isFromCurrentUser && widget.isLastConversationMessage;
+    
     bool get isFirstMessageGroup => widget.isFirstMessageGroup;
 
-    bool get showMessageStatus => isFromCurrentUser;
-
+    bool get showMessageStatus => isFromCurrentUser && widget.isLastMessage;
+    
     @override
     Widget build(BuildContext context) {
-        return _buildMessage();
+        return Container(child: _buildMessage());
     }
 
     Widget _buildMessage() {
         return Column(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
                 isFirstMessageGroup ? _buildConversationHeader() : Container(),
-                Flexible(
-                    fit: FlexFit.loose,
-                    child: ListTile(
-                        leading: showOtherUserAvatar
+                Row(
+                    children: <Widget>[
+                        showOtherUserAvatar
                             ? _buildOtherUserImage()
-                            : null,
-                        title: _buildMessageContent(),
-                        trailing: showMessageStatus
-                            ? _buildMessageStatus()
-                            : null,
-                    ),
-                ),
+                            : Container(),
+                        Expanded(child: _buildMessageContent()),
+                        showMessageStatus ? _buildMessageStatus() : Container(),
+                    ],
+                )
             ],
         );
     }
@@ -90,57 +93,59 @@ class _MessageItemState extends State<MessageItem> {
             ),
         );
 
-    Widget _buildSeenIcon() => Container(width: 20,);
+    Widget _buildSeenIcon() =>
+        widget.isLastConversationMessage ? CircleAvatar(
+            maxRadius: screenUtil.setHeight(Dimens.messageHeight),
+            backgroundImage: CachedNetworkImageProvider(
+                widget.currentUser.photoUrl),) : Container(width: 20.0,);
 
-    Widget _buildSentIcon() => Icon(
-        Icons.check_circle_outline,
-        size: 20,
-        color: Colors.blue,
-    );
+    Widget _buildSentIcon() =>
+        Icon(
+            Icons.check_circle_outline,
+            size: 20,
+            color: Colors.blue,
+        );
 
-    Widget _buildReceivedIcon() => Icon(
-        Icons.check_circle,
-        size: 20,
-        color: Colors.blue,
-    );
+    Widget _buildReceivedIcon() =>
+        Icon(
+            Icons.check_circle,
+            size: 20,
+            color: Colors.blue,
+        );
 
-    Widget _buildUnSendIcon() => Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-            Icon(
-                Icons.lens,
-                size: 20.0,
-                color: Colors.blue,
-            ),
-            Icon(
-                Icons.lens,
-                size: 16.0,
-                color: Colors.white,
-            ),
-        ],
-    );
-
-    Widget _buildOtherUserImage() => CircleAvatar(
-        backgroundImage:
-        CachedNetworkImageProvider(widget.messageOwner.photoUrl),
-    );
-
-    Widget _buildMessageContent() {
-        return Row(
-            mainAxisAlignment:
-            isFromCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+    Widget _buildUnSendIcon() =>
+        Stack(
+            alignment: Alignment.center,
             children: <Widget>[
-                Container(
-                    padding: EdgeInsets.all(screenUtil.setHeight(20.0)),
-                    decoration: BoxDecoration(
-                        color: isFromCurrentUser ? Colors.blue : Colors.grey[400],
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                    child: Text(
-                        widget.message.content,
-                    ),
+                Icon(
+                    Icons.lens,
+                    size: 20.0,
+                    color: Colors.blue,
+                ),
+                Icon(
+                    Icons.lens,
+                    size: 16.0,
+                    color: Colors.white,
                 ),
             ],
+        );
+
+    Widget _buildOtherUserImage() =>
+        CircleAvatar(
+            backgroundImage:
+            CachedNetworkImageProvider(widget.messageOwner.photoUrl),
+        );
+    
+    Widget _buildMessageContent() {
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Bubble(
+                padding: const BubbleEdges.symmetric(vertical: 8.0),
+                alignment: isFromCurrentUser ? Alignment.topRight : Alignment
+                    .topLeft,
+                color: isFromCurrentUser ? Colors.blue : Colors.grey[400],
+                child: Text(widget.message.content),
+            ),
         );
     }
 }

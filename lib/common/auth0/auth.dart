@@ -8,6 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 
 class Auth {
+    static bool firstTimeSignIn = false;
+    
     static final _auth = FirebaseAuth.instance;
     
     static Future<User> currentUser() async {
@@ -29,6 +31,7 @@ class Auth {
             displayName: firebaseUser.displayName,
             email: firebaseUser.email,
             photoUrl: firebaseUser.photoUrl,
+            online: true,
             types: [UserType.NORMAL],
             created: DateTime.now());
         await UserDao.addUser(newUser);
@@ -42,6 +45,7 @@ class Auth {
     }
     
     static Future<User> signIn() async {
+        firstTimeSignIn = false;
         final googleUser = await GoogleAuth.getSignedInAccount();
         if (googleUser == null) return null;
         final GoogleSignInAuthentication googleAuth =
@@ -75,13 +79,14 @@ class Auth {
         }
     }
     
-    static Future<void> addDeviceToken(
-        {@required String userId, @required String token,}) async {
+    static Future<void> addDeviceToken({@required String userId, @required String token,}) async {
         final user = await currentUser();
         if (user != null) {
             final tokens = user.tokens ?? <String>[];
-            tokens.add(token);
-            UserDao.updateUser(id: userId, fields: {'tokens': tokens});
+            if (!user.tokens.contains(token)) {
+                tokens.add(token);
+                UserDao.updateUser(id: userId, fields: {'tokens': tokens});
+            }
         }
     }
 }

@@ -53,6 +53,8 @@ class User extends Base {
     final List<String> tokens;
     final UserNeeds needs;
     @JsonKey(nullable: false)
+    final bool online;
+    @JsonKey(nullable: false)
     final DateTime created;
     final DateTime updated;
 
@@ -66,6 +68,7 @@ class User extends Base {
         this.needs,
         this.friendIds,
         this.tokens,
+        @required this.online,
         @required this.created,
         this.updated,
     })  : assert(displayName != null),

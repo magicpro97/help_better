@@ -159,13 +159,19 @@ class _MessageScreenState extends State<MessageScreen> {
                                                             message: message,
                                                             currentUser: currentUser,
                                                             messageOwner: owner,
-                                                            isLastMessage:
+                                                            isLastConversationMessage:
                                                             lastConversationMessage !=
                                                                 null,
+                                                            isLastMessage: index ==
+                                                                messages
+                                                                    .length - 1,
                                                             isFirstMessageGroup: isFirstMessageGroup,
                                                         );
                                                     },
                                                     itemCount: messages.length,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0),
                                                 );
                                             })
                                             : Center(

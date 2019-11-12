@@ -43,11 +43,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             });
             
             _fcm.requestNotificationPermissions(IosNotificationSettings());
+        } else {
+            _fcm.getToken().then((token) =>
+                appBloc.add(SaveDeviceTokenEvent(token: token)));
         }
-        _fcm.configure(onMessage: (message) async {},
-            onBackgroundMessage: (message) async {},
-            onLaunch: (message) async {},
-            onResume: (message) async {});
+        _fcm.configure(
+            onMessage: (message) async {
+                log(message.toString());
+            },
+            onLaunch: (message) async {
+                log(message.toString());
+            },
+            onResume: (message) async {
+                log(message.toString());
+            },);
     }
     
     @override
