@@ -22,26 +22,28 @@ const notifyToOtherUser = async (snapshot: DocumentSnapshot, cMessaging: messagi
     if (messageGroups) {
         const messageGroup = ((await messageGroups.get()).data() as MessageGroup);
         const memberStatus = messageGroup.memberStatus;
-        const otherUserIds = messageGroup.memberIds.filter(id => id !== newMessage.userId && memberStatus[id] !== MemberState.IN);
         const app = messageGroups.parent.parent;
-        if (app && otherUserIds.length > 0) {
-            const uSnap = await app.collection("users").where("id", "in", otherUserIds).get();
+        if (app) {
+            const uSnap = await app.collection("users").where("id", "in", messageGroup.memberIds).get();
             for (const doc of uSnap.docs) {
                 const user = doc.data() as User;
                 const tokens = user.tokens;
-                if (tokens) {
-                    const token = tokens.pop();
-                    if (token) {
-                        const payload: messaging.MessagingPayload = {
-                            notification: {
-                            title: user.displayName,
-                            body: newMessage.content,
-                            icon: user.photoUrl,
-                            click_action: 'FLUTTER_NOTIFICATION_CLICK' // required only for onResume or onLaunch callbacks
-                            }
-                        };
-                        await cMessaging.sendToDevice(token, payload);
-                    }
+                if (tokens && 
+                    user.id !== newMessage.userId && 
+                    (memberStatus[user.id] !== MemberState.IN || !user.online)) {
+                        const token = tokens.pop();
+                        const owner = (await app.collection("users").doc(newMessage.userId).get()).data() as User;
+                        if (token) {
+                            const payload: messaging.MessagingPayload = {
+                                notification: {
+                                title: owner.displayName,
+                                body: newMessage.content,
+                                icon: user.photoUrl,
+                                click_action: 'FLUTTER_NOTIFICATION_CLICK' // required only for onResume or onLaunch callbacks
+                                }
+                            };
+                            await cMessaging.sendToDevice(token, payload);
+                        }
                 }
             }
         }
