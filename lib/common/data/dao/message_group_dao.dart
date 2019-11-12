@@ -35,9 +35,12 @@ class MessageGroupDao {
         return users;
     }
 
-    static Future<MessageGroup> add({@required List<String> memberIds}) async {
+    static Future<MessageGroup> add(
+        {@required List<String> memberIds,
+            @required String currentUserId}) async {
         final memberStatus = <String, MemberState>{};
-        memberIds.forEach((id) => memberStatus[id] = MemberState.IN);
+        memberStatus[currentUserId] = MemberState.IN;
+        memberIds.where((id) => id != currentUserId).forEach((id) => memberStatus[id] = MemberState.OUT);
         final newMessageGroup = MessageGroup(
             id: Uuid().v1(),
             memberStatus: memberStatus,

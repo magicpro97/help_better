@@ -34,7 +34,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
             if (messageGroup == null) {
                 await addUniqueUser(user, currentUser.id);
                 await addUniqueUser(currentUser, user.id);
-                messageGroup = await MessageGroupDao.add(memberIds: memberIds);
+                messageGroup = await MessageGroupDao.add(currentUserId: currentUser.id, memberIds: memberIds);
             }
             goToMessageScreen(
                 event.context,
