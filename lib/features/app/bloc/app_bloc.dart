@@ -36,6 +36,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                     Auth.addDeviceToken(userId: user.id, token: event.token);
                 }
             }
+        } else if (event is PushNotificationEvent) {
+    
         }
     }
 }

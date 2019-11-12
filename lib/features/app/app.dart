@@ -21,6 +21,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
+    static const _APP = "APP";
     final appBloc = AppBloc();
     
     final _fcm = FirebaseMessaging();
@@ -49,13 +50,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         }
         _fcm.configure(
             onMessage: (message) async {
-                log(message.toString());
+                log(message.toString(), name: _APP);
             },
             onLaunch: (message) async {
-                log(message.toString());
+                log(message.toString(), name: _APP);
             },
             onResume: (message) async {
-                log(message.toString());
+                log(message.toString(), name: _APP);
             },);
     }
     
