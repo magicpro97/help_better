@@ -15,217 +15,175 @@ import 'components/chat_bar.dart';
 import 'components/message_item.dart';
 
 class MessageScreen extends StatefulWidget {
-    final MessageGroup messageGroup;
-    final User currentUser;
-    final List<User> otherUser;
+  final MessageGroup messageGroup;
+  final User currentUser;
+  final List<User> otherUser;
 
-    const MessageScreen({
-        Key key,
-        @required this.messageGroup,
-        @required this.currentUser,
-        @required this.otherUser,
-    })
-        : assert(messageGroup != null),
-            assert(currentUser != null),
-            assert(otherUser != null),
-            super(key: key);
+  const MessageScreen({
+    Key key,
+    @required this.messageGroup,
+    @required this.currentUser,
+    @required this.otherUser,
+  })  : assert(messageGroup != null),
+        assert(currentUser != null),
+        assert(otherUser != null),
+        super(key: key);
 
-    @override
-    _MessageScreenState createState() => _MessageScreenState();
+  @override
+  _MessageScreenState createState() => _MessageScreenState();
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-    static const _TAG = "MessageScreen";
-    final messageGroupBloc = MessageGroupBloc();
+  static const _TAG = "MessageScreen";
+  final messageGroupBloc = MessageGroupBloc();
 
-    @override
-    void initState() {
-        messageGroupBloc.add(ComeInEvent(
-            messageGroup: widget.messageGroup,
-            currentUser: widget.currentUser));
-        super.initState();
-    }
+  @override
+  void initState() {
+    messageGroupBloc.add(ComeInEvent(
+        messageGroup: widget.messageGroup, currentUser: widget.currentUser));
+    super.initState();
+  }
 
-    @override
-    void dispose() {
-        super.dispose();
-        messageGroupBloc.close();
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    messageGroupBloc.close();
+  }
 
-    @override
-    Widget build(BuildContext context) {
-        final currentUser = widget.currentUser;
-        final messageGroup = widget.messageGroup;
-        final otherUser = widget.otherUser;
+  @override
+  Widget build(BuildContext context) {
+    final currentUser = widget.currentUser;
+    final messageGroup = widget.messageGroup;
+    final otherUser = widget.otherUser;
 
-        return CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-                middle: Text(
-                    messageGroup.displayName ?? displayName(otherUser)),
-            ),
-            child: WillPopScope(
-                onWillPop: () => _onWillPop(currentUser, messageGroup),
-                child: SafeArea(
-                    child: Scaffold(
-                        body: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                                Expanded(
-                                    child: FutureBuilder<List<User>>(
-                                        future: MessageGroupDao.getOtherUser(
-                                            groupId: messageGroup.id,
-                                            currentUserId: currentUser.id),
-                                        builder: (context, otherUserSnapshot) {
-                                            if (otherUserSnapshot.hasError) {
-                                                log(otherUserSnapshot.error
-                                                    .toString(), name: _TAG);
-                                                return Center(
-                                                    child: Text(
-                                                        'Something went wrong.'),
-                                                );
-                                            }
-                                            if (!otherUserSnapshot.hasData) {
-                                                return ScreenLoading();
-                                            }
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(messageGroup.displayName ?? displayName(otherUser)),
+      ),
+      child: WillPopScope(
+        onWillPop: () => _onWillPop(currentUser, messageGroup),
+        child: SafeArea(
+          child: Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Expanded(
+                  child: FutureBuilder<List<User>>(
+                      future: MessageGroupDao.getOtherUser(
+                          groupId: messageGroup.id,
+                          currentUserId: currentUser.id),
+                      builder: (context, otherUserSnapshot) {
+                        if (otherUserSnapshot.hasError) {
+                          log(otherUserSnapshot.error.toString(), name: _TAG);
+                          return Center(
+                            child: Text('Something went wrong.'),
+                          );
+                        }
+                        if (!otherUserSnapshot.hasData) {
+                          return ScreenLoading();
+                        }
 
-                                            if (otherUserSnapshot.data.length <
-                                                0) {
-                                                return Container();
-                                            }
+                        if (otherUserSnapshot.data.length < 0) {
+                          return Container();
+                        }
 
-                                            return StreamBuilder<List<Message>>(
-                                                stream: messageGroupBloc
-                                                    .messageListStream(
-                                                    messageGroupId: messageGroup
-                                                        .id,
-                                                    orderBy: OrderBy(
-                                                        field: 'created',
-                                                        desc: true)),
-                                                builder: (context, snapshot) {
-                                                    if (snapshot.hasError) {
-                                                        log(snapshot.error
-                                                            .toString(),
-                                                            name: _TAG);
-                                                        return Center(
-                                                            child: Text(
-                                                                'Something went wrong.'),
-                                                        );
-                                                    }
+                        return StreamBuilder<List<Message>>(
+                            stream: messageGroupBloc.messageListStream(
+                                messageGroupId: messageGroup.id,
+                                orderBy: OrderBy(field: 'created', desc: true)),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                log(snapshot.error.toString(), name: _TAG);
+                                return Center(
+                                  child: Text('Something went wrong.'),
+                                );
+                              }
 
-                                                    if (!snapshot.hasData) {
-                                                        return ScreenLoading();
-                                                    }
+                              if (!snapshot.hasData) {
+                                return ScreenLoading();
+                              }
 
-                                                    final otherUsers = otherUserSnapshot
-                                                        .data;
-                                                    final messages = snapshot
-                                                        .data;
+                              final otherUsers = otherUserSnapshot.data;
+                              final messages = snapshot.data;
 
-                                                    if (messages.length < 1) {
-                                                        return Container();
-                                                    }
+                              if (messages.length < 1) {
+                                return Container();
+                              }
 
-                                                    final lastCurrentUserMessage =
-                                                    messages.firstWhere((
-                                                        message) =>
-                                                    message.userId ==
-                                                        currentUser.id,
-                                                        orElse: () => null);
+                              final lastCurrentUserMessage =
+                                  messages.firstWhere(
+                                      (message) =>
+                                          message.userId == currentUser.id,
+                                      orElse: () => null);
 
-                                                    List<
-                                                        Message> tempTimeGroupMessage = [
-                                                    ];
+                              List<Message> tempTimeGroupMessage = [];
 
-                                                    return ListView.builder(
-                                                        reverse: true,
-                                                        itemBuilder: (context,
-                                                            index) {
-                                                            final message = messages[index];
-                                                            Message lastConversationMessage = message;
-                                                            bool isFirstMessageGroup = false;
-                                                            if (index < messages
-                                                                .length - 1) {
-                                                                if (message
-                                                                    .created
-                                                                    .difference(
-                                                                    messages[index +
-                                                                        1]
-                                                                        .created)
-                                                                    .inMinutes >
-                                                                    3) {
-                                                                    isFirstMessageGroup =
-                                                                    true;
-                                                                    if (tempTimeGroupMessage !=
-                                                                        null &&
-                                                                        tempTimeGroupMessage
-                                                                            .isNotEmpty) {
-                                                                        lastConversationMessage =
-                                                                            tempTimeGroupMessage
-                                                                                .last;
-                                                                    }
-                                                                    tempTimeGroupMessage =
-                                                                    [];
-                                                                } else {
-                                                                    isFirstMessageGroup =
-                                                                    false;
-                                                                    tempTimeGroupMessage
-                                                                        .add(
-                                                                        message);
-                                                                }
-                                                            } else {
-                                                                isFirstMessageGroup =
-                                                                true;
-                                                            }
+                              return ListView.builder(
+                                reverse: true,
+                                itemBuilder: (context, index) {
+                                  final message = messages[index];
+                                  Message lastConversationMessage = message;
+                                  bool isFirstMessageGroup = false;
+                                  if (index < messages.length - 1) {
+                                    if (message.created
+                                            .difference(
+                                                messages[index + 1].created)
+                                            .inMinutes >
+                                        3) {
+                                      isFirstMessageGroup = true;
+                                      if (tempTimeGroupMessage != null &&
+                                          tempTimeGroupMessage.isNotEmpty) {
+                                        lastConversationMessage =
+                                            tempTimeGroupMessage.last;
+                                      }
+                                      tempTimeGroupMessage = [];
+                                    } else {
+                                      isFirstMessageGroup = false;
+                                      tempTimeGroupMessage.add(message);
+                                    }
+                                  } else {
+                                    isFirstMessageGroup = true;
+                                  }
 
-                                                            return MessageItem(
-                                                                message: message,
-                                                                currentUser: currentUser,
-                                                                otherUsers: otherUsers,
-                                                                isLastCurrentUserMessage:
-                                                                lastCurrentUserMessage
-                                                                    ?.userId ==
-                                                                    message
-                                                                        ?.userId &&
-                                                                    lastCurrentUserMessage
-                                                                        ?.id ==
-                                                                        message
-                                                                            ?.id ??
-                                                                    false,
-                                                                isLastConversationMessage:
-                                                                lastConversationMessage !=
-                                                                    null,
-                                                                isLastMessage: index ==
-                                                                    0,
-                                                                isFirstMessageGroup: isFirstMessageGroup,
-                                                            );
-                                                        },
-                                                        itemCount: messages
-                                                            .length,
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 8.0),
-                                                    );
-                                                });
-                                        }),
-                                ),
-                                ChatBar(
-                                    messageGroupBloc: messageGroupBloc,
-                                    userId: widget.currentUser.id,
-                                    messageGroupId: widget.messageGroup.id,
-                                ),
-                            ],
-                        ),
-                    ),
+                                  return MessageItem(
+                                    message: message,
+                                    currentUser: currentUser,
+                                    otherUsers: otherUsers,
+                                    isLastCurrentUserMessage:
+                                        lastCurrentUserMessage?.userId ==
+                                                    message?.userId &&
+                                                lastCurrentUserMessage?.id ==
+                                                    message?.id ??
+                                            false,
+                                    isLastConversationMessage:
+                                        lastConversationMessage != null,
+                                    isLastMessage: index == 0,
+                                    isFirstMessageGroup: isFirstMessageGroup,
+                                  );
+                                },
+                                itemCount: messages.length,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                              );
+                            });
+                      }),
                 ),
+                ChatBar(
+                  messageGroupBloc: messageGroupBloc,
+                  userId: widget.currentUser.id,
+                  messageGroupId: widget.messageGroup.id,
+                ),
+              ],
             ),
-        );
-    }
+          ),
+        ),
+      ),
+    );
+  }
 
-    Future<bool> _onWillPop(User currentUser, MessageGroup messageGroup) async {
-        messageGroupBloc
-            .add(
-            GoOutEvent(messageGroup: messageGroup, currentUser: currentUser));
-        return true;
-    }
+  Future<bool> _onWillPop(User currentUser, MessageGroup messageGroup) async {
+    messageGroupBloc
+        .add(GoOutEvent(messageGroup: messageGroup, currentUser: currentUser));
+    return true;
+  }
 }
