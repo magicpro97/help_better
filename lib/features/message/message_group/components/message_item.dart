@@ -9,26 +9,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MessageItem extends StatefulWidget {
     final Message message;
     final User currentUser;
-    final User messageOwner;
+    final List<User> otherUsers;
     final bool isLastConversationMessage;
     final bool isLastMessage;
     final bool isFirstMessageGroup;
-
+    final bool isLastCurrentUserMessage;
+    
     const MessageItem({
         Key key,
         @required this.message,
         @required this.currentUser,
-        @required this.messageOwner,
+        @required this.otherUsers,
         @required this.isLastMessage,
+        @required this.isLastCurrentUserMessage,
         @required this.isLastConversationMessage,
         @required this.isFirstMessageGroup,
     })
         : assert(message != null),
             assert(currentUser != null),
-            assert(messageOwner != null),
+            assert(otherUsers != null && otherUsers.length > 0),
             assert(isLastMessage != null),
             assert(isLastConversationMessage != null),
             assert(isFirstMessageGroup != null),
+            assert(isLastCurrentUserMessage != null),
             super(key: key);
 
     @override
@@ -42,11 +45,11 @@ class _MessageItemState extends State<MessageItem> {
         widget.currentUser.id == widget.message.userId;
 
     bool get showOtherUserAvatar =>
-        !isFromCurrentUser && widget.isLastConversationMessage;
+        !isFromCurrentUser;
     
     bool get isFirstMessageGroup => widget.isFirstMessageGroup;
 
-    bool get showMessageStatus => isFromCurrentUser && widget.isLastMessage;
+    bool get showMessageStatus => isFromCurrentUser;
     
     @override
     Widget build(BuildContext context) {
@@ -62,7 +65,10 @@ class _MessageItemState extends State<MessageItem> {
                         showOtherUserAvatar
                             ? _buildOtherUserImage()
                             : Container(),
-                        Expanded(child: _buildMessageContent()),
+                        Expanded(child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6.0),
+                            child: _buildMessageContent(),
+                        )),
                         showMessageStatus ? _buildMessageStatus() : Container(),
                     ],
                 )
@@ -74,7 +80,9 @@ class _MessageItemState extends State<MessageItem> {
         final message = widget.message;
         if (message.isSentMessage()) {
             if (message.isSeenMessage()) {
-                return _buildSeenIcon();
+                final seenUser = widget.otherUsers.where((user) =>
+                message.status[user.id] == MessageStatus.SEEN).toList();
+                return _buildSeenIcon(seenUser);
             } else if (message.isReceivedMessage()) {
                 return _buildReceivedIcon();
             }
@@ -93,12 +101,13 @@ class _MessageItemState extends State<MessageItem> {
             ),
         );
 
-    Widget _buildSeenIcon() =>
-        widget.isLastConversationMessage ? CircleAvatar(
-            maxRadius: screenUtil.setHeight(Dimens.messageHeight),
+    Widget _buildSeenIcon(List<User> seenUser) =>
+        widget.isLastCurrentUserMessage ? seenUser.length > 1 ? CircleAvatar(
+            maxRadius: screenUtil.setHeight(Dimens.currentUserMessageHeight),
             backgroundImage: CachedNetworkImageProvider(
-                widget.currentUser.photoUrl),) : Container(width: 20.0,);
-
+                seenUser.first.photoUrl),) : Container() : Container(
+            width: 20.0,);
+    
     Widget _buildSentIcon() =>
         Icon(
             Icons.check_circle_outline,
@@ -132,20 +141,20 @@ class _MessageItemState extends State<MessageItem> {
 
     Widget _buildOtherUserImage() =>
         CircleAvatar(
+            radius: screenUtil.setHeight(Dimens.otherUserMessageHeight),
             backgroundImage:
-            CachedNetworkImageProvider(widget.messageOwner.photoUrl),
+            CachedNetworkImageProvider(widget.otherUsers
+                .firstWhere((user) => user.id == widget.message.userId)
+                .photoUrl),
         );
     
     Widget _buildMessageContent() {
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Bubble(
-                padding: const BubbleEdges.symmetric(vertical: 8.0),
-                alignment: isFromCurrentUser ? Alignment.topRight : Alignment
-                    .topLeft,
-                color: isFromCurrentUser ? Colors.blue : Colors.grey[400],
-                child: Text(widget.message.content),
-            ),
+        return Bubble(
+            padding: const BubbleEdges.symmetric(vertical: 8.0),
+            alignment: isFromCurrentUser ? Alignment.topRight : Alignment
+                .topLeft,
+            color: isFromCurrentUser ? Colors.blue : Colors.grey[400],
+            child: Text(widget.message.content),
         );
     }
 }

@@ -92,18 +92,22 @@ class _MessageScreenState extends State<MessageScreen> {
                                                             'Something went wrong.'),
                                                     );
                                                 }
-                                        
+
                                                 if (!snapshot.hasData) {
                                                     return ScreenLoading();
                                                 }
-                                        
+
                                                 final otherUsers = otherUserSnapshot
                                                     .data;
                                                 final messages = snapshot.data;
+                                                final lastCurrentUserMessage = messages
+                                                    .firstWhere((message) =>
+                                                message.userId ==
+                                                    currentUser.id);
                                                 List<
                                                     Message> tempTimeGroupMessage = [
                                                 ];
-                                        
+
                                                 return ListView.builder(
                                                     reverse: true,
                                                     itemBuilder: (context,
@@ -143,28 +147,19 @@ class _MessageScreenState extends State<MessageScreen> {
                                                             isFirstMessageGroup =
                                                             true;
                                                         }
-                                                        final otherUser = otherUsers
-                                                            .firstWhere(
-                                                                (user) =>
-                                                            user.id ==
-                                                                message.userId,
-                                                            orElse: () => null);
-                                                        final owner = currentUser
-                                                            .id ==
-                                                            message.userId
-                                                            ? currentUser
-                                                            : otherUser;
-                                                
+
                                                         return MessageItem(
                                                             message: message,
                                                             currentUser: currentUser,
-                                                            messageOwner: owner,
+                                                            otherUsers: otherUsers,
+                                                            isLastCurrentUserMessage: lastCurrentUserMessage
+                                                                .id ==
+                                                                message.userId,
                                                             isLastConversationMessage:
                                                             lastConversationMessage !=
                                                                 null,
                                                             isLastMessage: index ==
-                                                                messages
-                                                                    .length - 1,
+                                                                0,
                                                             isFirstMessageGroup: isFirstMessageGroup,
                                                         );
                                                     },

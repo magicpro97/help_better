@@ -15,5 +15,7 @@ class Dimens {
   static const optionButtonBorderRadius = 40.0;
   static const optionButtonTextPadding = 80.0;
 
-  static const messageHeight = 20.0;
+  static const currentUserMessageHeight = 20.0;
+
+  static const otherUserMessageHeight = 52.0;
 }
