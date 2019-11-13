@@ -36,6 +36,10 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
                 await addUniqueUser(currentUser, user.id);
                 messageGroup = await MessageGroupDao.add(currentUserId: currentUser.id, memberIds: memberIds);
             }
+            if (!event.otherUser.contains(user.id)) {
+                final newUser = await UserDao.findById(user.id);
+                event.otherUser.add(newUser);
+            }
             goToMessageScreen(
                 event.context,
                 messageGroup,
@@ -47,9 +51,14 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
     }
 
     Future<void> addUniqueUser(User user, String id) async {
-        final friendIds = user.friendIds ?? [];
-        if (!friendIds.contains(id)) {
-            friendIds.add(id);
+        final json = user.toJson();
+        if (user.friendIds == null) {
+            json['friendIds'] = [id];
+            await UserDao.updateUser(user: User.fromJson(json));
+        } else {
+            if (!user.friendIds.contains(id)) {
+                user.friendIds.add(id);
+            }
             await UserDao.updateUser(user: user);
         }
     }
