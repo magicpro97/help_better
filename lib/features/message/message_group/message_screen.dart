@@ -6,10 +6,13 @@ import 'package:better_help/common/data/models/message_group.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/data/order_by.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
+import 'package:better_help/features/app/bloc/app_bloc.dart';
+import 'package:better_help/features/app/components/notification.dart';
 import 'package:better_help/features/message/message_group/bloc/bloc.dart';
 import 'package:better_help/features/message/message_group_list/message_group_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/chat_bar.dart';
 import 'components/message_item.dart';
@@ -45,6 +48,10 @@ class _MessageScreenState extends State<MessageScreen>
         messageGroupBloc.add(ComeInEvent(
             messageGroup: widget.messageGroup,
             currentUser: widget.currentUser));
+        // ignore: close_sinks
+        final appBloc = BlocProvider.of<AppBloc>(context);
+        appBloc.notificationStream.listen((data) =>
+            PushNotification.show(context: context, notification: data));
         WidgetsBinding.instance.addObserver(this);
     }
 

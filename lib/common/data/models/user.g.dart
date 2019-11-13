@@ -24,9 +24,13 @@ User _$UserFromJson(Map<String, dynamic> json) {
         online: json['online'] as bool,
         created: json['created'] == null
             ? null
+            : json['created'] is DateTime
+            ? json['created']
             : (json['created'] as Timestamp).toDate(),
         updated: json['updated'] == null
             ? null
+            : json['updated'] is DateTime
+            ? json['updated']
             : (json['updated'] as Timestamp).toDate(),
     );
 }

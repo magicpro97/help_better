@@ -24,7 +24,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
         if (event is JoinVolunteerEvent) {
             final user = event.user;
             user.types.add(UserType.VOLUNTEER);
-            UserDao.updateUser(id: event.user.id, fields: user.toJson());
+            UserDao.updateUser(user: user);
         } else if (event is CreateMessageGroup) {
             final user = event.user;
             final currentUser = await Auth.currentUser();
@@ -50,9 +50,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
         final friendIds = user.friendIds ?? [];
         if (!friendIds.contains(id)) {
             friendIds.add(id);
-            await UserDao.updateUser(id: user.id, fields: {
-                'friendIds': friendIds,
-            });
+            await UserDao.updateUser(user: user);
         }
     }
 }

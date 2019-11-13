@@ -6,7 +6,7 @@ class PushNotification {
     static bool _isVisible = false;
     
     static Future<void> show(
-        {@required BuildContext context, @required Notification notification,
+        {@required BuildContext context, @required FCNotification notification,
             Duration duration = const Duration(seconds: 3),}) async {
         final overlayState = Overlay.of(context);
         final overlayEntry = OverlayEntry(
@@ -29,11 +29,11 @@ class PushNotification {
     }
 }
 
-class Notification {
+class FCNotification {
     final String title;
     final String content;
-    
-    Notification({@required this.title, @required this.content})
+
+    FCNotification({@required this.title, @required this.content})
         : assert(title != null),
             assert(content != null);
 }

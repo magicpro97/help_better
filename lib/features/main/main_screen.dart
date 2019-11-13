@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:better_help/common/data/dao/user_dao.dart';
 import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/ui/screen_loading.dart';
+import 'package:better_help/features/app/bloc/app_bloc.dart';
+import 'package:better_help/features/app/components/notification.dart';
 import 'package:better_help/features/main/sharing_tab.dart';
 import 'package:better_help/features/message/message_group_list/message_tab.dart';
 import 'package:better_help/features/need_help/need_help_tab.dart';
@@ -10,6 +12,7 @@ import 'package:better_help/features/user_setting/more/more_tab.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/bloc.dart';
 
@@ -29,6 +32,10 @@ class _MainScreenState extends State<MainScreen> {
     @override
     void initState() {
         super.initState();
+        // ignore: close_sinks
+        final appBloc = BlocProvider.of<AppBloc>(context);
+        appBloc.notificationStream.listen((data) =>
+            PushNotification.show(context: context, notification: data));
     }
     
     @override
