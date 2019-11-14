@@ -32,6 +32,7 @@ class Auth {
             email: firebaseUser.email,
             photoUrl: firebaseUser.photoUrl,
             online: true,
+            needs: null,
             types: [UserType.NORMAL],
             created: DateTime.now());
         await UserDao.addUser(newUser);

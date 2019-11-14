@@ -46,6 +46,7 @@ Map<String, dynamic> _$UserToJson(User instance) =>
         'friendIds': instance.friendIds,
         'tokens': instance.tokens,
         'online': instance.online,
+        'needs': _$UserNeedsEnumMap[instance.needs],
         'created': instance.created?.toUtc(),
         'updated': instance.updated?.toUtc(),
     };

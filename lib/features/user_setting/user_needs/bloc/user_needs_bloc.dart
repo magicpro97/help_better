@@ -42,6 +42,7 @@ class UserNeedsBloc extends Bloc<UserNeedsEvent, UserNeedsState> {
         final user = await Auth.currentUser();
         final json = user.toJson();
         json[_key] = userNeedMap[needs];
+        log(json[_key].toString());
         await UserDao.updateUser(user: User.fromJson(json));
     }
     
