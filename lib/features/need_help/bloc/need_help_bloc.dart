@@ -36,7 +36,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
                 await addUniqueUser(currentUser, user.id);
                 messageGroup = await MessageGroupDao.add(currentUserId: currentUser.id, memberIds: memberIds);
             }
-            if (!event.otherUser.contains(user.id)) {
+            if (!event.otherUser.map((user) => user.id).contains(user.id)) {
                 final newUser = await UserDao.findById(user.id);
                 event.otherUser.add(newUser);
             }
