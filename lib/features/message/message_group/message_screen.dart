@@ -71,7 +71,7 @@ class _MessageScreenState extends State<MessageScreen>
                 break;
             case AppLifecycleState.paused:
                 break;
-            case AppLifecycleState.suspending:
+            case AppLifecycleState.detached:
                 break;
         }
     }
