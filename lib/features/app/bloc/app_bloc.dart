@@ -26,7 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                 case AppLifecycleState.paused:
                     Auth.beOffline();
                     break;
-                case AppLifecycleState.detached:
+                case AppLifecycleState.suspending:
                     break;
             }
         } else if (event is SaveDeviceTokenEvent) {
