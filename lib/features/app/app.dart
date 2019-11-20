@@ -10,6 +10,7 @@ import 'package:better_help/generated/i18n.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +23,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> with WidgetsBindingObserver {
     static const _APP = "APP";
-    final appBloc = AppBloc();
+    AppBloc appBloc;
     
     final _fcm = FirebaseMessaging();
     
@@ -35,6 +36,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     @override
     void initState() {
         super.initState();
+        appBloc = BlocProvider.of<AppBloc>(context);
         WidgetsBinding.instance.addObserver(this);
         if (Platform.isIOS) {
             _fcm.onIosSettingsRegistered.listen((data) {

@@ -32,6 +32,7 @@ class Auth {
             email: firebaseUser.email,
             photoUrl: firebaseUser.photoUrl,
             online: true,
+            needs: null,
             types: [UserType.NORMAL],
             created: DateTime.now());
         await UserDao.addUser(newUser);
@@ -67,15 +68,18 @@ class Auth {
     static Future<void> beOffline() async {
         final user = await currentUser();
         if (user != null) {
-            UserDao.updateUser(id: user.id, fields: {'online': false});
+            final json = user.toJson();
+            json['online'] = false;
+            UserDao.updateUser(user: User.fromJson(json));
         }
     }
     
     static Future<void> beOnline() async {
         final user = await currentUser();
         if (user != null) {
-            UserDao.updateUser(
-                id: user.id, fields: {'online': true});
+            final json = user.toJson();
+            json['online'] = true;
+            UserDao.updateUser(user: User.fromJson(json));
         }
     }
     
@@ -85,7 +89,7 @@ class Auth {
             final tokens = user.tokens ?? <String>[];
             if (!tokens.contains(token)) {
                 tokens.add(token);
-                UserDao.updateUser(id: userId, fields: {'tokens': tokens});
+                UserDao.updateUser(user: user);
             }
         }
     }

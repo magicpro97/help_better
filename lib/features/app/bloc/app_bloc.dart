@@ -2,13 +2,25 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:better_help/common/auth0/auth.dart';
+import 'package:better_help/features/app/components/notification.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 import './bloc.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
     static const _TAG = "AppBloc";
+    final _notificationController = BehaviorSubject<FCNotification>();
+
+    Stream<FCNotification> get notificationStream =>
+        _notificationController.stream;
+
+    @override
+    Future<void> close() {
+        _notificationController.close();
+        return super.close();
+    }
     
     @override
     AppState get initialState => InitialAppState();
@@ -37,7 +49,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                 }
             }
         } else if (event is PushNotificationEvent) {
-    
+            _notificationController.add(
+                FCNotification(title: event.title, content: event.content));
         }
     }
 }

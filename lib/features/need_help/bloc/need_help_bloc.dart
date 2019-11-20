@@ -24,7 +24,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
         if (event is JoinVolunteerEvent) {
             final user = event.user;
             user.types.add(UserType.VOLUNTEER);
-            UserDao.updateUser(id: event.user.id, fields: user.toJson());
+            UserDao.updateUser(user: user);
         } else if (event is CreateMessageGroup) {
             final user = event.user;
             final currentUser = await Auth.currentUser();
@@ -35,6 +35,10 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
                 await addUniqueUser(user, currentUser.id);
                 await addUniqueUser(currentUser, user.id);
                 messageGroup = await MessageGroupDao.add(currentUserId: currentUser.id, memberIds: memberIds);
+            }
+            if (!event.otherUser.map((user) => user.id).contains(user.id)) {
+                final newUser = await UserDao.findById(user.id);
+                event.otherUser.add(newUser);
             }
             goToMessageScreen(
                 event.context,
@@ -47,12 +51,15 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
     }
 
     Future<void> addUniqueUser(User user, String id) async {
-        final friendIds = user.friendIds ?? [];
-        if (!friendIds.contains(id)) {
-            friendIds.add(id);
-            await UserDao.updateUser(id: user.id, fields: {
-                'friendIds': friendIds,
-            });
+        final json = user.toJson();
+        if (user.friendIds == null) {
+            json['friendIds'] = [id];
+            await UserDao.updateUser(user: User.fromJson(json));
+        } else {
+            if (!user.friendIds.contains(id)) {
+                user.friendIds.add(id);
+            }
+            await UserDao.updateUser(user: user);
         }
     }
 }
