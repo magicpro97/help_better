@@ -36,6 +36,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
       final user = await Auth.currentUser();
       if (user != null) {
         Auth.beOnline();
+        Auth.requireEnableNotificationPermission();
         yield SignedState();
         goToMainScreen(event.context,
             deleteAllLastScreen: true, arguments: MainArgument(user: user));

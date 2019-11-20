@@ -45,7 +45,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             if (event.token != null) {
                 final user = await Auth.currentUser();
                 if (user != null) {
-                    Auth.addDeviceToken(userId: user.id, token: event.token);
+                    Auth.addDeviceToken(token: event.token);
                 }
             }
         } else if (event is PushNotificationEvent) {
