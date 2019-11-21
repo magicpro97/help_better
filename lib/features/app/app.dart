@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:better_help/common/auth0/auth.dart';
 import 'package:better_help/common/screens.dart';
 import 'package:better_help/features/auth0/ui/welcome_screen.dart';
 import 'package:better_help/features/main/main_screen.dart';
@@ -24,9 +25,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with WidgetsBindingObserver {
     static const _APP = "APP";
     AppBloc appBloc;
-    
-    final _fcm = FirebaseMessaging();
-    
+
     @override
     void didChangeAppLifecycleState(AppLifecycleState state) {
         super.didChangeAppLifecycleState(state);
@@ -38,28 +37,18 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         super.initState();
         appBloc = BlocProvider.of<AppBloc>(context);
         WidgetsBinding.instance.addObserver(this);
-        if (Platform.isIOS) {
-            _fcm.onIosSettingsRegistered.listen((data) {
-                log(data.toString());
-                _fcm.getToken().then((token) =>
-                    appBloc.add(SaveDeviceTokenEvent(token: token)));
-            });
-            
-            _fcm.requestNotificationPermissions(IosNotificationSettings());
-        } else {
-            _fcm.getToken().then((token) =>
-                appBloc.add(SaveDeviceTokenEvent(token: token)));
-        }
-        _fcm.configure(
+        Auth.fcmConfigure(
             onMessage: (message) async {
-                log(message.toString(), name: _APP);
+                log(message.toString(), name: "onMessage");
             },
             onLaunch: (message) async {
-                log(message.toString(), name: _APP);
+                log(message.toString(), name: "onLauch");
             },
             onResume: (message) async {
-                log(message.toString(), name: _APP);
-            },);
+                log(message.toString(), name: "onResume");
+            },
+            onBackgroundMessage: Auth.messageBackground,
+        );
     }
     
     @override
