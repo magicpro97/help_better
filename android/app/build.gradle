@@ -38,7 +38,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // TODO: Specify your own unique magicpro97.xyz.better_help.Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "magicpro97.xyz.better_help"
         minSdkVersion 21
         targetSdkVersion 29
