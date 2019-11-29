@@ -32,7 +32,6 @@ class MessageGroupCard extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         final screenUtil = ScreenUtil.instance;
-
         final unReadTextStyle = Theme
             .of(context)
             .primaryTextTheme
@@ -83,13 +82,17 @@ class MessageGroupCard extends StatelessWidget {
                                     latestMessage.updated ??
                                         latestMessage.created,
                                 ),
-                                style: latestMessageTextStyle,
+                                style: latestMessageTextStyle.copyWith(
+                                    fontSize: screenUtil.setSp(Dimens.body1_size),
+                                ),
                             ),
                         ],
                     ),
                     subtitle: Text(
                         latestMessage.content,
-                        style: latestMessageTextStyle,
+                        style: latestMessageTextStyle.copyWith(
+                            fontSize: screenUtil.setSp(Dimens.body1_size),
+                        ),
                     ),
                     onTap: () =>
                         goToMessageScreen(

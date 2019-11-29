@@ -6,7 +6,7 @@ class Dimens {
   static const xlarge_space = large_space * 2;
 
   static const h1_size = 72.0;
-  static const h2_size = 50.0;
+  static const h2_size = 64.0;
 
   static const elevation = 10.0;
 
