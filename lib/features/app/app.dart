@@ -60,6 +60,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
+      theme: CupertinoThemeData(
+        primaryColor: Color(0xff54bd98),
+        brightness: Brightness.light,
+        primaryContrastingColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (BuildContext context) => S.of(context).app_name,
       localizationsDelegates: const <LocalizationsDelegate>[

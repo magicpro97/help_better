@@ -56,9 +56,7 @@ class _MoreTabState extends State<MoreTab> {
                             getAHaftDayName(context),
                             snapshot.hasData
                                 ? snapshot.data.displayName
-                                : S
-                                .of(context)
-                                .you),
+                                : S.of(context).you),
                       ),
                     ),
                     SizedBox(
@@ -80,32 +78,24 @@ class _MoreTabState extends State<MoreTab> {
       child: Column(
         children: <Widget>[
           SettingOptionButton(
-            name: S
-                .of(context)
-                .more_change_nickname,
+            name: S.of(context).more_change_nickname,
             onPress: () => moreBloc.add(ChangeNicknameEvent(context)),
           ),
           SettingOptionButton(
-            name: S
-                .of(context)
-                .more_change_status,
+            name: S.of(context).more_change_status,
             onPress: () => moreBloc.add(ChangeUserNeedsEvent(context)),
           ),
           SizedBox(
             height: screenUtil.setHeight(Dimens.xlarge_space),
           ),
           SettingOptionButton(
-            name: S
-                .of(context)
-                .more_share_app,
+            name: S.of(context).more_share_app,
           ),
           SizedBox(
             height: screenUtil.setHeight(Dimens.xlarge_space),
           ),
           SettingOptionButton(
-            name: S
-                .of(context)
-                .more_sign_out,
+            name: S.of(context).more_sign_out,
             onPress: () => moreBloc.add(SignOutEvent(context)),
           ),
         ],
