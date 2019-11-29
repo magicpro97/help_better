@@ -84,45 +84,47 @@ class _MainScreenState extends State<MainScreen> {
                         }
                         final friends = snapshot.data;
                         
-                        return CupertinoTabScaffold(
-                            tabBuilder: (BuildContext context, int index) {
-                                final tabs = [
-                                    MessageTab(
-                                        currentUser: user, friends: friends,),
-                                    SharingTab(),
-                                    NeedHelpTab(
-                                        currentUser: user,
-                                        friends: friends,
-                                    ),
-                                    MoreTab(),
-                                ];
-                                
-                                return tabs[index];
-                            },
-                            tabBar: CupertinoTabBar(
-                                items: <BottomNavigationBarItem>[
-                                    BottomNavigationBarItem(
-                                        icon: Icon(Icons.message),
-                                        title: Text(S
-                                            .of(context)
-                                            .main_message)),
-                                    BottomNavigationBarItem(
-                                        icon: Icon(Icons.hearing),
-                                        title: Text(S
-                                            .of(context)
-                                            .main_share_room)),
-                                    BottomNavigationBarItem(
-                                        icon: Icon(CupertinoIcons.group_solid),
-                                        title: Text(S
-                                            .of(context)
-                                            .main_need_help)),
-                                    BottomNavigationBarItem(
-                                        icon: Icon(Icons.more_horiz),
-                                        title: Text(S
-                                            .of(context)
-                                            .main_more)),
-                                ],
-                            ),
+                        return SafeArea(
+                          child: CupertinoTabScaffold(
+                              tabBuilder: (BuildContext context, int index) {
+                                  final tabs = [
+                                      MessageTab(
+                                          currentUser: user, friends: friends,),
+                                      SharingTab(),
+                                      NeedHelpTab(
+                                          currentUser: user,
+                                          friends: friends,
+                                      ),
+                                      MoreTab(),
+                                  ];
+
+                                  return tabs[index];
+                              },
+                              tabBar: CupertinoTabBar(
+                                  items: <BottomNavigationBarItem>[
+                                      BottomNavigationBarItem(
+                                          icon: Icon(Icons.message),
+                                          title: Text(S
+                                              .of(context)
+                                              .main_message)),
+                                      BottomNavigationBarItem(
+                                          icon: Icon(Icons.hearing),
+                                          title: Text(S
+                                              .of(context)
+                                              .main_share_room)),
+                                      BottomNavigationBarItem(
+                                          icon: Icon(CupertinoIcons.group_solid),
+                                          title: Text(S
+                                              .of(context)
+                                              .main_need_help)),
+                                      BottomNavigationBarItem(
+                                          icon: Icon(Icons.more_horiz),
+                                          title: Text(S
+                                              .of(context)
+                                              .main_more)),
+                                  ],
+                              ),
+                          ),
                         );
                     },
                 );
