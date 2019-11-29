@@ -154,7 +154,9 @@ class _MessageItemState extends State<MessageItem> {
             alignment: isFromCurrentUser ? Alignment.topRight : Alignment
                 .topLeft,
             color: isFromCurrentUser ? Colors.blue : Colors.grey[400],
-            child: Text(widget.message.content),
+            child: Text(widget.message.content, style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                fontSize: screenUtil.setHeight(Dimens.body1_size),
+            ),),
         );
     }
 }

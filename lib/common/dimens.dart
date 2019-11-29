@@ -17,5 +17,5 @@ class Dimens {
 
   static const currentUserMessageHeight = 20.0;
 
-  static const otherUserMessageHeight = 52.0;
+  static const otherUserMessageHeight = 42.0;
 }
