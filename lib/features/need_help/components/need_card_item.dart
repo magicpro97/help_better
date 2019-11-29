@@ -21,6 +21,11 @@ class NeedCardItem extends StatelessWidget {
         .caption
         .copyWith(fontSize: screenUtil.setSp(Dimens.h2_size));
 
+    final descriptionTextStyle =
+        Theme.of(context).primaryTextTheme.body1.copyWith(
+              fontSize: screenUtil.setSp(Dimens.body1_size),
+            );
+
     return Container(
       child: ListTile(
         leading: CircleAvatar(
@@ -37,11 +42,14 @@ class NeedCardItem extends StatelessWidget {
               getHourAndMinute(
                 user.updated ?? user.created,
               ),
-              style: titleTextStyle,
+              style: descriptionTextStyle,
             ),
           ],
         ),
-        subtitle: Text(userNeedsDescription(context, user.needs) ?? ''),
+        subtitle: Text(
+          userNeedsDescription(context, user.needs) ?? '',
+          style: descriptionTextStyle,
+        ),
         onTap: onTap,
       ),
     );
