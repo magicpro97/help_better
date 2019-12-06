@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 class UserSettingRepositoryImpl implements UserSettingRepository {
   final UserSettingDataSource dataSource;
-  
+
   UserSettingRepositoryImpl({@required this.dataSource});
 
   @override

@@ -50,5 +50,14 @@ class PressOnNeedOption extends UserSettingEvent {
   PressOnNeedOption({@required this.context, @required this.userNeeds});
 
   @override
+  List<Object> get props => [userNeeds];
+}
+
+class JoinVolunteer extends UserSettingEvent {
+  final BuildContext context;
+
+  JoinVolunteer({@required this.context});
+
+  @override
   List<Object> get props => [];
 }

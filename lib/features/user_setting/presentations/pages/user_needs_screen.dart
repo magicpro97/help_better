@@ -1,33 +1,20 @@
-import 'package:better_help/common/data/models/user.dart';
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
-import 'package:better_help/features/user_setting/user_needs/bloc/user_needs_bloc.dart';
+import 'package:better_help/features/user_setting/domain/entities/user.dart';
+import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../user_needs/bloc/bloc.dart';
-import '../../user_needs/bloc/user_needs_event.dart';
 import '../widgets/needs_button.dart';
 
-class UserNeedsScreen extends StatefulWidget {
-  @override
-  _UserNeedsScreenState createState() => _UserNeedsScreenState();
-}
-
-class _UserNeedsScreenState extends State<UserNeedsScreen> {
-  final userNeedBloc = UserNeedsBloc();
-
-  @override
-  void dispose() {
-    super.dispose();
-    userNeedBloc.close();
-  }
-
+class UserNeedsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userSettingBloc = BlocProvider.of<UserSettingBloc>(context);
     final screenUtil = ScreenUtil.getInstance();
 
     return CupertinoPageScaffold(
@@ -43,45 +30,35 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                 ),
                 Center(
                   child: ScreenTitle(
-                    title: S
-                        .of(context)
-                        .user_type_title,
+                    title: S.of(context).user_type_title,
                   ),
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.large_space),
                 ),
                 NeedsButton(
-                  content: S
-                      .of(context)
-                      .option_teenage,
+                  content: S.of(context).option_teenage,
                   color: userNeedMapColor[UserNeeds.TEENAGE],
-                  onPress: () =>
-                      userNeedBloc.add(SelectOptionTeenageEvent(context)),
+                  onPress: () => userSettingBloc.add(PressOnNeedOption(
+                      context: context, userNeeds: UserNeeds.TEENAGE)),
                 ),
                 NeedsButton(
-                  content: S
-                      .of(context)
-                      .option_love,
+                  content: S.of(context).option_love,
                   color: userNeedMapColor[UserNeeds.LOVE],
-                  onPress: () =>
-                      userNeedBloc.add(SelectOptionLoveEvent(context)),
+                  onPress: () => userSettingBloc.add(PressOnNeedOption(
+                      context: context, userNeeds: UserNeeds.LOVE)),
                 ),
                 NeedsButton(
-                  content: S
-                      .of(context)
-                      .option_family,
+                  content: S.of(context).option_family,
                   color: userNeedMapColor[UserNeeds.FAMILY],
-                  onPress: () =>
-                      userNeedBloc.add(SelectOptionFamilyEvent(context)),
+                  onPress: () => userSettingBloc.add(PressOnNeedOption(
+                      context: context, userNeeds: UserNeeds.FAMILY)),
                 ),
                 NeedsButton(
-                  content: S
-                      .of(context)
-                      .option_go_a_head,
+                  content: S.of(context).option_go_a_head,
                   color: userNeedMapColor[UserNeeds.GO_AHEAD],
-                  onPress: () =>
-                      userNeedBloc.add(SelectOptionGoAheadEvent(context)),
+                  onPress: () => userSettingBloc.add(PressOnNeedOption(
+                      context: context, userNeeds: UserNeeds.GO_AHEAD)),
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.large_space),
@@ -96,9 +73,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   height: screenUtil.setHeight(Dimens.normal_space),
                 ),
                 ScreenCaption(
-                  caption: S
-                      .of(context)
-                      .user_type_subtitle,
+                  caption: S.of(context).user_type_subtitle,
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.normal_space),
@@ -112,9 +87,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
-                      S
-                          .of(context)
-                          .user_type_volunteer_register,
+                      S.of(context).user_type_volunteer_register,
                       style: TextStyle(
                         fontSize: screenUtil.setSp(Dimens.h2_size),
                         fontWeight: FontWeight.bold,
@@ -124,7 +97,7 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
                     ),
                   ),
                   onPressed: () =>
-                      userNeedBloc.add(JoinVolunteerEvent(context)),
+                      userSettingBloc.add(JoinVolunteer(context: context)),
                 ),
                 SizedBox(
                   height: screenUtil.setHeight(Dimens.normal_space),
@@ -137,3 +110,10 @@ class _UserNeedsScreenState extends State<UserNeedsScreen> {
     );
   }
 }
+
+final userNeedMapColor = {
+  UserNeeds.TEENAGE: Colors.blue,
+  UserNeeds.FAMILY: Colors.yellow[700],
+  UserNeeds.LOVE: Colors.pink,
+  UserNeeds.GO_AHEAD: Colors.greenAccent,
+};

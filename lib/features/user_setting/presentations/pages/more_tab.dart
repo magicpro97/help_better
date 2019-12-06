@@ -24,7 +24,7 @@ class MoreTab extends StatelessWidget {
   FutureBuilder<User> _buildBody(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
     final userSettingBloc = BlocProvider.of<UserSettingBloc>(context);
-  
+
     return FutureBuilder<User>(
         future: userSettingBloc.getCurrentUser(NoParams()),
         builder: (context, snapshot) {
@@ -33,7 +33,7 @@ class MoreTab extends StatelessWidget {
               child: Text('Something went wrong. ${snapshot.error}'),
             );
           }
-        
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +47,7 @@ class MoreTab extends StatelessWidget {
                         getAHaftDayName(context),
                         snapshot.hasData
                             ? snapshot.data.displayName
-                            : S
-                            .of(context)
-                            .you),
+                            : S.of(context).you),
                   ),
                 ),
                 SizedBox(
@@ -71,15 +69,13 @@ class MoreTab extends StatelessWidget {
         children: <Widget>[
           SettingOptionButton(
             name: S.of(context).more_change_nickname,
-            onPress: () =>
-                userSettingBloc
-                    .add(PressOnChangeNicknameButton(context: context)),
+            onPress: () => userSettingBloc
+                .add(PressOnChangeNicknameButton(context: context)),
           ),
           SettingOptionButton(
             name: S.of(context).more_change_status,
-            onPress: () =>
-                userSettingBloc
-                    .add(PressOnChangeUserNeedsButton(context: context)),
+            onPress: () => userSettingBloc
+                .add(PressOnChangeUserNeedsButton(context: context)),
           ),
           SizedBox(
             height: screenUtil.setHeight(Dimens.xlarge_space),
