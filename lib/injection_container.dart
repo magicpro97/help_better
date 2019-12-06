@@ -5,53 +5,33 @@ import 'package:better_help/features/user_setting/domain/repositories/user_setti
 import 'package:better_help/features/user_setting/domain/usecases/get_current_user.dart';
 import 'package:better_help/features/user_setting/domain/usecases/update_user.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+void init() {
   blocs();
+  externals();
   userCases();
   repositories();
   dataSources();
-  externals();
 }
 
-void externals() {
-  sl.registerLazySingleton(() => Firestore.instance);
-  sl.registerLazySingleton(() => FirebaseAuth.instance);
-}
+void externals() {}
 
 void dataSources() {
   sl.registerLazySingleton<UserSettingDataSource>(
-    () => UserSettingDataSourceImpl(
-      sl(),
-    ),
-  );
+          () => UserSettingDataSourceImpl());
 }
 
 void repositories() {
   sl.registerLazySingleton<UserSettingRepository>(
-    () => UserSettingRepositoryImpl(
-      sl(),
-    ),
-  );
+          () => UserSettingRepositoryImpl(dataSource: sl()));
 }
 
 void userCases() {
-  sl.registerLazySingleton(
-    () => GetCurrentUser(
-      firebaseAuth: sl(),
-      repository: sl(),
-    ),
-  );
-  sl.registerLazySingleton(
-    () => UpdateUser(
-      sl(),
-    ),
-  );
+  sl.registerLazySingleton(() => GetCurrentUser(repository: sl()));
+  sl.registerLazySingleton(() => UpdateUser(repository: sl()));
 }
 
 void blocs() {

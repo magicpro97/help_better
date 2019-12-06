@@ -6,13 +6,12 @@ import 'package:meta/meta.dart';
 
 class GetCurrentUser implements UseCase<User, NoParams> {
   final UserSettingRepository repository;
-  final FirebaseAuth firebaseAuth;
 
-  GetCurrentUser({@required this.firebaseAuth, @required this.repository});
+  GetCurrentUser({@required this.repository});
 
   @override
   Future<User> call(NoParams param) async {
-    final fUser = await firebaseAuth.currentUser();
+    final fUser = await FirebaseAuth.instance.currentUser();
     return repository.getUser(fUser.uid);
   }
 }

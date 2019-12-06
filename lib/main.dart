@@ -7,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() async {
-  await di.init();
+void main() {
+  di.init();
   runApp(MyApp());
 }
 
@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
           child: App(),
         ),
         providers: [
-          BlocProvider(
+          BlocProvider<AppBloc>(
             create: (_) => di.sl<AppBloc>(),
           ),
-          BlocProvider(
-            create: (context) =>
+          BlocProvider<UserSettingBloc>(
+            create: (_) =>
                 UserSettingBloc(
                   updateUser: di.sl(),
                   getCurrentUser: di.sl(),

@@ -14,11 +14,8 @@ abstract class UserSettingDataSource {
 }
 
 class UserSettingDataSourceImpl implements UserSettingDataSource {
-  final Firestore _firestore;
-
-  UserSettingDataSourceImpl(this._firestore);
-
-  CollectionReference get _userCollection => _firestore.collection('users');
+  CollectionReference get _userCollection =>
+      Firestore.instance.collection('users');
 
   StreamTransformer<DocumentSnapshot, User> get toUser =>
       StreamTransformer.fromHandlers(
