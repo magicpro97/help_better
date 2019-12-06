@@ -8,3 +8,8 @@ class InitialUserSettingState extends UserSettingState {
   @override
   List<Object> get props => [];
 }
+
+class AlreadyVolunteer extends UserSettingState {
+  @override
+  List<Object> get props => [];
+}

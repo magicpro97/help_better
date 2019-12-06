@@ -15,100 +15,113 @@ class UserNeedsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userSettingBloc = BlocProvider.of<UserSettingBloc>(context);
+    userSettingBloc.add(CheckUserType());
     final screenUtil = ScreenUtil.getInstance();
 
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(),
       child: SafeArea(
         child: Container(
           height: double.infinity,
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.top_space),
-                ),
-                Center(
-                  child: ScreenTitle(
-                    title: S.of(context).user_type_title,
+            child: BlocBuilder<UserSettingBloc, UserSettingState>(
+              bloc: userSettingBloc,
+              builder: (context, state) => Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: screenUtil.setHeight(Dimens.top_space),
                   ),
-                ),
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.large_space),
-                ),
-                NeedsButton(
-                  content: S.of(context).option_teenage,
-                  color: userNeedMapColor[UserNeeds.TEENAGE],
-                  onPress: () => userSettingBloc.add(PressOnNeedOption(
-                      context: context, userNeeds: UserNeeds.TEENAGE)),
-                ),
-                NeedsButton(
-                  content: S.of(context).option_love,
-                  color: userNeedMapColor[UserNeeds.LOVE],
-                  onPress: () => userSettingBloc.add(PressOnNeedOption(
-                      context: context, userNeeds: UserNeeds.LOVE)),
-                ),
-                NeedsButton(
-                  content: S.of(context).option_family,
-                  color: userNeedMapColor[UserNeeds.FAMILY],
-                  onPress: () => userSettingBloc.add(PressOnNeedOption(
-                      context: context, userNeeds: UserNeeds.FAMILY)),
-                ),
-                NeedsButton(
-                  content: S.of(context).option_go_a_head,
-                  color: userNeedMapColor[UserNeeds.GO_AHEAD],
-                  onPress: () => userSettingBloc.add(PressOnNeedOption(
-                      context: context, userNeeds: UserNeeds.GO_AHEAD)),
-                ),
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.large_space),
-                ),
-                Divider(
-                  height: 1.0,
-                  thickness: 3.0,
-                  indent: screenUtil.setHeight(Dimens.horizontal_space),
-                  endIndent: screenUtil.setHeight(Dimens.horizontal_space),
-                ),
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.normal_space),
-                ),
-                ScreenCaption(
-                  caption: S.of(context).user_type_subtitle,
-                ),
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.normal_space),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: Dimens.elevation,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      S.of(context).user_type_volunteer_register,
-                      style: TextStyle(
-                        fontSize: screenUtil.setSp(Dimens.h2_size),
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
+                  Center(
+                    child: ScreenTitle(
+                      title: S.of(context).user_type_title,
                     ),
                   ),
-                  onPressed: () =>
-                      userSettingBloc.add(JoinVolunteer(context: context)),
-                ),
-                SizedBox(
-                  height: screenUtil.setHeight(Dimens.normal_space),
-                ),
-              ],
+                  SizedBox(
+                    height: screenUtil.setHeight(Dimens.large_space),
+                  ),
+                  NeedsButton(
+                    content: S.of(context).option_teenage,
+                    color: userNeedMapColor[UserNeeds.TEENAGE],
+                    onPress: () => userSettingBloc.add(PressOnNeedOption(
+                        context: context, userNeeds: UserNeeds.TEENAGE)),
+                  ),
+                  NeedsButton(
+                    content: S.of(context).option_love,
+                    color: userNeedMapColor[UserNeeds.LOVE],
+                    onPress: () => userSettingBloc.add(PressOnNeedOption(
+                        context: context, userNeeds: UserNeeds.LOVE)),
+                  ),
+                  NeedsButton(
+                    content: S.of(context).option_family,
+                    color: userNeedMapColor[UserNeeds.FAMILY],
+                    onPress: () => userSettingBloc.add(PressOnNeedOption(
+                        context: context, userNeeds: UserNeeds.FAMILY)),
+                  ),
+                  NeedsButton(
+                    content: S.of(context).option_go_a_head,
+                    color: userNeedMapColor[UserNeeds.GO_AHEAD],
+                    onPress: () => userSettingBloc.add(PressOnNeedOption(
+                        context: context, userNeeds: UserNeeds.GO_AHEAD)),
+                  ),
+                  SizedBox(
+                    height: screenUtil.setHeight(Dimens.large_space),
+                  ),
+                  Divider(
+                    height: 1.0,
+                    thickness: 3.0,
+                    indent: screenUtil.setHeight(Dimens.horizontal_space),
+                    endIndent: screenUtil.setHeight(Dimens.horizontal_space),
+                  ),
+                  state is AlreadyVolunteer
+                      ? Container()
+                      : joinVolunteerWidgets(screenUtil, context, userSettingBloc),
+                  SizedBox(
+                    height: screenUtil.setHeight(Dimens.normal_space),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  Widget joinVolunteerWidgets(ScreenUtil screenUtil, BuildContext context, UserSettingBloc userSettingBloc) =>
+      Column(
+        children: <Widget>[
+          SizedBox(
+            height: screenUtil.setHeight(Dimens.normal_space),
+          ),
+          ScreenCaption(
+            caption: S.of(context).user_type_subtitle,
+          ),
+          SizedBox(
+            height: screenUtil.setHeight(Dimens.normal_space),
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: Dimens.elevation,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                S.of(context).user_type_volunteer_register,
+                style: TextStyle(
+                  fontSize: screenUtil.setSp(Dimens.h2_size),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            onPressed: () =>
+                userSettingBloc.add(JoinVolunteer(context: context)),
+          ),
+        ],
+      );
 }
 
 final userNeedMapColor = {

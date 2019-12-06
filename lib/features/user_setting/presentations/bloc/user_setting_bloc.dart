@@ -66,6 +66,11 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
       if (!result) {
         goToMainScreen(event.context);
       }
+    } else if (event is CheckUserType) {
+      final user = (await getCurrentUser(NoParams()));
+      if (user.types.contains(UserType.VOLUNTEER)) {
+        yield AlreadyVolunteer();
+      }
     }
   }
 }

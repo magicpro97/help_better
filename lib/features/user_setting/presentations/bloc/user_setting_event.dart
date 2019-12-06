@@ -61,3 +61,8 @@ class JoinVolunteer extends UserSettingEvent {
   @override
   List<Object> get props => [];
 }
+
+class CheckUserType extends UserSettingEvent {
+  @override
+  List<Object> get props => [];
+}
