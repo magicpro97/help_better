@@ -17,6 +17,7 @@ class NicknameScreen extends StatelessWidget {
     final textNicknameStyle = Theme.of(context).primaryTextTheme.body1;
   
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(),
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: screenUtil.setWidth(Dimens.horizontal_space)),
