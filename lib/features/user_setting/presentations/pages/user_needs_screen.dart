@@ -8,9 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'bloc/bloc.dart';
-import 'bloc/user_needs_event.dart';
-import 'components/needs_button.dart';
+import '../../user_needs/bloc/bloc.dart';
+import '../../user_needs/bloc/user_needs_event.dart';
+import '../widgets/needs_button.dart';
 
 class UserNeedsScreen extends StatefulWidget {
   @override

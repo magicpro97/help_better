@@ -123,4 +123,9 @@ class Auth {
   static Future<dynamic> messageBackground(Map<String, dynamic> message) async {
     log(message.toString(), name: 'Backgroud Message');
   }
+
+  static Future<Stream<User>> currentUserStream() async {
+    final user = await currentUser();
+    return UserDao.userStream(user.id);
+  }
 }
