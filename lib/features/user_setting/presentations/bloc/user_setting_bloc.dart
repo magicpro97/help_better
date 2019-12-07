@@ -50,9 +50,7 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
           .copyWith(updated: DateTime.now(), needs: event.userNeeds);
       updateUser(user);
 
-      log('aaa');
       final result = backToLastScreen(event.context);
-      log('bbb');
       if (!result) {
         goToMainScreen(event.context);
       }

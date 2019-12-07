@@ -40,6 +40,21 @@ class UserModel extends User {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
+  factory UserModel.fromUser(User user) => UserModel(
+        id: user.id,
+        displayName: user.displayName,
+        email: user.email,
+        photoUrl: user.photoUrl,
+        created: user.created,
+        updated: user.updated,
+        phoneNumber: user.phoneNumber,
+        tokens: user.tokens,
+        types: user.types,
+        needs: user.needs,
+        friendIds: user.friendIds,
+        online: user.online,
+      );
+
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
 

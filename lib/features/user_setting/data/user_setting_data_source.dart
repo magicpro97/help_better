@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:better_help/core/error/exception.dart';
 import 'package:better_help/features/user_setting/data/models/user_model.dart';
@@ -16,10 +15,8 @@ class UserSettingDataSourceImpl implements UserSettingDataSource {
       Firestore.instance.collection('users');
 
   @override
-  Future<void> updateUser(UserModel user) {
-    log(user.id);
-    return _userCollection.document(user.id).updateData(user.toJson());
-  }
+  Future<void> updateUser(UserModel user) =>
+      _userCollection.document(user.id).updateData(user.toJson());
 
   @override
   Future<UserModel> getUser(String id) async {
