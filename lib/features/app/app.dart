@@ -5,8 +5,8 @@ import 'package:better_help/common/auth0/auth.dart';
 import 'package:better_help/common/screens.dart';
 import 'package:better_help/features/auth0/ui/welcome_screen.dart';
 import 'package:better_help/features/main/main_screen.dart';
-import 'package:better_help/features/user_setting/nickname/nickname_screen.dart';
-import 'package:better_help/features/user_setting/user_needs/user_needs_screen.dart';
+import 'package:better_help/features/user_setting/presentations/pages/nickname_screen.dart';
+import 'package:better_help/features/user_setting/presentations/pages/user_needs_screen.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,19 +53,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    appBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      theme: CupertinoThemeData(
-        primaryColor: Color(0xff54bd98),
-        brightness: Brightness.light,
-        primaryContrastingColor: Colors.white,
-        scaffoldBackgroundColor: Colors.white,
-      ),
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (BuildContext context) => S.of(context).app_name,
       localizationsDelegates: const <LocalizationsDelegate>[
