@@ -1,6 +1,6 @@
-import 'package:better_help/common/data/models/message_group.dart';
-import 'package:better_help/common/data/models/user.dart';
-import 'package:better_help/features/message/message_group/message_screen.dart';
+import 'package:better_help/core/domain/entities/message_group.dart';
+import 'package:better_help/core/domain/entities/user.dart';
+import 'package:better_help/features/message/presentation/pages/message_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 

@@ -29,6 +29,7 @@ dependencies:
   bubble: ^1.1.9+1
   flash: ^1.2.0
   get_it: ^3.0.3
+  dartz: ^0.8.9
 
 dev_dependencies:
   flutter_test:

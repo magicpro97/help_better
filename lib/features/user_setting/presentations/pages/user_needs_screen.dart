@@ -1,7 +1,7 @@
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
-import 'package:better_help/features/user_setting/domain/entities/user.dart';
+import 'package:better_help/core/domain/entities/user.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
 import 'package:better_help/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,7 +74,8 @@ class UserNeedsScreen extends StatelessWidget {
                   ),
                   state is AlreadyVolunteer
                       ? Container()
-                      : joinVolunteerWidgets(screenUtil, context, userSettingBloc),
+                      : joinVolunteerWidgets(
+                      screenUtil, context, userSettingBloc),
                   SizedBox(
                     height: screenUtil.setHeight(Dimens.normal_space),
                   ),
@@ -87,7 +88,8 @@ class UserNeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget joinVolunteerWidgets(ScreenUtil screenUtil, BuildContext context, UserSettingBloc userSettingBloc) =>
+  Widget joinVolunteerWidgets(ScreenUtil screenUtil, BuildContext context,
+      UserSettingBloc userSettingBloc) =>
       Column(
         children: <Widget>[
           SizedBox(
@@ -118,7 +120,8 @@ class UserNeedsScreen extends StatelessWidget {
               ),
             ),
             onPressed: () =>
-                userSettingBloc.add(JoinVolunteer(context: context)),
+                userSettingBloc.add(
+                    PressOnJoinVolunteerButton(context: context)),
           ),
         ],
       );

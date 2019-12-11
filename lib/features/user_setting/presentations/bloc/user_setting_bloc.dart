@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:better_help/common/auth0/auth.dart';
 import 'package:better_help/common/route/route.dart';
-import 'package:better_help/core/usecase/usecase.dart';
-import 'package:better_help/features/user_setting/domain/entities/user.dart';
-import 'package:better_help/features/user_setting/domain/usecases/get_current_user.dart';
-import 'package:better_help/features/user_setting/domain/usecases/update_user.dart';
+import 'package:better_help/core/domain/entities/user.dart';
+import 'package:better_help/core/domain/usecase/get_current_user.dart';
+import 'package:better_help/core/domain/usecase/update_user.dart';
+import 'package:better_help/features/user_setting/domain/usecases/sign_out.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -15,10 +14,12 @@ import './bloc.dart';
 class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
   final UpdateUser updateUser;
   final GetCurrentUser getCurrentUser;
+  final SignOut signOut;
 
   UserSettingBloc({
     @required this.getCurrentUser,
     @required this.updateUser,
+    @required this.signOut,
   });
 
   @override
@@ -29,46 +30,48 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
     UserSettingEvent event,
   ) async* {
     log(event.toString());
-    if (event is SignOut) {
-      Auth.signOut();
+    if (event is PressOnSignOutButton) {
+      signOut();
       goToWelcomeScreen(event.context);
     } else if (event is PressOnChangeUserNeedsButton) {
       goToUserNeedsScreen(event.context);
     } else if (event is PressOnChangeNicknameButton) {
       goToNicknameScreen(event.context);
     } else if (event is SubmitNewNickname) {
-      final user = (await getCurrentUser(NoParams()))
-          .copyWith(updated: DateTime.now(), displayName: event.nickname);
-      updateUser(user);
+      final currentUser = (await getCurrentUser());
+      updateUser(currentUser.copyWith(
+          updated: DateTime.now(), displayName: event.nickname));
 
       final result = backToLastScreen(event.context);
       if (!result) {
         goToUserNeedsScreen(event.context);
       }
     } else if (event is PressOnNeedOption) {
-      final user = (await getCurrentUser(NoParams()))
-          .copyWith(updated: DateTime.now(), needs: event.userNeeds);
-      updateUser(user);
+      final currentUser = (await getCurrentUser());
+      updateUser(currentUser.copyWith(
+          updated: DateTime.now(), needs: event.userNeeds));
 
       final result = backToLastScreen(event.context);
       if (!result) {
         goToMainScreen(event.context);
       }
-    } else if (event is JoinVolunteer) {
-      final user = (await getCurrentUser(NoParams()));
-      final newUser = user.copyWith(
-          updated: DateTime.now(), types: user.types..add(UserType.VOLUNTEER));
-      updateUser(newUser);
-
+    } else if (event is PressOnJoinVolunteerButton) {
+      final currentUser = (await getCurrentUser());
+      updateUser(currentUser.copyWith(
+          updated: DateTime.now(),
+          types: currentUser.types..add(UserType.VOLUNTEER)));
       final result = backToLastScreen(event.context);
       if (!result) {
         goToMainScreen(event.context);
       }
     } else if (event is CheckUserType) {
-      final user = (await getCurrentUser(NoParams()));
-      if (user.types.contains(UserType.VOLUNTEER)) {
+      final currentUser = (await getCurrentUser());
+      if (currentUser.types.contains(UserType.VOLUNTEER)) {
         yield AlreadyVolunteer();
       }
+    } else if (event is ReloadCurrentUser) {
+      final currentUser = (await getCurrentUser());
+      yield UserLoaded(user: currentUser);
     }
   }
 }

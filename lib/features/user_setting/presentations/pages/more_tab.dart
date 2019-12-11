@@ -1,8 +1,6 @@
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/common/utils/time_utils.dart';
-import 'package:better_help/core/usecase/usecase.dart';
-import 'package:better_help/features/user_setting/domain/entities/user.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
 import 'package:better_help/features/user_setting/presentations/widgets/setting_option_button.dart';
 import 'package:better_help/generated/i18n.dart';
@@ -11,30 +9,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../injection_container.dart';
+
 class MoreTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: _buildBody(context),
+    BlocProvider.of<UserSettingBloc>(context).add(ReloadCurrentUser());
+  
+    return BlocProvider<UserSettingBloc>(
+      create: (_) => sl(),
+      child: SafeArea(
+        child: Container(
+          child: _buildBody(context),
+        ),
       ),
     );
   }
 
-  FutureBuilder<User> _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
-    final userSettingBloc = BlocProvider.of<UserSettingBloc>(context);
 
-    return FutureBuilder<User>(
-        future: userSettingBloc.getCurrentUser(NoParams()),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Something went wrong. ${snapshot.error}'),
-            );
-          }
-
-          return SingleChildScrollView(
+    return BlocBuilder<UserSettingBloc, UserSettingState>(
+      bloc: BlocProvider.of<UserSettingBloc>(context),
+      builder: (context, state) =>
+          SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -45,9 +43,11 @@ class MoreTab extends StatelessWidget {
                   child: ScreenTitle(
                     title: S.of(context).more_greeting(
                         getAHaftDayName(context),
-                        snapshot.hasData
-                            ? snapshot.data.displayName
-                            : S.of(context).you),
+                        state is UserLoaded
+                            ? state.user.displayName
+                            : S
+                            .of(context)
+                            .you),
                   ),
                 ),
                 SizedBox(
@@ -56,25 +56,26 @@ class MoreTab extends StatelessWidget {
                 _optionList(context),
               ],
             ),
-          );
-        });
+          ),
+    );
   }
 
   Widget _optionList(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
-    final userSettingBloc = BlocProvider.of<UserSettingBloc>(context);
 
     return Container(
       child: Column(
         children: <Widget>[
           SettingOptionButton(
             name: S.of(context).more_change_nickname,
-            onPress: () => userSettingBloc
+            onPress: () =>
+                BlocProvider.of<UserSettingBloc>(context)
                 .add(PressOnChangeNicknameButton(context: context)),
           ),
           SettingOptionButton(
             name: S.of(context).more_change_status,
-            onPress: () => userSettingBloc
+            onPress: () =>
+                BlocProvider.of<UserSettingBloc>(context)
                 .add(PressOnChangeUserNeedsButton(context: context)),
           ),
           SizedBox(
@@ -88,7 +89,9 @@ class MoreTab extends StatelessWidget {
           ),
           SettingOptionButton(
             name: S.of(context).more_sign_out,
-            onPress: () => userSettingBloc.add(SignOut(context: context)),
+            onPress: () =>
+                BlocProvider.of<UserSettingBloc>(context)
+                    .add(PressOnSignOutButton(context: context)),
           ),
         ],
       ),

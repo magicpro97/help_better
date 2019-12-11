@@ -1,11 +1,12 @@
 import 'package:better_help/common/themes.dart';
-import 'package:better_help/features/app/app.dart';
-import 'package:better_help/features/app/bloc/app_bloc.dart';
+import 'package:better_help/features/app/presentations/app.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/user_setting_bloc.dart';
 import 'package:better_help/injection_container.dart' as di;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/app/presentations/bloc/app_bloc.dart';
 
 void main() {
   di.init();
@@ -25,11 +26,7 @@ class MyApp extends StatelessWidget {
             create: (_) => di.sl<AppBloc>(),
           ),
           BlocProvider<UserSettingBloc>(
-            create: (_) =>
-                UserSettingBloc(
-                  updateUser: di.sl(),
-                  getCurrentUser: di.sl(),
-                ),
+            create: (_) => di.sl<UserSettingBloc>(),
           ),
         ]);
   }

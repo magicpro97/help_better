@@ -1,4 +1,4 @@
-import 'package:better_help/features/user_setting/domain/entities/user.dart';
+import 'package:better_help/core/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
@@ -6,10 +6,10 @@ abstract class UserSettingEvent extends Equatable {
   const UserSettingEvent();
 }
 
-class SignOut extends UserSettingEvent {
+class PressOnSignOutButton extends UserSettingEvent {
   final BuildContext context;
 
-  SignOut({@required this.context});
+  PressOnSignOutButton({@required this.context});
 
   @override
   List<Object> get props => [];
@@ -53,16 +53,21 @@ class PressOnNeedOption extends UserSettingEvent {
   List<Object> get props => [userNeeds];
 }
 
-class JoinVolunteer extends UserSettingEvent {
+class PressOnJoinVolunteerButton extends UserSettingEvent {
   final BuildContext context;
 
-  JoinVolunteer({@required this.context});
+  PressOnJoinVolunteerButton({@required this.context});
 
   @override
   List<Object> get props => [];
 }
 
 class CheckUserType extends UserSettingEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class ReloadCurrentUser extends UserSettingEvent {
   @override
   List<Object> get props => [];
 }
