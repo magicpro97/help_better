@@ -8,4 +8,8 @@ abstract class UserRepository {
   Future<List<User>> getUserFriends(String userId);
 
   Future<void> updateUser(User user);
+
+  Future<void> createUser(User user);
+
+  Future<User> getCurrentUser();
 }

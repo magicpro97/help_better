@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../injection_container.dart';
 import '../widgets/message_group_card.dart';
 
 class MessageTab extends StatelessWidget {
@@ -25,10 +24,8 @@ class MessageTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
-    
-    return BlocProvider<MessageBloc>(
-      create: (_) => sl(),
-      child: SafeArea(
+
+    return SafeArea(
         child: Scaffold(
           body: Container(
             child: Column(
@@ -71,7 +68,6 @@ class MessageTab extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

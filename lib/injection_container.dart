@@ -7,6 +7,7 @@ import 'package:better_help/core/domain/usecase/get_user_friend.dart';
 import 'package:better_help/core/domain/usecase/get_user_stream.dart';
 import 'package:better_help/core/domain/usecase/user_offline.dart';
 import 'package:better_help/core/domain/usecase/user_online.dart';
+import 'package:better_help/features/authentication/domain/use_cases/sign_in.dart';
 import 'package:better_help/features/authentication/presentations/bloc/welcome_bloc.dart';
 import 'package:better_help/features/message/data/repositories/message_group_repository_impl.dart';
 import 'package:better_help/features/message/data/repositories/message_repository_impl.dart';
@@ -29,6 +30,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'core/data/data_sources/user_data_source.dart';
 import 'core/domain/repositories/session_repository.dart';
+import 'core/domain/usecase/create_user.dart';
 import 'core/domain/usecase/get_current_user.dart';
 import 'core/domain/usecase/get_user.dart';
 import 'core/domain/usecase/update_user.dart';
@@ -60,7 +62,7 @@ void externals() {
 
 void dataSources() {
   sl.registerLazySingleton(() => FirebaseAuthSource());
-  
+
   sl.registerLazySingleton<UserDataSource>(() => UserDataSourceImpl());
   sl.registerLazySingleton<MessageGroupDataSource>(
           () => MessageGroupDataSourceImpl());
@@ -72,7 +74,7 @@ void dataSources() {
 void repositories() {
   sl.registerLazySingleton<SessionRepository>(
           () => SessionRepositoryImpl(firebaseAuthSource: sl()));
-  
+
   sl.registerLazySingleton<UserRepository>(
           () => UserRepositoryImpl(userDataSource: sl()));
   sl.registerLazySingleton<MessageGroupRepository>(
@@ -85,7 +87,10 @@ void repositories() {
 
 void userCases() {
   sl.registerLazySingleton(() => GetCurrentUser(sessionRepository: sl()));
+  sl.registerLazySingleton(() => CreateUser(userRepository: sl()));
   sl.registerLazySingleton(() => UpdateUser(userSettingRepository: sl()));
+  sl.registerLazySingleton(
+          () => SignIn(googleSignIn: sl(), userRepository: sl()));
   sl.registerLazySingleton(() => SignOut(googleSignIn: sl()));
   sl.registerLazySingleton(() => GetUserStream(userRepository: sl()));
   sl.registerLazySingleton(() => GetUserFriends(userRepository: sl()));

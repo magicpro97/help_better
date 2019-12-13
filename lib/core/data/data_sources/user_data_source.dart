@@ -10,6 +10,8 @@ abstract class UserDataSource {
   Future<List<UserModel>> getUserFriends(String userId);
 
   Future<void> update(UserModel user);
+
+  Future<void> createUser(UserModel user);
 }
 
 class UserDataSourceImpl implements UserDataSource {
@@ -35,4 +37,10 @@ class UserDataSourceImpl implements UserDataSource {
   @override
   Future<void> update(UserModel user) =>
       _userCollection.document(user.id).updateData(user.toJson());
+
+  @override
+  Future<void> createUser(UserModel user) =>
+      _userCollection
+          .document(user.id)
+          .setData(user.toJson());
 }

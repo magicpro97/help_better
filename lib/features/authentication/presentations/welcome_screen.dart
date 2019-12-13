@@ -3,7 +3,6 @@ import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_caption.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/generated/i18n.dart';
-import 'package:better_help/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,9 +15,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
 
-    return BlocProvider<WelcomeBloc>(
-      create: (_) => sl(),
-      child: BlocBuilder<WelcomeBloc, WelcomeState>(
+    return BlocBuilder<WelcomeBloc, WelcomeState>(
         bloc: BlocProvider.of<WelcomeBloc>(context),
         builder: (context, state) {
           BlocProvider.of<WelcomeBloc>(context)
@@ -53,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   state is CheckSignInState
                       ? CupertinoActivityIndicator()
-                      : CupertinoButton(
+                      : state is SignInCheckedState ? CupertinoButton(
                     child: Text(S
                         .of(context)
                         .continue_with_google),
@@ -62,7 +59,7 @@ class WelcomeScreen extends StatelessWidget {
                       BlocProvider.of<WelcomeBloc>(context)
                           .add(SignInEvent(context));
                     },
-                  ),
+                  ) : Container(),
                   state is SignInFailState
                       ? Text('Đã có sự cố xảy ra. Hãy đăng nhập lại!')
                       : SizedBox(
@@ -73,7 +70,6 @@ class WelcomeScreen extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }

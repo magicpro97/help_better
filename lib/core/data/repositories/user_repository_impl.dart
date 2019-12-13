@@ -2,10 +2,12 @@ import 'package:better_help/core/data/data_sources/user_data_source.dart';
 import 'package:better_help/core/data/models/user_model.dart';
 import 'package:better_help/core/domain/entities/user.dart';
 import 'package:better_help/core/domain/repositories/user_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserDataSource userDataSource;
+  final firebaseAuth = FirebaseAuth.instance;
 
   UserRepositoryImpl({@required this.userDataSource});
 
@@ -22,4 +24,14 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> updateUser(User user) =>
       userDataSource.update(UserModel.fromUser(user));
+
+  @override
+  Future<void> createUser(User user) =>
+      userDataSource.createUser(UserModel.fromUser(user));
+
+  @override
+  Future<User> getCurrentUser() async {
+    final fUser = await firebaseAuth.currentUser();
+    return userDataSource.getUser(fUser.uid);
+  }
 }

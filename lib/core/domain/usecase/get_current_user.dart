@@ -7,7 +7,5 @@ class GetCurrentUser {
 
   GetCurrentUser({@required this.sessionRepository});
 
-  Future<User> call() {
-    return sessionRepository.getCurrentUser();
-  }
+  Future<User> call() => sessionRepository.getCurrentUser();
 }

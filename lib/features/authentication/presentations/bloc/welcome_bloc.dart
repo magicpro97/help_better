@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:better_help/common/route/route.dart';
 import 'package:better_help/core/domain/usecase/add_user_device_token.dart';
+import 'package:better_help/core/domain/usecase/create_user.dart';
 import 'package:better_help/core/domain/usecase/get_current_user.dart';
-import 'package:better_help/features/authentication/domain/use_cases/create_user.dart';
 import 'package:better_help/features/authentication/domain/use_cases/sign_in.dart';
 import 'package:better_help/features/main/presentation/pages/main_screen.dart';
 import 'package:bloc/bloc.dart';
@@ -61,9 +61,8 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
         goToMainScreen(event.context,
             deleteAllLastScreen: true, arguments: MainArgument(user: user));
         yield SignedState();
-      } else {
-        yield SignInCheckedState();
       }
+      yield SignInCheckedState();
     }
   }
 

@@ -15,6 +15,8 @@ abstract class UserNeedsDataSource {
 
 class UserNeedsDataSourceImpl implements UserNeedsDataSource {
   final _userCollection = Firestore.instance.collection('users');
+  final _messageGroupCollection = Firestore.instance.collection(
+      'message_groups');
 
   @override
   Stream<List<UserModel>> userStream() =>
@@ -31,12 +33,17 @@ class UserNeedsDataSourceImpl implements UserNeedsDataSource {
           .setData(messageGroupModel.toJson());
 
   @override
-  Future<MessageGroupModel> getMessageGroup(List<String> memberIds) async =>
-      (await _userCollection
-              .where('memberIds', arrayContains: memberIds)
-              .getDocuments())
-          .documents
-          .map((doc) => MessageGroupModel.fromJson(doc.data))
-          .toList()
-          .first;
+  Future<MessageGroupModel> getMessageGroup(List<String> memberIds) async {
+    final mGroups = (await _messageGroupCollection
+        .where('memberIds', arrayContains: memberIds)
+        .getDocuments())
+        .documents
+        .map((doc) => MessageGroupModel.fromJson(doc.data))
+        .toList();
+    if (mGroups.isNotEmpty) {
+      return mGroups.first;
+    } else {
+      return null;
+    }
+  }
 }

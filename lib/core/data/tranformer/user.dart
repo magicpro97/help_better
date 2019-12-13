@@ -22,7 +22,7 @@ final toUser = StreamTransformer<DocumentSnapshot, UserModel>.fromHandlers(
   handleError: (data, trace, sink) => sink.addError(data, trace),
 );
 
-StreamTransformer<List<User>, List<NeedCardItem>> toNeedCardItemList(
+StreamTransformer<List<UserModel>, List<NeedCardItem>> toNeedCardItemList(
     {@required NeedHelpBloc needHelpBloc,
         @required BuildContext context,
         @required List<User> otherUser}) =>
