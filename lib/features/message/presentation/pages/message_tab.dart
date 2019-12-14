@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/core/data/tranformer/message_group.dart';
@@ -48,7 +46,6 @@ class MessageTab extends StatelessWidget {
                             .transform(toMessageGroupCardList(
                             currentUser: currentUser, friends: friends)),
                         builder: (context, snapshot) {
-                          log(snapshot.data.toString());
                           if (!snapshot.hasData) {
                             return Container();
                           }
@@ -60,9 +57,9 @@ class MessageTab extends StatelessWidget {
                             );
                           }
                           final messageGroupCard = snapshot.data;
-                          
+
                           return ListView.builder(
-                            itemBuilder: (context, index) =>
+                            itemBuilder: (_, index) =>
                             messageGroupCard[index],
                             itemCount: messageGroupCard.length,
                           );

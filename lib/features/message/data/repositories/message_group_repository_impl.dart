@@ -4,13 +4,13 @@ import 'package:better_help/features/message/data/datasources/message_group_data
 import 'package:better_help/features/message/domain/repositories/message_group_repository.dart';
 import 'package:meta/meta.dart';
 
-class MessageGroupRepositoryImpl implements MessageGroupRepository {
+class MessageGroupRepositoryImpl implements    MessageGroupRepository {
   final MessageGroupDataSource messageGroupDataSource;
 
   MessageGroupRepositoryImpl({@required this.messageGroupDataSource});
 
   @override
-  Stream<List<MessageGroup>> messageGroupStream(
+  Stream<List<MessageGroup>> messageGroupListStream(
           {String userId, OrderBy orderBy}) =>
       messageGroupDataSource.messageGroupListStream(
           userId: userId, orderBy: orderBy);

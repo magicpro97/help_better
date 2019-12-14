@@ -8,5 +8,5 @@ class GetMessageGroupStream {
   GetMessageGroupStream({@required this.messageGroupRepository});
 
   Stream<List<MessageGroup>> call(String userId) =>
-      messageGroupRepository.messageGroupStream(userId: userId);
+      messageGroupRepository.messageGroupListStream(userId: userId);
 }

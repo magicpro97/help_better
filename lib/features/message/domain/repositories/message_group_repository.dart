@@ -3,6 +3,6 @@ import 'package:better_help/core/domain/entities/message_group.dart';
 import 'package:meta/meta.dart';
 
 abstract class MessageGroupRepository {
-  Stream<List<MessageGroup>> messageGroupStream(
+  Stream<List<MessageGroup>> messageGroupListStream(
       {@required String userId, OrderBy orderBy});
 }

@@ -21,7 +21,7 @@ class MessageDataSourceImpl implements MessageDataSource {
 
     return _messageGroupCollection
         .document(messageGroupId)
-        .collection('messsage')
+        .collection('messages')
         .orderBy(orderBy.field, descending: orderBy.desc)
         .snapshots()
         .transform(toMessageList);
