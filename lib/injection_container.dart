@@ -130,7 +130,6 @@ void blocs() {
   sl.registerFactory(
         () =>
         WelcomeBloc(
-          createUser: sl(),
           signIn: sl(),
           getCurrentUser: sl(),
           addUserDeviceToken: sl(),

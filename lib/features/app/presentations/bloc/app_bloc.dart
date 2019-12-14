@@ -21,26 +21,29 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final UserOnline userOnline;
   final UserOffline userOffline;
   final FirebaseMessaging firebaseMessaging;
-  
-  AppBloc({@required this.getCurrentUser,
-    @required this.userOnline,
-    @required this.userOffline,
-    @required this.firebaseMessaging});
-  
+
+  AppBloc(
+      {@required this.getCurrentUser,
+      @required this.userOnline,
+      @required this.userOffline,
+      @required this.firebaseMessaging});
+
   Stream<FCNotification> get notificationStream =>
       _notificationController.stream;
-  
+
   @override
   Future<void> close() {
     _notificationController.close();
     return super.close();
   }
-  
+
   @override
   AppState get initialState => InitialAppState();
-  
+
   @override
-  Stream<AppState> mapEventToState(AppEvent event,) async* {
+  Stream<AppState> mapEventToState(
+    AppEvent event,
+  ) async* {
     if (event is AppStateChange) {
       log(event.state.toString(), name: _TAG, time: DateTime.now());
       final user = await getCurrentUser();

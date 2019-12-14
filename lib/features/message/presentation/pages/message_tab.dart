@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:better_help/common/dimens.dart';
 import 'package:better_help/common/ui/screen_title.dart';
 import 'package:better_help/core/data/tranformer/message_group.dart';
@@ -46,6 +48,7 @@ class MessageTab extends StatelessWidget {
                             .transform(toMessageGroupCardList(
                             currentUser: currentUser, friends: friends)),
                         builder: (context, snapshot) {
+                          log(snapshot.data.toString());
                           if (!snapshot.hasData) {
                             return Container();
                           }

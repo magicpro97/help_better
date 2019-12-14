@@ -10,7 +10,11 @@ class FirebaseAuthSource {
 
   Future<User> getCurrentUser() async {
     final fUser = await firebaseAuth.currentUser();
-    final doc = await _userCollection.document(fUser.uid).get();
-    return UserModel.fromJson(doc.data);
+    if (fUser != null) {
+      final doc = await _userCollection.document(fUser.uid).get();
+      return UserModel.fromJson(doc.data);
+    } else {
+      return null;
+    }
   }
 }

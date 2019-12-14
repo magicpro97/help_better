@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:better_help/core/data/models/user_model.dart';
 import 'package:better_help/core/domain/entities/user.dart';
 import 'package:better_help/core/domain/repositories/user_repository.dart';
 import 'package:better_help/core/error/failure.dart';
@@ -31,6 +32,13 @@ class SignIn {
     final authResult = await _auth.signInWithCredential(credential);
     final firebaseUser = authResult.user;
     final user = await userRepository.get(firebaseUser.uid);
+    if (user == null) {
+      await userRepository.createUser(UserModel(
+        displayName: firebaseUser.displayName,
+        email: firebaseUser.email,
+        photoUrl: firebaseUser.photoUrl,
+      ));
+    }
     return user;
   }
 
@@ -50,7 +58,7 @@ class SignIn {
 
   Future<User> call() async {
     final currentUser = await userRepository.getCurrentUser();
-    if (currentUser != null) {
+    if (currentUser == null) {
       firstTimeSignIn = false;
       final googleUser = await getSignedInAccount();
       if (googleUser == null) throw Exception('google user null');
@@ -64,6 +72,6 @@ class SignIn {
       final firebaseUser = authResult.user;
       return await userRepository.get(firebaseUser.uid);
     }
-    return null;
+    return currentUser;
   }
 }

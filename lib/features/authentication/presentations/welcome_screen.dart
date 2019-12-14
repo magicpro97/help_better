@@ -10,66 +10,70 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'bloc/bloc.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<WelcomeBloc>(context).add(CheckSignInStateEvent(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil.getInstance();
 
     return BlocBuilder<WelcomeBloc, WelcomeState>(
-        bloc: BlocProvider.of<WelcomeBloc>(context),
-        builder: (context, state) {
-          BlocProvider.of<WelcomeBloc>(context)
-              .add(CheckSignInStateEvent(context));
-      
-          return CupertinoPageScaffold(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: ScreenTitle(
-                      title: S
-                          .of(context)
-                          .share_with_me,
-                    ),
+      bloc: BlocProvider.of<WelcomeBloc>(context),
+      builder: (context, state) {
+        return CupertinoPageScaffold(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: ScreenTitle(
+                    title: S.of(context).share_with_me,
                   ),
-                  SizedBox(
-                    height: screenUtil.setHeight(Dimens.normal_space),
-                  ),
-                  Center(
-                    child: ScreenCaption(caption: S
-                        .of(context)
-                        .slogan),
-                  ),
-                  SizedBox(
-                    height: screenUtil.setHeight(Dimens.normal_space),
-                  ),
-                  Image.asset(Assets.help_someone_colors),
-                  SizedBox(
-                    height: screenUtil.setHeight(Dimens.large_space),
-                  ),
-                  state is CheckSignInState
-                      ? CupertinoActivityIndicator()
-                      : state is SignInCheckedState ? CupertinoButton(
-                    child: Text(S
-                        .of(context)
-                        .continue_with_google),
-                    color: Colors.pink,
-                    onPressed: () {
-                      BlocProvider.of<WelcomeBloc>(context)
-                          .add(SignInEvent(context));
-                    },
-                  ) : Container(),
-                  state is SignInFailState
-                      ? Text('Đã có sự cố xảy ra. Hãy đăng nhập lại!')
-                      : SizedBox(
-                    height: 0.0,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.normal_space),
+                ),
+                Center(
+                  child: ScreenCaption(caption: S.of(context).slogan),
+                ),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.normal_space),
+                ),
+                Image.asset(Assets.help_someone_colors),
+                SizedBox(
+                  height: screenUtil.setHeight(Dimens.large_space),
+                ),
+                state is CheckSignInState
+                    ? CupertinoActivityIndicator()
+                    : state is SignInCheckedState
+                        ? CupertinoButton(
+                            child: Text(S.of(context).continue_with_google),
+                            color: Colors.pink,
+                            onPressed: () {
+                              BlocProvider.of<WelcomeBloc>(context)
+                                  .add(SignInEvent(context));
+                            },
+                          )
+                        : Container(),
+                state is SignInFailState
+                    ? Text('Đã có sự cố xảy ra. Hãy đăng nhập lại!')
+                    : SizedBox(
+                        height: 0.0,
+                      ),
+              ],
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 }

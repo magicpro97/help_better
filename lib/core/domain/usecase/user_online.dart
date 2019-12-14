@@ -8,5 +8,5 @@ class UserOnline {
   UserOnline({@required this.userRepository});
 
   Future<void> call(User user) =>
-      userRepository.updateUser(user.copyWith(online: true));
+      userRepository.updateUser(user?.copyWith(online: true));
 }

@@ -22,8 +22,13 @@ class UserRepositoryImpl implements UserRepository {
       userDataSource.getUserFriends(id);
 
   @override
-  Future<void> updateUser(User user) =>
+  Future<void> updateUser(User user) async {
+    if (user != null) {
       userDataSource.update(UserModel.fromUser(user));
+    } else {
+      throw ArgumentError.notNull('User is not null');
+    }
+  }
 
   @override
   Future<void> createUser(User user) =>
@@ -32,6 +37,6 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<User> getCurrentUser() async {
     final fUser = await firebaseAuth.currentUser();
-    return userDataSource.getUser(fUser.uid);
+    return fUser != null ? userDataSource.getUser(fUser.uid) : fUser;
   }
 }
