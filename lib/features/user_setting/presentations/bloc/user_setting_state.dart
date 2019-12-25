@@ -17,9 +17,9 @@ class AlreadyVolunteer extends UserSettingState {
 }
 
 class UserLoaded extends UserSettingState {
-  final User user;
+  final Stream<User> userStream;
   
-  UserLoaded({@required this.user});
+  UserLoaded({@required this.userStream});
   
   @override
   List<Object> get props => [];
