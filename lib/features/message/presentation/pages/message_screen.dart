@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:better_help/common/ui/screen_loading.dart';
 import 'package:better_help/core/domain/entities/message_group.dart';
 import 'package:better_help/core/domain/entities/user.dart';
@@ -35,7 +34,7 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen>
     with WidgetsBindingObserver {
-  static const _TAG = "MessageScreen";
+  //static const _TAG = "MessageScreen";
   MessageBloc messageBloc;
 
   @override
@@ -145,7 +144,7 @@ class _MessageScreenState extends State<MessageScreen>
         stream: messageBloc.messageListStream(messageGroupId),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            log(snapshot.error.toString(), name: _TAG);
+            // log(snapshot.error.toString(), name: _TAG);
             return Center(
               child: Text('Something went wrong.'),
             );

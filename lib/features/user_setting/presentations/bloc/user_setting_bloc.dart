@@ -29,7 +29,7 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
   Stream<UserSettingState> mapEventToState(
     UserSettingEvent event,
   ) async* {
-    log(event.toString());
+    //log(event.toString());
     if (event is PressOnSignOutButton) {
       signOut();
       goToWelcomeScreen(event.context);

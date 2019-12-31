@@ -4,6 +4,7 @@ import 'package:better_help/features/message/presentation/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:developer' as developer;
 
 class ChatBar extends StatefulWidget {
   final String userId;
@@ -70,6 +71,9 @@ class _ChatBarState extends State<ChatBar> {
               child: Icon(CupertinoIcons.forward),
               onPressed: () {
                 if (textController.text.isNotEmpty) {
+                  // developer.log(widget.messageGroupId, name: 'messageGroupId');
+                  // developer.log(textController.text, name: 'content');
+                  // developer.log(widget.userId, name: 'UserID');
                   widget.messageBloc.add(PressOnSendMessageButton(
                       content: textController.text,
                       messageType: MessageType.TEXT,
