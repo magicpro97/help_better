@@ -11,7 +11,6 @@ class CreateMessage {
   CreateMessage({this.messageRepository});
 
   // MessageModel call(String messageGroupId, Message message) {
-
   //   return messageRepository.createMessage(messageGroupId, message);
   // }
 }
