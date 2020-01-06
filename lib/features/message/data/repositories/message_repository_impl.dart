@@ -16,6 +16,10 @@ class MessageRepositoryImpl extends MessageRepository {
       messageDataSource.messageListStream(
           messageGroupId: messageGroupId, orderBy: orderBy);
 
-  // @override
-  // MessageModel createMessage(String messageGroupId, MessageModel message) => messageDataSource.createMessage(messageGroupId, message);
+  @override
+  Future<void> createMessage(String messageGroupId, MessageModel message) {
+    final newMessage = messageDataSource.createMessage(messageGroupId, message);
+
+    return newMessage;
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:better_help/core/domain/entities/message_group.dart';
 import 'package:better_help/features/message/data/models/message_model.dart';
@@ -40,7 +41,8 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
           type: event.messageType,
           status: {event.userId: MessageStatus.SEND},
           created: DateTime.now());
-      //createMessage(messageGroupId: event.messageGroupId, message: newMessage);
+      log(event.messageGroupId, name: 'groupID');
+      createMessage(event.messageGroupId, newMessage);
     } 
     // else if (event is GoOutEvent) {
     //     event.messageGroup.memberStatus[event.currentUser.id] =

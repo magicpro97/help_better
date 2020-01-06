@@ -31,8 +31,7 @@ class MessageDataSourceImpl implements MessageDataSource {
   }
 
   @override
-  Future<void> createMessage(String messageGroupId, MessageModel message) async =>
-    await
+  Future<void> createMessage(String messageGroupId, MessageModel message) =>
       _messageGroupCollection
           .document(messageGroupId)
           .collection(_subCollection)

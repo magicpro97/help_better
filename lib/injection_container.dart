@@ -13,6 +13,7 @@ import 'package:better_help/features/message/data/repositories/message_group_rep
 import 'package:better_help/features/message/data/repositories/message_repository_impl.dart';
 import 'package:better_help/features/message/domain/repositories/message_group_repository.dart';
 import 'package:better_help/features/message/domain/repositories/message_repository.dart';
+import 'package:better_help/features/message/domain/usecases/create_message.dart';
 import 'package:better_help/features/message/domain/usecases/get_message_group_list_stream.dart';
 import 'package:better_help/features/message/domain/usecases/get_message_list_stream.dart';
 import 'package:better_help/features/message/presentation/bloc/bloc.dart';
@@ -108,6 +109,7 @@ void userCases() {
   sl.registerLazySingleton(
           () =>
           AddUserDeviceToken(userRepository: sl(), sessionRepository: sl()));
+  sl.registerLazySingleton(()=>CreateMessage(messageRepository: sl()));        
 }
 
 void blocs() {
@@ -150,6 +152,7 @@ void blocs() {
         MessageBloc(
           getMessageGroupStream: sl(),
           getMessageListStream: sl(),
+          createMessage: sl(),
         ),
   );
   sl.registerFactory(

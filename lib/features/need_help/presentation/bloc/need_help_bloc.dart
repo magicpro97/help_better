@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:better_help/common/route/route.dart';
 import 'package:better_help/core/domain/entities/user.dart';
@@ -42,7 +41,7 @@ class NeedHelpBloc extends Bloc<NeedHelpEvent, NeedHelpState> {
   Stream<NeedHelpState> mapEventToState(
     NeedHelpEvent event,
   ) async* {
-    log(event.toString());
+    //log(event.toString());
     if (event is JoinVolunteerEvent) {
       joinVolunteer(await getCurrentUser());
     } else if (event is PressOnUserItem) {

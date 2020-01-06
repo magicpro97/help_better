@@ -6,5 +6,5 @@ abstract class MessageRepository {
   Stream<List<Message>> getMessageListStream(
       {String messageGroupId, OrderBy orderBy});
 
-  //MessageModel createMessage(String messageGroupId, Message message);
+  Future<void> createMessage(String messageGroupId, MessageModel message);
 }
