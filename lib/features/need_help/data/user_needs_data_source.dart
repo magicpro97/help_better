@@ -11,6 +11,8 @@ abstract class UserNeedsDataSource {
   Future<void> createMessageGroup(MessageGroupModel messageGroupModel);
 
   Future<MessageGroupModel> getMessageGroup(List<String> memberIds);
+
+  Future<void> updateMessageGroup(MessageGroupModel messageGroup);
 }
 
 class UserNeedsDataSourceImpl implements UserNeedsDataSource {
@@ -28,7 +30,7 @@ class UserNeedsDataSourceImpl implements UserNeedsDataSource {
 
   @override
   Future<void> createMessageGroup(MessageGroupModel messageGroupModel) =>
-      _userCollection
+      _messageGroupCollection
           .document(messageGroupModel.id)
           .setData(messageGroupModel.toJson());
 
@@ -46,4 +48,8 @@ class UserNeedsDataSourceImpl implements UserNeedsDataSource {
       return null;
     }
   }
+
+  @override
+  Future<void> updateMessageGroup(MessageGroupModel messageGroup) =>
+      _messageGroupCollection.document(messageGroup.id).updateData(messageGroup.toJson());
 }

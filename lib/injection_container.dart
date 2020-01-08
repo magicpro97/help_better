@@ -23,6 +23,7 @@ import 'package:better_help/features/need_help/domain/usecases/get_message_group
 import 'package:better_help/features/need_help/domain/usecases/get_user_list_stream.dart';
 import 'package:better_help/features/need_help/domain/usecases/join_volunteer.dart';
 import 'package:better_help/features/need_help/domain/usecases/make_friend.dart';
+import 'package:better_help/features/need_help/domain/usecases/update_message_group.dart';
 import 'package:better_help/features/user_setting/domain/usecases/sign_out.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -109,7 +110,8 @@ void userCases() {
   sl.registerLazySingleton(
           () =>
           AddUserDeviceToken(userRepository: sl(), sessionRepository: sl()));
-  sl.registerLazySingleton(()=>CreateMessage(messageRepository: sl()));        
+  sl.registerLazySingleton(()=>CreateMessage(messageRepository: sl()));
+  sl.registerLazySingleton(()=>UpdateMessageGroup(userNeedRepository: sl()));
 }
 
 void blocs() {
@@ -153,6 +155,7 @@ void blocs() {
           getMessageGroupStream: sl(),
           getMessageListStream: sl(),
           createMessage: sl(),
+          updateMessageGroup: sl(),
         ),
   );
   sl.registerFactory(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:better_help/core/data/models/message_group_model.dart';
 import 'package:better_help/core/data/models/user_model.dart';
 import 'package:better_help/core/domain/entities/message_group.dart';
@@ -19,15 +21,23 @@ class UserNeedsRepositoryImpl implements UserNeedsRepository {
       userNeedDataSource.updateUser(UserModel.fromUser(user));
 
   @override
-  MessageGroup createMessageGroup(String currentUserId, List<String> memberIds,
-      Map<String, MemberState> memberStatus) {
+  Future<MessageGroup> createMessageGroup(String currentUserId, List<String> memberIds,
+      Map<String, MemberState> memberStatus) async{
     final messageGroup = MessageGroupModel(
       memberIds: memberIds,
       memberStatus: memberStatus,
     );
-    userNeedDataSource.createMessageGroup(messageGroup);
+    await userNeedDataSource.createMessageGroup(messageGroup);
+
+    log(messageGroup.id.toString(), name: 'UserNeedsRepositoryImpl-1');
+    log(messageGroup.memberIds.toString(), name: 'UserNeedsRepositoryImpl-2');
+    log(messageGroup.memberStatus.toString(), name: 'UserNeedsRepositoryImpl-1');
+
     return messageGroup;
   }
+
+  @override
+  Future<void> updateMessageGroup(MessageGroupModel messageGroup) => userNeedDataSource.updateMessageGroup(messageGroup);
 
   @override
   Future<MessageGroup> getMessageGroup(List<String> memberIds) =>

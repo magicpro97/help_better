@@ -71,9 +71,6 @@ class _ChatBarState extends State<ChatBar> {
               child: Icon(CupertinoIcons.forward),
               onPressed: () {
                 if (textController.text.isNotEmpty) {
-                  // developer.log(widget.messageGroupId, name: 'messageGroupId');
-                  // developer.log(textController.text, name: 'content');
-                  // developer.log(widget.userId, name: 'UserID');
                   widget.messageBloc.add(PressOnSendMessageButton(
                       content: textController.text,
                       messageType: MessageType.TEXT,
