@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:better_help/common/route/route.dart';
 import 'package:better_help/core/domain/entities/user.dart';
 import 'package:better_help/core/domain/usecase/get_current_user.dart';
+import 'package:better_help/core/domain/usecase/get_user_stream.dart';
 import 'package:better_help/core/domain/usecase/update_user.dart';
 import 'package:better_help/features/user_setting/domain/usecases/sign_out.dart';
 import 'package:bloc/bloc.dart';
@@ -15,11 +16,13 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
   final UpdateUser updateUser;
   final GetCurrentUser getCurrentUser;
   final SignOut signOut;
+  final GetUserStream getUserStream;
 
   UserSettingBloc({
     @required this.getCurrentUser,
     @required this.updateUser,
     @required this.signOut,
+    @required this.getUserStream,
   });
 
   @override
@@ -39,8 +42,9 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
       goToNicknameScreen(event.context);
     } else if (event is SubmitNewNickname) {
       final currentUser = (await getCurrentUser());
-      updateUser(currentUser.copyWith(
-          updated: DateTime.now(), displayName: event.nickname));
+      final newUser = currentUser.copyWith(
+          updated: DateTime.now(), displayName: event.nickname);
+      updateUser(newUser);
 
       final result = backToLastScreen(event.context);
       if (!result) {
@@ -69,9 +73,10 @@ class UserSettingBloc extends Bloc<UserSettingEvent, UserSettingState> {
       if (currentUser.types.contains(UserType.VOLUNTEER)) {
         yield AlreadyVolunteer();
       }
-    } else if (event is ReloadCurrentUser) {
-      final currentUser = (await getCurrentUser());
-      yield UserLoaded(user: currentUser);
+    } else if (event is InitCurrentUserStream) {
+      final currentUser = await getCurrentUser();
+      final userStream = getUserStream(currentUser.id);
+      yield UserLoaded(userStream: userStream);
     }
   }
 }

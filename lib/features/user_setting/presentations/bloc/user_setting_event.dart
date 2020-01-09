@@ -67,7 +67,7 @@ class CheckUserType extends UserSettingEvent {
   List<Object> get props => [];
 }
 
-class ReloadCurrentUser extends UserSettingEvent {
+class InitCurrentUserStream extends UserSettingEvent {
   @override
   List<Object> get props => [];
 }

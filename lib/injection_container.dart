@@ -55,8 +55,7 @@ void init() {
 }
 
 void externals() {
-  sl.registerLazySingleton(() =>
-      GoogleSignIn(
+  sl.registerLazySingleton(() => GoogleSignIn(
         scopes: ['email'],
       ));
   sl.registerLazySingleton(() => FirebaseMessaging());
@@ -67,24 +66,24 @@ void dataSources() {
 
   sl.registerLazySingleton<UserDataSource>(() => UserDataSourceImpl());
   sl.registerLazySingleton<MessageGroupDataSource>(
-          () => MessageGroupDataSourceImpl());
+      () => MessageGroupDataSourceImpl());
   sl.registerLazySingleton<MessageDataSource>(() => MessageDataSourceImpl());
   sl.registerLazySingleton<UserNeedsDataSource>(
-          () => UserNeedsDataSourceImpl());
+      () => UserNeedsDataSourceImpl());
 }
 
 void repositories() {
   sl.registerLazySingleton<SessionRepository>(
-          () => SessionRepositoryImpl(firebaseAuthSource: sl()));
+      () => SessionRepositoryImpl(firebaseAuthSource: sl()));
 
   sl.registerLazySingleton<UserRepository>(
-          () => UserRepositoryImpl(userDataSource: sl()));
+      () => UserRepositoryImpl(userDataSource: sl()));
   sl.registerLazySingleton<MessageGroupRepository>(
-          () => MessageGroupRepositoryImpl(messageGroupDataSource: sl()));
+      () => MessageGroupRepositoryImpl(messageGroupDataSource: sl()));
   sl.registerLazySingleton<MessageRepository>(
-          () => MessageRepositoryImpl(messageDataSource: sl()));
+      () => MessageRepositoryImpl(messageDataSource: sl()));
   sl.registerLazySingleton<UserNeedsRepository>(
-          () => UserNeedsRepositoryImpl(userNeedDataSource: sl()));
+      () => UserNeedsRepositoryImpl(userNeedDataSource: sl()));
 }
 
 void userCases() {
@@ -92,12 +91,12 @@ void userCases() {
   sl.registerLazySingleton(() => CreateUser(userRepository: sl()));
   sl.registerLazySingleton(() => UpdateUser(userSettingRepository: sl()));
   sl.registerLazySingleton(
-          () => SignIn(googleSignIn: sl(), userRepository: sl()));
+      () => SignIn(googleSignIn: sl(), userRepository: sl()));
   sl.registerLazySingleton(() => SignOut(googleSignIn: sl()));
   sl.registerLazySingleton(() => GetUserStream(userRepository: sl()));
   sl.registerLazySingleton(() => GetUserFriends(userRepository: sl()));
   sl.registerLazySingleton(
-          () => GetMessageGroupStream(messageGroupRepository: sl()));
+      () => GetMessageGroupStream(messageGroupRepository: sl()));
   sl.registerLazySingleton(() => GetMessageListStream(messageRepository: sl()));
   sl.registerLazySingleton(() => GetUserListStream(userNeedRepository: sl()));
   sl.registerLazySingleton(() => MakeFriend(userNeedRepository: sl()));
@@ -107,8 +106,7 @@ void userCases() {
   sl.registerLazySingleton(() => CreateMessageGroup(userNeedRepository: sl()));
   sl.registerLazySingleton(() => UserOffline(userRepository: sl()));
   sl.registerLazySingleton(() => UserOnline(userRepository: sl()));
-  sl.registerLazySingleton(
-          () =>
+  sl.registerLazySingleton(() =>
           AddUserDeviceToken(userRepository: sl(), sessionRepository: sl()));
   sl.registerLazySingleton(()=>CreateMessage(messageRepository: sl()));
   sl.registerLazySingleton(()=>UpdateMessageGroup(userNeedRepository: sl()));
@@ -116,38 +114,36 @@ void userCases() {
 
 void blocs() {
   sl.registerFactory(
-        () =>
-        AppBloc(
-          getCurrentUser: sl(),
-          userOnline: sl(),
-          userOffline: sl(),
-          firebaseMessaging: sl(),
-        ),
+    () => AppBloc(
+      getCurrentUser: sl(),
+      userOnline: sl(),
+      userOffline: sl(),
+      firebaseMessaging: sl(),
+    ),
   );
   sl.registerFactory(
     () => UserSettingBloc(
       updateUser: sl(),
       getCurrentUser: sl(),
       signOut: sl(),
+      getUserStream: sl(),
     ),
   );
   sl.registerFactory(
-        () =>
-        WelcomeBloc(
-          signIn: sl(),
-          getCurrentUser: sl(),
-          addUserDeviceToken: sl(),
-          firebaseMessaging: sl(),
-        ),
+    () => WelcomeBloc(
+      signIn: sl(),
+      getCurrentUser: sl(),
+      addUserDeviceToken: sl(),
+      firebaseMessaging: sl(),
+    ),
   );
   sl.registerFactory(
-        () =>
-        MainBloc(
-          signIn: sl(),
-          getCurrentUser: sl(),
-          getUserFriends: sl(),
-          getUserStream: sl(),
-        ),
+    () => MainBloc(
+      signIn: sl(),
+      getCurrentUser: sl(),
+      getUserFriends: sl(),
+      getUserStream: sl(),
+    ),
   );
   sl.registerFactory(
         () =>
@@ -159,15 +155,14 @@ void blocs() {
         ),
   );
   sl.registerFactory(
-        () =>
-        NeedHelpBloc(
-          getUserListStream: sl(),
-          makeFriend: sl(),
-          getCurrentUser: sl(),
-          getUser: sl(),
-          getMessageGroup: sl(),
-          joinVolunteer: sl(),
-          createMessageGroup: sl(),
-        ),
+    () => NeedHelpBloc(
+      getUserListStream: sl(),
+      makeFriend: sl(),
+      getCurrentUser: sl(),
+      getUser: sl(),
+      getMessageGroup: sl(),
+      joinVolunteer: sl(),
+      createMessageGroup: sl(),
+    ),
   );
 }

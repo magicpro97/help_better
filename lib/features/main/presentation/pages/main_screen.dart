@@ -24,7 +24,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  MainBloc mainBloc;
+  // ignore: close_sinks
+  MainBloc _mainBloc;
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     final appBloc = BlocProvider.of<AppBloc>(context);
     appBloc.notificationStream.listen(
         (data) => PushNotification.show(context: context, notification: data));
-    mainBloc = BlocProvider.of<MainBloc>(context);
+    _mainBloc = BlocProvider.of<MainBloc>(context);
   }
 
   @override
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         (ModalRoute.of(context).settings.arguments as MainArgument).user;
 
     return StreamBuilder<User>(
-      stream: mainBloc.getUserStream(user.id),
+      stream: _mainBloc.getUserStream(user.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           log(snapshot.data.toString());
@@ -58,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
         final user = snapshot.data;
 
         return FutureBuilder(
-          future: mainBloc.getUserFriends(user.id),
+          future: _mainBloc.getUserFriends(user.id),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               log(snapshot.data.toString());
