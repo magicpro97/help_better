@@ -13,6 +13,7 @@ import 'package:better_help/features/message/data/repositories/message_group_rep
 import 'package:better_help/features/message/data/repositories/message_repository_impl.dart';
 import 'package:better_help/features/message/domain/repositories/message_group_repository.dart';
 import 'package:better_help/features/message/domain/repositories/message_repository.dart';
+import 'package:better_help/features/message/domain/usecases/create_message.dart';
 import 'package:better_help/features/message/domain/usecases/get_message_group_list_stream.dart';
 import 'package:better_help/features/message/domain/usecases/get_message_list_stream.dart';
 import 'package:better_help/features/message/presentation/bloc/bloc.dart';
@@ -22,6 +23,7 @@ import 'package:better_help/features/need_help/domain/usecases/get_message_group
 import 'package:better_help/features/need_help/domain/usecases/get_user_list_stream.dart';
 import 'package:better_help/features/need_help/domain/usecases/join_volunteer.dart';
 import 'package:better_help/features/need_help/domain/usecases/make_friend.dart';
+import 'package:better_help/features/need_help/domain/usecases/update_message_group.dart';
 import 'package:better_help/features/user_setting/domain/usecases/sign_out.dart';
 import 'package:better_help/features/user_setting/presentations/bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -104,8 +106,10 @@ void userCases() {
   sl.registerLazySingleton(() => CreateMessageGroup(userNeedRepository: sl()));
   sl.registerLazySingleton(() => UserOffline(userRepository: sl()));
   sl.registerLazySingleton(() => UserOnline(userRepository: sl()));
-  sl.registerLazySingleton(
-      () => AddUserDeviceToken(userRepository: sl(), sessionRepository: sl()));
+  sl.registerLazySingleton(() =>
+          AddUserDeviceToken(userRepository: sl(), sessionRepository: sl()));
+  sl.registerLazySingleton(()=>CreateMessage(messageRepository: sl()));
+  sl.registerLazySingleton(()=>UpdateMessageGroup(userNeedRepository: sl()));
 }
 
 void blocs() {
@@ -142,10 +146,13 @@ void blocs() {
     ),
   );
   sl.registerFactory(
-    () => MessageBloc(
-      getMessageGroupStream: sl(),
-      getMessageListStream: sl(),
-    ),
+        () =>
+        MessageBloc(
+          getMessageGroupStream: sl(),
+          getMessageListStream: sl(),
+          createMessage: sl(),
+          updateMessageGroup: sl(),
+        ),
   );
   sl.registerFactory(
     () => NeedHelpBloc(

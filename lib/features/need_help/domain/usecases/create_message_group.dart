@@ -7,7 +7,7 @@ class CreateMessageGroup {
 
   CreateMessageGroup({@required this.userNeedRepository});
 
-  MessageGroup call(String currentUserId, List<String> memberIds) {
+  Future<MessageGroup> call(String currentUserId, List<String> memberIds) {
     final memberStatus = Map<String, MemberState>();
     memberStatus[currentUserId] = MemberState.IN;
     memberIds

@@ -1,5 +1,6 @@
 import 'package:better_help/core/data/order_by.dart';
 import 'package:better_help/features/message/data/datasources/message_datasource.dart';
+import 'package:better_help/features/message/data/models/message_model.dart';
 import 'package:better_help/features/message/domain/entities/message.dart';
 import 'package:better_help/features/message/domain/repositories/message_repository.dart';
 import 'package:meta/meta.dart';
@@ -14,4 +15,11 @@ class MessageRepositoryImpl extends MessageRepository {
           {String messageGroupId, OrderBy orderBy}) =>
       messageDataSource.messageListStream(
           messageGroupId: messageGroupId, orderBy: orderBy);
+
+  @override
+  Future<void> createMessage(String messageGroupId, MessageModel message) {
+    final newMessage = messageDataSource.createMessage(messageGroupId, message);
+
+    return newMessage;
+  }
 }

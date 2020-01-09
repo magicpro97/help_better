@@ -4,6 +4,7 @@ import 'package:better_help/features/message/presentation/bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:developer' as developer;
 
 class ChatBar extends StatefulWidget {
   final String userId;
