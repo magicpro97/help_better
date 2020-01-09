@@ -29,10 +29,6 @@ class UserNeedsRepositoryImpl implements UserNeedsRepository {
     );
     await userNeedDataSource.createMessageGroup(messageGroup);
 
-    log(messageGroup.id.toString(), name: 'UserNeedsRepositoryImpl-1');
-    log(messageGroup.memberIds.toString(), name: 'UserNeedsRepositoryImpl-2');
-    log(messageGroup.memberStatus.toString(), name: 'UserNeedsRepositoryImpl-1');
-
     return messageGroup;
   }
 
